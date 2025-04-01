@@ -2,6 +2,9 @@
 kotlin = "2.1.20"
 
 agp = "8.9.1"
+minSdk = "21"
+targetSdk = "35"
+compileSdk = "android-35"
 
 activity = "1.10.1"
 lifecycle = "2.8.7"
@@ -14,6 +17,12 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 compose-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+
+# Plugin dependencies for gradle convention plugins
+plgn-andrid-application = { module = "com.android.application:com.android.application.gradle.plugin", version.ref = "agp" }
+plgn-andrid-library = { module = "com.android.library:com.android.library.gradle.plugin", version.ref = "agp" }
+plgn-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+plgn-kotlin-compose-compiler = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
