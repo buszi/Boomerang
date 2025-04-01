@@ -28,6 +28,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.core)
+
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
     implementation(libs.androidx.activity.compose)
