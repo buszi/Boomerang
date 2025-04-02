@@ -6,17 +6,17 @@ open class BaseBoomerangStore : BoomerangStore {
 
     protected val store = mutableMapOf<String, Bundle?>()
 
-    override fun tryConsumeValue(key: String): Bundle? {
-        val value = store[key]
-        if (value != null) store.remove(key)
-        return value
-    }
+    override fun getValue(key: String): Bundle? = store[key]
 
     override fun storeValue(key: String, value: Bundle) {
         store[key] = value
     }
 
-    override fun clearValue(key: String) {
+    override fun dropValue(key: String) {
         store.remove(key)
+    }
+
+    companion object {
+        val DEFAULT_INSTANCE = BaseBoomerangStore()
     }
 }

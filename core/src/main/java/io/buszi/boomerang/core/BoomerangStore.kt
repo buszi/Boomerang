@@ -4,9 +4,16 @@ import android.os.Bundle
 
 interface BoomerangStore {
 
-    fun tryConsumeValue(key: String): Bundle?
+    fun getValue(key: String): Bundle?
 
     fun storeValue(key: String, value: Bundle)
 
-    fun clearValue(key: String)
+    fun dropValue(key: String)
+
+    fun tryCatch(key: String, catcher: BoomerangCatcher) {
+        getValue(key)?.let { value ->
+            val isCaught = catcher.tryCatch(value)
+            if (isCaught) dropValue(key)
+        }
+    }
 }

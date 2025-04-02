@@ -5,10 +5,10 @@ plugins {
 
 dependencies {
     implementation(projects.core)
-
-    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(projects.compose)
 
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.navigation.compose)
 
     implementation(libs.compose.ui)
     implementation(libs.compose.material3)
