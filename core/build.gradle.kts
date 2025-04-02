@@ -5,7 +5,3 @@ plugins {
 android {
     namespace = "io.buszi.boomerang.core"
 }
-
-dependencies {
-
-}
