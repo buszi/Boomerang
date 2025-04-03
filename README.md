@@ -1,21 +1,23 @@
 # Boomerang
 
-A lightweight library for handling navigation results in Jetpack Compose applications.
+A lightweight library for handling navigation results in Jetpack Compose and AndroidX Fragment applications.
 
 ## Overview
 
-Boomerang provides a clean and efficient way to pass data between screens in Jetpack Compose navigation without tight coupling between components. It solves the common problem of returning results from one screen to another, similar to the old `startActivityForResult` pattern but designed specifically for modern Compose navigation.
+Boomerang provides a clean and efficient way to pass data between screens in Jetpack Compose and AndroidX Fragment navigation without tight coupling between components. It solves the common problem of returning results from one screen to another, similar to the old `startActivityForResult` pattern but designed specifically for modern navigation patterns.
 
-The library consists of two main modules:
+The library consists of three main modules:
 - **Core**: Contains the fundamental concepts and interfaces
 - **Compose**: Provides Jetpack Compose integration
+- **Fragment**: Provides AndroidX Fragment integration
 
 ## Features
 
 - 🔄 Pass data between screens without tight coupling
 - 💾 Preserve navigation results across configuration changes and process death
-- 🧩 Modular design with separate core and compose modules
-- 🔌 Easy integration with any Jetpack Compose navigation library
+- 🧩 Modular design with separate core, compose, and fragment modules
+- 🔌 Easy integration with any Jetpack Compose or AndroidX Fragment navigation library
+- 🔀 Support for mixed projects using both Compose and Fragments
 - 🧪 Lightweight with minimal dependencies
 
 ## Installation
@@ -28,24 +30,51 @@ implementation("io.github.buszi.boomerang:core:1.0.0")
 
 // For Jetpack Compose integration
 implementation("io.github.buszi.boomerang:compose:1.0.0")
+
+// For AndroidX Fragment integration
+implementation("io.github.buszi.boomerang:fragment:1.0.0")
 ```
+
+Choose the modules that fit your project's needs. For example, if you're only using Fragments, you only need the core and fragment modules.
 
 ## Usage
 
-### Basic Setup
+### Compose Setup
 
-1. Wrap your app's content in a `DefaultBoomerangStoreScope`:
+1. Wrap your app's content in a `CompositionHostedDefaultBoomerangStoreScope`:
 
 ```kotlin
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            DefaultBoomerangStoreScope {
+            CompositionHostedDefaultBoomerangStoreScope {
                 // Your app content here
                 AppNavigation()
             }
         }
+    }
+}
+```
+
+### Fragment Setup
+
+1. Make your Activity implement `BoomerangStoreHost` and initialize the store:
+
+```kotlin
+class MainActivity : AppCompatActivity(), BoomerangStoreHost {
+
+    override var boomerangStore: BoomerangStore? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        createOrRestoreDefaultBoomerangStore(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        saveDefaultBoomerangStoreState(outState)
     }
 }
 ```
@@ -74,9 +103,9 @@ fun DetailScreen(navController: NavController) {
 }
 ```
 
-### Catching a Result
+### Catching a Result in Compose
 
-To catch and process a result when a screen becomes visible:
+To catch and process a result when a Compose screen becomes visible:
 
 ```kotlin
 @Composable
@@ -84,7 +113,7 @@ fun HomeScreen() {
     var selectedItem by remember { mutableStateOf<String?>(null) }
 
     // Set up a catcher that runs when the screen starts
-    CatchBoomerangLifecycleEffect("home_screen_result") { bundle ->
+    CatchBoomerangLifecycleEffect("home_screen_result") { bundle: Bundle ->
         // Extract data from the bundle
         selectedItem = bundle.getString("selectedItem")
         true // Return true to indicate the result was successfully processed
@@ -95,9 +124,32 @@ fun HomeScreen() {
 }
 ```
 
+### Catching a Result in Fragments
+
+To catch and process a result when a Fragment becomes visible:
+
+```kotlin
+class HomeFragment : Fragment() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Set up a catcher that runs when the fragment starts
+        catchBoomerangWithLifecycleEvent("home_screen_result") { bundle: Bundle ->
+            // Extract data from the bundle and process it
+            val selectedItem = bundle.getString("selectedItem")
+            // Do something with the result
+            true // Return true to indicate the result was successfully processed
+        }
+    }
+}
+```
+
 ### Advanced Usage
 
-You can directly access the store to perform operations:
+#### In Compose
+
+You can directly access the store to perform operations in Compose:
 
 ```kotlin
 // Inside a @Composable function
@@ -108,6 +160,26 @@ val hasResult = store.getValue("some_key") != null
 
 // Manually drop a value
 store.dropValue("some_key")
+```
+
+#### In Fragments
+
+You can directly access the store to perform operations in Fragments:
+
+```kotlin
+// Inside a Fragment
+val store = findBoomerangStore()
+
+// Check if a result exists
+val hasResult = store.getValue("some_key") != null
+
+// Manually drop a value
+store.dropValue("some_key")
+
+// Store a value
+val bundle = Bundle()
+bundle.putString("result", "Success")
+store.storeValue("some_key", bundle)
 ```
 
 ## How It Works
@@ -125,27 +197,46 @@ The library decouples the component that produces a result from the component th
 - **BoomerangStore**: Interface for storing and retrieving navigation results
 - **BoomerangCatcher**: Functional interface for processing navigation results
 - **DefaultBoomerangStore**: Default implementation of BoomerangStore using a MutableMap
+- **BoomerangStoreHost**: Interface for components that host a BoomerangStore (only for Fragment and mixed setup)
 
 ### Compose Components
 
 - **LocalBoomerangStore**: CompositionLocal for accessing the BoomerangStore
-- **DefaultBoomerangStoreScope**: Composable function that provides a default BoomerangStore
+- **CompositionHostedDefaultBoomerangStoreScope**: Composable function that provides a default BoomerangStore
 - **CatchBoomerangLifecycleEffect**: Composable function that catches results at specific lifecycle events
+
+### Fragment Components
+
+- **catchBoomerangWithLifecycleEvent**: Extension function for Fragment to catch results at specific lifecycle events
+- **findBoomerangStore**: Extension function for Fragment to find the BoomerangStore from the hosting Activity
+- **createOrRestoreDefaultBoomerangStore**: Extension function for BoomerangStoreHost to create or restore a DefaultBoomerangStore
+- **saveDefaultBoomerangStoreState**: Extension function for BoomerangStoreHost to save the state of a DefaultBoomerangStore
+
+### Mixed Components
+
+- **ActivityHostedBoomerangStoreScope**: Composable function that provides BoomerangStore hosted by activity with BoomerangStoreHost
 
 ## Requirements
 
 - Android API level 21+
-- Jetpack Compose 1.0.0+
 - Kotlin 1.5.0+
+- For Compose module: Jetpack Compose 1.0.0+
+- For Fragment module: AndroidX Fragment 1.3.0+
 
 ## Sample App
 
-The repository includes a sample app that demonstrates how to use Boomerang in a real-world scenario. Check the `app` module for a complete example.
+The repository includes a sample app that demonstrates how to use Boomerang in a real-world scenario. The app includes examples of:
+
+- Pure Compose navigation with Boomerang
+- Pure Fragment navigation with Boomerang
+- Mixed solutions where both Compose and Fragments are used
+
+Check the `app` module for complete examples of all these scenarios.
 
 ## License
 
 ```
-Copyright 2023 Buszi
+Copyright 2025 Buszi
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

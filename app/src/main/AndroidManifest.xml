@@ -16,6 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".FullComposePreviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FullFragmentPreviewActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
-
 </manifest>

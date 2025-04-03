@@ -27,3 +27,4 @@ rootProject.name = "Boomerang"
 include(":app")
 include(":core")
 include(":compose")
+include(":fragment")

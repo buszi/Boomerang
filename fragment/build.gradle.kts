@@ -3,9 +3,12 @@ plugins {
 }
 
 android {
-    namespace = "io.buszi.boomerang.core"
+    namespace = "io.buszi.boomerang.fragment"
 }
 
 dependencies {
+    implementation(projects.core)
+
+    implementation(libs.androidx.fragment.core)
     implementation(libs.androidx.lifecycle.runtime)
 }

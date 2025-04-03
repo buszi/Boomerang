@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/full_fragment_navigation"
+    app:startDestination="@id/fragmentA">
+
+    <fragment
+        android:id="@+id/fragmentA"
+        android:name="io.buszi.boomerang.FragmentA">
+
+        <action
+            android:id="@+id/navigateB"
+            app:destination="@id/fragmentB" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentB"
+        android:name="io.buszi.boomerang.FragmentB">
+
+        <action
+            android:id="@+id/navigateC"
+            app:destination="@id/fragmentC" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentC"
+        android:name="io.buszi.boomerang.FragmentC" />
+</navigation>

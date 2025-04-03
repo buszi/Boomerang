@@ -22,8 +22,8 @@ gradlePlugin {
 
 dependencies {
     implementation(gradleApi())
-    implementation(libs.plgn.andrid.application)
-    implementation(libs.plgn.andrid.library)
+    implementation(libs.plgn.android.application)
+    implementation(libs.plgn.android.library)
     implementation(libs.plgn.kotlin.compose.compiler)
     implementation(libs.plgn.kotlin)
 }

@@ -5,6 +5,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import io.buszi.boomerang.core.BoomerangCatcher
+import io.buszi.boomerang.core.assertValidForBoomerangCatcher
 
 @Composable
 fun CatchBoomerangLifecycleEffect(
@@ -12,6 +13,7 @@ fun CatchBoomerangLifecycleEffect(
     lifecycleEvent: Lifecycle.Event = Lifecycle.Event.ON_START,
     catcher: BoomerangCatcher,
 ) {
+    lifecycleEvent.assertValidForBoomerangCatcher()
     val currentKey = rememberUpdatedState(key)
     val currentCatcher = rememberUpdatedState(catcher)
     val store = LocalBoomerangStore.current

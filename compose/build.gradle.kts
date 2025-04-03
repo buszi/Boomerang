@@ -13,4 +13,5 @@ dependencies {
     implementation(libs.compose.foundation)
 
     implementation(libs.androidx.lifecycle.compose)
+    implementation(libs.androidx.activity.compose)
 }

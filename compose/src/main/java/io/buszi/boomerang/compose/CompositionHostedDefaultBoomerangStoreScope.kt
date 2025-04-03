@@ -7,7 +7,7 @@ import io.buszi.boomerang.compose.LocalBoomerangStore.LocalBoomerangStoreInterna
 import io.buszi.boomerang.core.DefaultBoomerangStore
 
 @Composable
-fun DefaultBoomerangStoreScope(content: @Composable () -> Unit) {
+fun CompositionHostedDefaultBoomerangStoreScope(content: @Composable () -> Unit) {
     val store = rememberSaveable(saver = DefaultBoomerangStoreSaver) { DefaultBoomerangStore() }
     CompositionLocalProvider(LocalBoomerangStoreInternal provides store, content)
 }
