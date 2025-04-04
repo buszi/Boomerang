@@ -2,6 +2,7 @@ plugins {
     id("plugins.android.library")
     id("plugins.android.compose")
     id("plugins.dokka")
+    alias(libs.plugins.vanniktech.publish)
 }
 
 android {
