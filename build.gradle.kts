@@ -7,6 +7,10 @@ plugins {
     alias(libs.plugins.kotlin.dokka)
 }
 
+dokka {
+    basePublicationsDirectory.set(project.file("docs"))
+}
+
 dependencies {
     dokka(projects.core)
     dokka(projects.compose)

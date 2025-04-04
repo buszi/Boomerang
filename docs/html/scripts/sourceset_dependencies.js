@@ -1,0 +1,1 @@
+sourceset_dependencies = '{":core/debug":[],":core/main":[],":core/release":[],":fragment/debug":[],":fragment/main":[],":fragment/release":[],":compose/debug":[],":compose/main":[],":compose/release":[]}'
