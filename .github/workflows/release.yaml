@@ -1,6 +1,6 @@
 # This workflow builds artifacts and uploads them to maven central
 
-name: Firebase distribution
+name: Deploy version
 
 # Controls when the workflow will run
 on:
