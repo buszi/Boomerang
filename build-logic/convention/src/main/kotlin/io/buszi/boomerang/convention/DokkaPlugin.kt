@@ -12,10 +12,16 @@ class DokkaPlugin : Plugin<Project> {
         }
 
         extensions.configure<DokkaExtension> {
-            dokkaSourceSets.named("main") {
+            dokkaSourceSets.configureEach {
                 sourceLink {
                     remoteUrl("https://github.com/buszi/Boomerang")
                 }
+
+                includes.from(
+                    rootProject.file("CORE.md"),
+                    rootProject.file("COMPOSE.md"),
+                    rootProject.file("FRAGMENT.md"),
+                )
             }
         }
 
