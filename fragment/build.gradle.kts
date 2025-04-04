@@ -1,5 +1,6 @@
 plugins {
     id("plugins.android.library")
+    id("plugins.dokka")
 }
 
 android {
