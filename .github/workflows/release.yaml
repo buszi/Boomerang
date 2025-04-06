@@ -24,11 +24,16 @@ jobs:
           java-version: 17
           distribution: temurin
 
+      # Using the key directly from secrets seem to break it. It needs to be decoded from Base54.
+      - name: Setup signing
+        run: |
+          echo "${{ secrets.SIGNING_KEY_BASE64 }}" | base64 --decode > $RUNNER_TEMP/signing_key.asc
+          echo "ORG_GRADLE_PROJECT_signingInMemoryKey=$(cat $RUNNER_TEMP/signing_key.asc | sed -z 's/\n/\\n/g')" >> $GITHUB_ENV
+
       # Builds artifacts on modules and publishes them to maven central
       - name: Upload artifacts
         run: ./gradlew :core:publishToMavenCentral :compose:publishToMavenCentral :fragment:publishToMavenCentral --no-configuration-cache
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
-          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
