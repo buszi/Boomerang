@@ -8,8 +8,6 @@ android {
     namespace = "io.buszi.boomerang.core"
 }
 
-println(project.findProperty("signingInMemoryKeyId"))
-
 dependencies {
     implementation(libs.androidx.lifecycle.runtime)
 }
