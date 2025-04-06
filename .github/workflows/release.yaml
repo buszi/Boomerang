@@ -24,16 +24,16 @@ jobs:
           java-version: 17
           distribution: temurin
 
-      # Using the key directly from secrets seem to break it. It needs to be decoded from Base54.
-      - name: Setup signing
+      # Setup signing.
+      - name: Setup Gradle properties
         run: |
-          echo "${{ secrets.SIGNING_KEY_BASE64 }}" | base64 --decode > $RUNNER_TEMP/signing_key.asc
-          echo "ORG_GRADLE_PROJECT_signingInMemoryKey=$(cat $RUNNER_TEMP/signing_key.asc | sed -z 's/\n/\\n/g')" >> $GITHUB_ENV
+          mkdir -p $HOME/.gradle
+          echo "signingInMemoryKeyPassword=${{ secrets.SIGNING_KEY_PASSWORD }}" >> $HOME/.gradle/gradle.properties
+          echo "${{ secrets.SIGNING_KEY_BASE64 }}" | base64 --decode | sed -z 's/\n/\\n/g' > $RUNNER_TEMP/key.txt
+          echo "signingInMemoryKey=$(cat $RUNNER_TEMP/key.txt)" >> $HOME/.gradle/gradle.properties
+          echo "mavenCentralUsername=${{ secrets.MAVEN_CENTRAL_USERNAME }}" >> $HOME/.gradle/gradle.properties
+          echo "mavenCentralPassword=${{ secrets.MAVEN_CENTRAL_PASSWORD }}" >> $HOME/.gradle/gradle.properties
 
       # Builds artifacts on modules and publishes them to maven central
       - name: Upload artifacts
         run: ./gradlew :core:publishToMavenCentral :compose:publishToMavenCentral :fragment:publishToMavenCentral --no-configuration-cache
-        env:
-          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
-          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
-          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
