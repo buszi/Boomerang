@@ -1,5 +1,8 @@
 # Boomerang
 
+[![UI Tests](https://github.com/buszi/Boomerang/actions/workflows/android-ui-tests.yml/badge.svg)](https://github.com/buszi/Boomerang/actions/workflows/android-ui-tests.yml)
+[![Version](https://img.shields.io/maven-central/v/io.github.buszi.boomerang/core)](https://central.sonatype.com/artifact/io.github.buszi.boomerang/core)
+
 A lightweight library for handling navigation results in Jetpack Compose and AndroidX Fragment applications.
 
 ## Overview
