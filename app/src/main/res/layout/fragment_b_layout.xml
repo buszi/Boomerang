@@ -2,7 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Display the proxied value -->
+    <TextView
+        android:id="@+id/proxied_value_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Proxied value: No value"
+        android:layout_marginBottom="16dp" />
 
     <Button
         android:id="@+id/navigate_button"
@@ -21,5 +30,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Recreate Activity" />
+
+    <!-- Button to consume value -->
+    <Button
+        android:id="@+id/consume_value_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Consume Value" />
+
+    <!-- Button to clear the proxied value -->
+    <Button
+        android:id="@+id/clear_proxied_value_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear Proxied Value" />
 
 </LinearLayout>
