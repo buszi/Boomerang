@@ -56,18 +56,25 @@ jobs:
         id: avd-cache
         with:
           path: |
-            ~/.android/avd/*
-            ~/.android/adb*
-          key: avd-${{ runner.os }}
+           ~/.android/avd/*
+           ~/.android/adb*
+          key: avd-29-${{ runner.os }}
+
+      # Install system image
+      - name: Install system image
+        run: |
+          echo "y" | sdkmanager "system-images;android-29;google_apis;x86_64"
+          echo "y" | sdkmanager --licenses
 
       # Create AVD and generate snapshot for caching
       - name: Create AVD and generate snapshot
         if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2.30.1
         with:
-          api-level: 31
+          api-level: 29
+          target: google_apis
           arch: x86_64
-          force-avd-creation: false
+          force-avd-creation: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: echo "Generated AVD snapshot for caching."
@@ -76,7 +83,8 @@ jobs:
       - name: Run UI tests
         uses: reactivecircus/android-emulator-runner@v2.30.1
         with:
-          api-level: 31
+          api-level: 29
+          target: google_apis
           arch: x86_64
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
