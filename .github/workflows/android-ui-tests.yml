@@ -74,18 +74,41 @@ jobs:
           # Create AVD
           echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd -n test -k "system-images;android-29;google_apis;x86_64" -f
 
-      # Run UI tests with emulator
+      # Start emulator
+      - name: Start emulator
+        run: |
+          # Start the emulator in the background
+          $ANDROID_HOME/emulator/emulator -avd test -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none &
+          
+          # Wait for emulator to boot completely
+          $ANDROID_HOME/platform-tools/adb wait-for-device
+          
+          # Wait for boot to complete
+          while [[ "$($ANDROID_HOME/platform-tools/adb shell getprop sys.boot_completed 2>/dev/null)" != "1" ]]; do
+            sleep 3
+          done
+          
+          # Disable animations
+          $ANDROID_HOME/platform-tools/adb shell settings put global window_animation_scale 0
+          $ANDROID_HOME/platform-tools/adb shell settings put global transition_animation_scale 0
+          $ANDROID_HOME/platform-tools/adb shell settings put global animator_duration_scale 0
+          
+          echo "Emulator started successfully"
+
       - name: Run UI tests
-        uses: reactivecircus/android-emulator-runner@v2.30.1
-        with:
-          api-level: 29
-          target: google_apis
-          arch: x86_64
-          avd-name: test
-          force-avd-creation: false
-          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          disable-animations: true
-          script: ./gradlew connectedAndroidTest --no-daemon --max-workers=2 --parallel
+        run: |
+          # Run the tests
+          ./gradlew connectedAndroidTest --no-daemon --max-workers=2 --parallel
+          
+          # Get the test results even if tests fail
+          mkdir -p app/build/reports/androidTests/connected/
+          $ANDROID_HOME/platform-tools/adb pull /data/data/io.buszi.boomerang/files/test-results app/build/reports/androidTests/connected/ || true
+
+      - name: Stop emulator
+        if: always()
+        run: |
+          $ANDROID_HOME/platform-tools/adb devices
+          $ANDROID_HOME/platform-tools/adb -s emulator-5554 emu kill || true
 
       # Upload test reports
       - name: Upload test reports
