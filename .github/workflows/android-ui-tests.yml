@@ -72,7 +72,8 @@ jobs:
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0" "system-images;android-29;google_apis;x86_64"
           
           # Create AVD
-          echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd -n test -k "system-images;android-29;google_apis;x86_64" -f
+          mkdir -p $HOME/.android/avd
+          echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd -n test -k "system-images;android-29;google_apis;x86_64" -f --path $HOME/.android/avd/test.avd
 
       # Start emulator
       - name: Start emulator
