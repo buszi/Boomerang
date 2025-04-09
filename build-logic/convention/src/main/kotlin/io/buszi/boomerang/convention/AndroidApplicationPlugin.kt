@@ -23,6 +23,7 @@ class AndroidApplicationPlugin : Plugin<Project> {
                 applicationId = "io.buszi.boomerang"
                 minSdk = libs.findVersionInt("minSdk")
                 targetSdk = libs.findVersionInt("targetSdk")
+                testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
             }
 
             with(compileOptions) {
