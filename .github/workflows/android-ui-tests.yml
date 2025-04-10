@@ -62,35 +62,19 @@ jobs:
           unzip -q cmdline-tools.zip -d $ANDROID_HOME/cmdline-tools
           mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/latest
           
-          # Add tools to PATH
-          echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> $GITHUB_PATH
-          echo "$ANDROID_HOME/platform-tools" >> $GITHUB_PATH
-          
           # Install required packages
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0" "emulator" "system-images;android-29;google_apis;x86_64"
-          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --sdk_root=${ANDROID_HOME} --licenses || true
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-29" "emulator" "system-images;android-29;google_apis;x86_64"
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
           
           # Verify SDKs were installed
           echo "Installed SDKs:"
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --list_installed
           
           # Create AVD
-          mkdir -p $HOME/.android/avd
           echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd -n test -k "system-images;android-29;google_apis;x86_64" -f
-          
-          # Verify AVD was created
-          if [ -f "$HOME/.android/avd/test.avd/config.ini" ]; then
-            echo "AVD created successfully"
-          else
-            echo "Failed to create AVD"
-            ls -la $HOME/.android/avd/
-            exit 1
-          fi
 
       # Start emulator
       - name: Start emulator
-        env:
-          ANDROID_AVD_HOME: $HOME/.android/avd
         run: |
           # Start the emulator in the background
           $ANDROID_HOME/emulator/emulator -avd test -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none &
