@@ -67,13 +67,12 @@ jobs:
           echo "$ANDROID_HOME/platform-tools" >> $GITHUB_PATH
           
           # Install required packages
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --update
-          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --sdk_root=${ANDROID_HOME} --licenses || true
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0" "emulator" "system-images;android-29;google_apis;x86_64"
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --sdk_root=${ANDROID_HOME} --licenses || true
           
           # Verify SDKs were installed
           echo "Installed SDKs:"
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --list
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --list_installed
           
           # Create AVD
           mkdir -p $HOME/.android/avd
