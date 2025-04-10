@@ -68,16 +68,25 @@ jobs:
           
           # Install required packages
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --update
-          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --sdk_root=${ANDROID_HOME} --licenses || true
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0" "emulator" "system-images;android-29;google_apis;x86_64"
+          
+          # Verify SDKs were installed
+          echo "Installed SDKs:"
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --list
           
           # Create AVD
           mkdir -p $HOME/.android/avd
           echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd -n test -k "system-images;android-29;google_apis;x86_64" -f
           
           # Verify AVD was created
-          ls -la $HOME/.android/avd/
-          $ANDROID_HOME/emulator/emulator -list-avds
+          if [ -f "$HOME/.android/avd/test.avd/config.ini" ]; then
+            echo "AVD created successfully"
+          else
+            echo "Failed to create AVD"
+            ls -la $HOME/.android/avd/
+            exit 1
+          fi
 
       # Start emulator
       - name: Start emulator
