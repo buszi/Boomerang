@@ -13,14 +13,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
-    env:
-      ANDROID_HOME: ${{ github.workspace }}/android-sdk
-      ANDROID_SDK_ROOT: ${{ github.workspace }}/android-sdk
-
     steps:
       # Checks-out your repository
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
 
       # Sets up JDK
       - name: Set up JDK
@@ -29,85 +31,39 @@ jobs:
           java-version: 17
           distribution: temurin
 
-      - name: Gradle cache
+      - name: Gradle Cache
+        uses: gradle/actions/setup-gradle@v4
+
+      # AVD cache
+      - name: AVD cache
         uses: actions/cache@v3
+        id: avd-cache
         with:
           path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            gradle-${{ runner.os }}-
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-${{ runner.os }}
 
-      # Grant execute permission for gradlew
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+      # Create AVD and generate snapshot for caching
+      - name: Create AVD and generate snapshot
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: false
+          script: echo "Generated AVD snapshot for caching."
 
-      - name: Enable KVM
-        if: runner.os == 'Linux'
-        run: |
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm.rules
-          sudo udevadm control --reload-rules
-          sudo udevadm trigger --name-match=kvm
-
-      # Setup Android SDK manually
-      - name: Setup Android SDK manually
-        run: |
-          # Create Android SDK directory
-          mkdir -p $ANDROID_HOME
-          
-          # Download and install command-line tools
-          wget https://dl.google.com/android/repository/commandlinetools-linux-13114758_latest.zip -O cmdline-tools.zip
-          mkdir -p $ANDROID_HOME/cmdline-tools
-          unzip -q cmdline-tools.zip -d $ANDROID_HOME/cmdline-tools
-          mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/latest
-          
-          # Install required packages
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-29" "emulator" "system-images;android-29;google_apis;x86_64"
-          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
-          
-          # Verify SDKs were installed
-          echo "Installed SDKs:"
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --list_installed
-          
-          # Create AVD
-          echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd -n test -k "system-images;android-29;google_apis;x86_64" -f
-
-      # Start emulator
-      - name: Start emulator
-        run: |
-          # Start the emulator in the background
-          $ANDROID_HOME/emulator/emulator -avd test -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none &
-          
-          # Wait for emulator to boot completely
-          $ANDROID_HOME/platform-tools/adb wait-for-device
-          
-          # Wait for boot to complete
-          while [[ "$($ANDROID_HOME/platform-tools/adb shell getprop sys.boot_completed 2>/dev/null)" != "1" ]]; do
-            sleep 3
-          done
-          
-          # Disable animations
-          $ANDROID_HOME/platform-tools/adb shell settings put global window_animation_scale 0
-          $ANDROID_HOME/platform-tools/adb shell settings put global transition_animation_scale 0
-          $ANDROID_HOME/platform-tools/adb shell settings put global animator_duration_scale 0
-          
-          echo "Emulator started successfully"
-
+      # Run UI tests
       - name: Run UI tests
-        run: |
-          # Run the tests
-          ./gradlew connectedAndroidTest --no-daemon --max-workers=2 --parallel
-          
-          # Get the test results even if tests fail
-          mkdir -p app/build/reports/androidTests/connected/
-          $ANDROID_HOME/platform-tools/adb pull /data/data/io.buszi.boomerang/files/test-results app/build/reports/androidTests/connected/ || true
-
-      - name: Stop emulator
-        if: always()
-        run: |
-          $ANDROID_HOME/platform-tools/adb devices
-          $ANDROID_HOME/platform-tools/adb -s emulator-5554 emu kill || true
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: ./gradlew connectedAndroidTest --no-daemon --max-workers=2 --parallel
 
       # Upload test reports
       - name: Upload test reports
@@ -116,4 +72,3 @@ jobs:
         with:
           name: test-reports
           path: app/build/reports/androidTests/connected/
-          retention-days: 7 # Limit retention to save space

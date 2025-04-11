@@ -24,15 +24,8 @@ jobs:
           java-version: 17
           distribution: temurin
 
-      - name: Gradle cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            gradle-${{ runner.os }}-
+      - name: Gradle Cache
+        uses: gradle/actions/setup-gradle@v4
 
       # Setup signing.
       - name: Setup Gradle properties
