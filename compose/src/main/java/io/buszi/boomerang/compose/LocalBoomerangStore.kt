@@ -26,6 +26,6 @@ object LocalBoomerangStore {
      */
     val current: BoomerangStore
         @Composable get() = requireNotNull(LocalBoomerangStoreInternal.current) {
-            "BoomerangStore was not provided to the composition. Use CompositionHostedDefaultBoomerangStoreScope or ActivityHostedBoomerangStoreScope."
+            "BoomerangStore was not provided to the composition. Use CompositionHostedBoomerangStoreScope (or provide CompositionHostedDefaultBoomerangStoreScope for default implementation) or ActivityHostedBoomerangStoreScope."
         }
 }
