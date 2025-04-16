@@ -156,7 +156,7 @@ private fun Navigation() {
                 // TEST CASE 4: Test value can be proxied by another catcher in between
                 Button(onClick = {
                     // Immediately catch and consume the value
-                    store.tryCatch("home") { bundle ->
+                    store.tryConsumeValue("home") { bundle ->
                         // Get the value for display or processing in this screen
                         val consumedValue = bundle.getString("result")
                         // Store the consumed value in the state variable for display

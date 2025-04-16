@@ -161,7 +161,7 @@ class FragmentB : Fragment(R.layout.fragment_b_layout) {
             // Use the dedicated button to demonstrate consuming a value
             consumeValueButton.setOnClickListener {
                 // Immediately catch and consume the value
-                findBoomerangStore().tryCatch("fragment_a") { bundle ->
+                findBoomerangStore().tryConsumeValue("fragment_a") { bundle ->
                     // Get the value for display or processing in this screen
                     val consumedValue = bundle.getString("result")
                     // Store the consumed value for display

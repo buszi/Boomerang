@@ -32,12 +32,12 @@ interface BoomerangStore {
     fun dropValue(key: String)
 
     /**
-     * Tries to catch a value using a BoomerangCatcher. Default implementation drops the value if it's caught (catcher returns true).
+     * Tries to consume a value using a BoomerangCatcher. Default implementation drops the value if it's caught (catcher returns true).
      *
      * @param key The key to try to catch the value for
      * @param catcher The BoomerangCatcher to use for catching the value
      */
-    fun tryCatch(key: String, catcher: BoomerangCatcher) {
+    fun tryConsumeValue(key: String, catcher: BoomerangCatcher) {
         getValue(key)?.let { value ->
             val isCaught = catcher.tryCatch(value)
             if (isCaught) dropValue(key)

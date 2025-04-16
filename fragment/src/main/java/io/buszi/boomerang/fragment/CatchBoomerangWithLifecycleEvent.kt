@@ -36,7 +36,7 @@ fun Fragment.catchBoomerangWithLifecycleEvent(
         ) {
             if (event == lifecycleEvent) {
                 val store = findBoomerangStore()
-                store.tryCatch(key, catcher)
+                store.tryConsumeValue(key, catcher)
             }
             if (event == Lifecycle.Event.ON_DESTROY) {
                 lifecycle.removeObserver(this)

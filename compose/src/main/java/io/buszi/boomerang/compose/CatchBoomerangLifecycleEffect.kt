@@ -28,6 +28,6 @@ fun CatchBoomerangLifecycleEffect(
     val currentCatcher = rememberUpdatedState(catcher)
     val store = LocalBoomerangStore.current
     LifecycleEventEffect(lifecycleEvent) {
-        store.tryCatch(currentKey.value, currentCatcher.value)
+        store.tryConsumeValue(currentKey.value, currentCatcher.value)
     }
 }
