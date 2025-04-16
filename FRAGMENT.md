@@ -4,7 +4,7 @@ A lightweight library for handling navigation results in AndroidX Fragment appli
 
 ## Overview
 
-The Fragment module of Boomerang provides integration with AndroidX Fragments, allowing you to pass data between screens in Fragment navigation without tight coupling between components. It solves the common problem of returning results from one screen to another, similar to the old `startActivityForResult` pattern but designed specifically for modern Fragment navigation patterns.
+The Fragment module of Boomerang provides integration with AndroidX Fragments, allowing you to pass data between screens in Fragment navigation without tight coupling between components. It solves the common problem of returning results from one screen to another, similar to the old `setFragmentResultListener` pattern but designed specifically for modern Fragment navigation patterns.
 
 ## Installation
 
@@ -12,10 +12,10 @@ Add the following dependencies to your app's `build.gradle.kts` file:
 
 ```kotlin
 // For core functionality (required)
-implementation("io.github.buszi.boomerang:core:1.0.0-alpha01")
+implementation("io.github.buszi.boomerang:core:1.0.0-rc01")
 
 // For AndroidX Fragment integration
-implementation("io.github.buszi.boomerang:fragment:1.0.0-alpha01")
+implementation("io.github.buszi.boomerang:fragment:1.0.0-rc01")
 ```
 
 ## Setup

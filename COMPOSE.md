@@ -4,7 +4,7 @@ A lightweight library for handling navigation results in Jetpack Compose applica
 
 ## Overview
 
-The Compose module of Boomerang provides integration with Jetpack Compose, allowing you to pass data between screens in Compose navigation without tight coupling between components. It solves the common problem of returning results from one screen to another, similar to the old `startActivityForResult` pattern but designed specifically for modern Compose navigation patterns.
+The Compose module of Boomerang provides integration with Jetpack Compose, allowing you to pass data between screens in Compose navigation without tight coupling between components. It solves the common problem of returning results from one screen to another, similar to the old `setFragmentResultListener` pattern but designed specifically for modern Compose navigation patterns.
 
 ## Installation
 
@@ -12,10 +12,10 @@ Add the following dependencies to your app's `build.gradle.kts` file:
 
 ```kotlin
 // For core functionality (required)
-implementation("io.github.buszi.boomerang:core:1.0.0-alpha01")
+implementation("io.github.buszi.boomerang:core:1.0.0-rc01")
 
 // For Jetpack Compose integration
-implementation("io.github.buszi.boomerang:compose:1.0.0-alpha01")
+implementation("io.github.buszi.boomerang:compose:1.0.0-rc01")
 ```
 
 ## Setup
