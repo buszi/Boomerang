@@ -20,9 +20,7 @@ open class DefaultBoomerangStore() : BoomerangStore {
      * @param bundle The Bundle to initialize the store with
      */
     constructor(bundle: Bundle) : this() {
-        bundle.keySet()?.filterNotNull()?.forEach { key ->
-            bundle.getBundle(key)?.let { store[key] = it }
-        }
+        restoreState(bundle)
     }
 
     /**
@@ -64,5 +62,11 @@ open class DefaultBoomerangStore() : BoomerangStore {
             bundle.putBundle(key, value)
         }
         return bundle
+    }
+
+    protected fun restoreState(bundle: Bundle) {
+        bundle.keySet()?.filterNotNull()?.forEach { key ->
+            bundle.getBundle(key)?.let { store[key] = it }
+        }
     }
 }
