@@ -7,7 +7,10 @@ A lightweight library for handling navigation results in Jetpack Compose and And
 
 ## Overview
 
-Boomerang provides a clean and efficient way to pass data between screens in Jetpack Compose and AndroidX Fragment navigation without tight coupling between components. It solves the common problem of returning results from one screen to another, similar to the old `setFragmentResultListener` pattern but designed specifically for modern navigation patterns.
+Boomerang provides a clean and efficient way
+to pass data between screens in Jetpack Compose and AndroidX Fragment navigation without tight coupling between components.
+It solves the common problem of returning results from one screen to another,
+similar to the `setFragmentResultListener` pattern but designed to be lightweight and flexible.
 
 The library consists of three main modules:
 - **Core**: Contains the fundamental concepts and interfaces
@@ -44,7 +47,7 @@ Choose the modules that fit your project's needs. For example, if you're only us
 
 ### Compose Setup
 
-1. Wrap your app's content in a `CompositionHostedDefaultBoomerangStoreScope`:
+1. For the default and recommended behavior of Boomerang, wrap your app's content in a `CompositionHostedDefaultBoomerangStoreScope`:
 
 ```kotlin
 class MainActivity : ComponentActivity() {
@@ -192,8 +195,12 @@ Boomerang uses a simple but effective pattern:
 1. **Store**: A central repository that holds navigation results as key-value pairs
 2. **Catcher**: A functional interface that processes results when they become available
 3. **Lifecycle Integration**: Results are caught when a screen becomes visible
+4. **State Restoration**: Results are saved and restored during configuration changes and process death
 
 The library decouples the component that produces a result from the component that consumes it, allowing for a more flexible and maintainable navigation flow.
+The solution does not depend on any specific navigation library, and it can be used with any Jetpack Compose or AndroidX Fragment navigation library.
+The library does not store reference to the producer/consumer components, so it is completely memory-leak-free.
+The only requirement is that the producer and consumer components are not part of the same lifecycle (you cannot pass a result from one part of the screen to another on the same screen, for such cases use f.e. ViewModel).
 
 ### Core Components
 
@@ -205,6 +212,7 @@ The library decouples the component that produces a result from the component th
 ### Compose Components
 
 - **LocalBoomerangStore**: CompositionLocal for accessing the BoomerangStore
+- **CompositionHostedBoomerangStoreScope**: Composable function that provides your custom implementation of BoomerangStore
 - **CompositionHostedDefaultBoomerangStoreScope**: Composable function that provides a default BoomerangStore
 - **CatchBoomerangLifecycleEffect**: Composable function that catches results at specific lifecycle events
 
@@ -226,13 +234,20 @@ The library decouples the component that produces a result from the component th
 - For Compose module: Jetpack Compose 1.0.0+
 - For Fragment module: AndroidX Fragment 1.3.0+
 
+## Kotlin/Compose Multiplatform
+
+The library for now does not yet support Kotlin/Compose Multiplatform.
+I've already done some research, and I'm planning to add support for it in the future.
+For now,
+I'm waiting for wider adoption of the library
+to fix potential issues and potential API changes that are easier to implement in a single platform.
+
 ## Sample App
 
 The repository includes a sample app that demonstrates how to use Boomerang in a real-world scenario. The app includes examples of:
 
-- Pure Compose navigation with Boomerang
-- Pure Fragment navigation with Boomerang
-- Mixed solutions where both Compose and Fragments are used
+- Compose navigation with Boomerang
+- Fragment navigation with Boomerang
 
 Check the `app` module for complete examples of all these scenarios.
 
