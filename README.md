@@ -32,13 +32,13 @@ Add the following dependencies to your app's `build.gradle.kts` file:
 
 ```kotlin
 // For core functionality only
-implementation("io.github.buszi.boomerang:core:1.0.0-rc01")
+implementation("io.github.buszi.boomerang:core:1.0.0")
 
 // For Jetpack Compose integration
-implementation("io.github.buszi.boomerang:compose:1.0.0-rc01")
+implementation("io.github.buszi.boomerang:compose:1.0.0")
 
 // For AndroidX Fragment integration
-implementation("io.github.buszi.boomerang:fragment:1.0.0-rc01")
+implementation("io.github.buszi.boomerang:fragment:1.0.0")
 ```
 
 Choose the modules that fit your project's needs. For example, if you're only using Fragments, you only need the core and fragment modules.

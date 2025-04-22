@@ -12,7 +12,7 @@ Add the following dependency to your app's `build.gradle.kts` file:
 
 ```kotlin
 // For core functionality (required by all Boomerang modules)
-implementation("io.github.buszi.boomerang:core:1.0.0-rc01")
+implementation("io.github.buszi.boomerang:core:1.0.0")
 ```
 
 The Core module is required by both the Compose and Fragment modules, so you'll need to include it regardless of which integration you're using.
