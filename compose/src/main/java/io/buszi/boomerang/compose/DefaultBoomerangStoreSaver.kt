@@ -11,7 +11,7 @@ import io.buszi.boomerang.core.DefaultBoomerangStore
  * The save function packs the store's state into a Bundle using the packState method.
  * The restore function creates a new DefaultBoomerangStore initialized with the saved Bundle.
  */
-val DefaultBoomerangStoreSaver = Saver<DefaultBoomerangStore, Bundle>(
+internal val DefaultBoomerangStoreSaver = Saver<DefaultBoomerangStore, Bundle>(
     save = { store -> store.packState() },
     restore = { bundle -> DefaultBoomerangStore(bundle) },
 )
