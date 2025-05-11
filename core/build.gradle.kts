@@ -1,13 +1,17 @@
 plugins {
-    id("plugins.android.library")
+    id("plugins.multiplatform.library")
     id("plugins.dokka")
     alias(libs.plugins.vanniktech.publish)
 }
 
-android {
-    namespace = "io.buszi.boomerang.core"
-}
+kotlin {
+    androidLibrary {
+        namespace = "io.buszi.boomerang.core"
+    }
 
-dependencies {
-    implementation(libs.androidx.lifecycle.runtime)
+    sourceSets {
+        androidMain.dependencies {
+            implementation(libs.androidx.lifecycle.runtime)
+        }
+    }
 }

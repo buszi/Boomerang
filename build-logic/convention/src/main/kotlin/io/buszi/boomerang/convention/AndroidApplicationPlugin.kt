@@ -17,7 +17,7 @@ class AndroidApplicationPlugin : Plugin<Project> {
 
         with(extensions.getByType<AppExtension>()) {
             namespace = "io.buszi.boomerang"
-            compileSdkVersion = libs.findVersionString("compileSdk")
+            compileSdkVersion = "android-" + libs.findVersionString("compileSdk")
 
             with(defaultConfig) {
                 applicationId = "io.buszi.boomerang"

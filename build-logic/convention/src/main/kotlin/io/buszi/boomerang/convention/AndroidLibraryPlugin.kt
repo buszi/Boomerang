@@ -13,11 +13,10 @@ class AndroidLibraryPlugin : Plugin<Project> {
         with(pluginManager) {
             apply(libs.findPlugin("android-library"))
             apply(libs.findPlugin("kotlin-android"))
-            apply(libs.findPlugin("kotlin-dokka"))
         }
 
         with(extensions.getByType<LibraryExtension>()) {
-            compileSdkVersion = libs.findVersionString("compileSdk")
+            compileSdkVersion = "android-" + libs.findVersionString("compileSdk")
 
             with(defaultConfig) {
                 minSdk = libs.findVersionInt("minSdk")
