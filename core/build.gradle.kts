@@ -10,7 +10,7 @@ kotlin {
     }
 
     sourceSets {
-        androidMain.dependencies {
+        commonMain.dependencies {
             implementation(libs.androidx.lifecycle.runtime)
         }
     }
