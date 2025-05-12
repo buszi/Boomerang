@@ -52,8 +52,20 @@ class AndroidBoomerang(val bundle: Bundle = Bundle()) : Boomerang {
         return if (bundle.containsKey(key)) bundle.getBoolean(key) else null
     }
 
+    override fun putBoomerang(key: String, boomerang: Boomerang) {
+        bundle.putBundle(key, (boomerang as AndroidBoomerang).bundle)
+    }
+
+    override fun getBoomerang(key: String): Boomerang? {
+        return if (bundle.containsKey(key)) bundle.getBundle(key)?.let(::AndroidBoomerang) else null
+    }
+
     override fun contains(key: String): Boolean {
         return bundle.containsKey(key)
+    }
+
+    override fun getKeys(): Set<String> {
+        return bundle.keySet()
     }
 
     override fun remove(key: String) {

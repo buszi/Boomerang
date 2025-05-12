@@ -51,8 +51,20 @@ class MapBoomerang : Boomerang {
         return map[key] as? Boolean
     }
 
+    override fun putBoomerang(key: String, boomerang: Boomerang) {
+        map[key] = boomerang
+    }
+
+    override fun getBoomerang(key: String): Boomerang? {
+        return map[key] as? Boomerang
+    }
+
     override fun contains(key: String): Boolean {
         return map.containsKey(key)
+    }
+
+    override fun getKeys(): Set<String> {
+        return map.keys
     }
 
     override fun remove(key: String) {

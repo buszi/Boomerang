@@ -3,11 +3,11 @@ package io.buszi.boomerang
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import io.buszi.boomerang.core.BoomerangStore
 import io.buszi.boomerang.core.BoomerangStoreHost
+import io.buszi.boomerang.core.boomerangOf
 import io.buszi.boomerang.databinding.FragmentALayoutBinding
 import io.buszi.boomerang.databinding.FragmentBLayoutBinding
 import io.buszi.boomerang.databinding.FragmentCLayoutBinding
@@ -202,7 +202,7 @@ class FragmentC : Fragment(R.layout.fragment_c_layout) {
             // TEST CASE 1: Test navigation result is passed correctly
             navigateBackButton.setOnClickListener {
                 // Store a result value with the key "fragment_a"
-                findBoomerangStore().storeValue("fragment_a", bundleOf("result" to "Result from result screen"))
+                findBoomerangStore().storeValue("fragment_a", boomerangOf("result" to "Result from result screen"))
                 // Navigate back
                 findNavController().popBackStack()
             }

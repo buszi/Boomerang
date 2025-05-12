@@ -20,7 +20,11 @@ interface Boomerang {
     fun putBoolean(key: String, value: Boolean)
     fun getBoolean(key: String): Boolean?
 
+    fun putBoomerang(key: String, boomerang: Boomerang)
+    fun getBoomerang(key: String): Boomerang?
+
     fun contains(key: String): Boolean
+    fun getKeys(): Set<String>
     fun remove(key: String)
     fun clear()
 }

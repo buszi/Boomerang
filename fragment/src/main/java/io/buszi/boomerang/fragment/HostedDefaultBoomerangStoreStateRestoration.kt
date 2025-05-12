@@ -3,6 +3,8 @@ package io.buszi.boomerang.fragment
 import android.os.Bundle
 import io.buszi.boomerang.core.BoomerangStoreHost
 import io.buszi.boomerang.core.DefaultBoomerangStore
+import io.buszi.boomerang.core.toBoomerang
+import io.buszi.boomerang.core.toBundle
 
 /**
  * Key used to store and retrieve the DefaultBoomerangStore state in a Bundle.
@@ -20,7 +22,7 @@ fun BoomerangStoreHost.createOrRestoreDefaultBoomerangStore(savedInstanceState: 
     boomerangStore = savedInstanceState
         ?.getBundle(DEFAULT_BOOMERANG_STORE_STATE_KEY)
         ?.let { savedDefaultBoomerangStoreState ->
-            DefaultBoomerangStore(savedDefaultBoomerangStoreState)
+            DefaultBoomerangStore(savedDefaultBoomerangStoreState.toBoomerang())
         }
         ?: DefaultBoomerangStore()
 }
@@ -37,5 +39,5 @@ fun BoomerangStoreHost.saveDefaultBoomerangStoreState(outState: Bundle) {
     val defaultBoomerangStore = (boomerangStore as? DefaultBoomerangStore)
         ?: error("Saving custom BoomerangStore implementation state is not supported by saveDefaultBoomerangStoreState function.")
 
-    outState.putBundle(DEFAULT_BOOMERANG_STORE_STATE_KEY, defaultBoomerangStore.packState())
+    outState.putBundle(DEFAULT_BOOMERANG_STORE_STATE_KEY, defaultBoomerangStore.packState().toBundle())
 }

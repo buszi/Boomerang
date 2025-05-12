@@ -20,13 +20,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.core.os.bundleOf
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import io.buszi.boomerang.compose.CatchBoomerangLifecycleEffect
 import io.buszi.boomerang.compose.CompositionHostedDefaultBoomerangStoreScope
 import io.buszi.boomerang.compose.LocalBoomerangStore
+import io.buszi.boomerang.core.boomerangOf
 
 /**
  * This activity demonstrates the usage of Boomerang with Jetpack Compose.
@@ -193,7 +193,7 @@ private fun Navigation() {
                 // TEST CASE 1: Test navigation result is passed correctly
                 Button(onClick = {
                     // Store a result value with the key "home"
-                    store.storeValue("home", bundleOf("result" to "Result from result screen"))
+                    store.storeValue("home", boomerangOf("result" to "Result from result screen"))
                     // Navigate back to home
                     navController.popBackStack()
                 }) {
