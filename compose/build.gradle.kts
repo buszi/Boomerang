@@ -1,19 +1,25 @@
 plugins {
-    id("plugins.android.library")
-    id("plugins.android.compose")
+    id("plugins.multiplatform.library")
+    id("plugins.multiplatform.compose")
     id("plugins.dokka")
     alias(libs.plugins.vanniktech.publish)
 }
 
-android {
-    namespace = "io.buszi.boomerang.compose"
-}
+kotlin {
+    androidLibrary {
+        namespace = "io.buszi.boomerang.compose"
+    }
 
-dependencies {
-    implementation(projects.core)
+    sourceSets {
+        commonMain.dependencies {
+            implementation(projects.core)
 
-    implementation(libs.compose.foundation)
+            implementation(compose.foundation)
 
-    implementation(libs.androidx.lifecycle.compose)
-    implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.lifecycle.compose)
+        }
+        androidMain.dependencies {
+            implementation(libs.androidx.activity.compose)
+        }
+    }
 }

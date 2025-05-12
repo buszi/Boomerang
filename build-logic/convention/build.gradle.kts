@@ -21,6 +21,10 @@ gradlePlugin {
             id = "plugins.android.compose"
             implementationClass = "io.buszi.boomerang.convention.AndroidComposePlugin"
         }
+        register("ComposeMultiplatform") {
+            id = "plugins.multiplatform.compose"
+            implementationClass = "io.buszi.boomerang.convention.ComposeMultiplatformPlugin"
+        }
         register("Dokka") {
             id = "plugins.dokka"
             implementationClass = "io.buszi.boomerang.convention.DokkaPlugin"
