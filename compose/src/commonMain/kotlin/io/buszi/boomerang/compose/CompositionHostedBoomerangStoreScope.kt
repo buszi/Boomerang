@@ -2,8 +2,6 @@ package io.buszi.boomerang.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.saveable.Saver
-import androidx.compose.runtime.saveable.rememberSaveable
 import io.buszi.boomerang.compose.LocalBoomerangStore.LocalBoomerangStoreInternal
 import io.buszi.boomerang.core.BoomerangStore
 import io.buszi.boomerang.core.DefaultBoomerangStore
@@ -20,7 +18,6 @@ import io.buszi.boomerang.core.DefaultBoomerangStore
 fun CompositionHostedDefaultBoomerangStoreScope(content: @Composable () -> Unit) {
     CompositionHostedBoomerangStoreScope(
         init = { DefaultBoomerangStore() },
-        saver = DefaultBoomerangStoreSaver,
         content = content,
     )
 }
@@ -38,11 +35,10 @@ fun CompositionHostedDefaultBoomerangStoreScope(content: @Composable () -> Unit)
  * @param content The content that will have access to the BoomerangStore
  */
 @Composable
-fun <T : BoomerangStore, S : Any> CompositionHostedBoomerangStoreScope(
+fun <T : BoomerangStore> CompositionHostedBoomerangStoreScope(
     init: () -> T,
-    saver: Saver<T, S>,
     content: @Composable () -> Unit,
 ) {
-    val store = rememberSaveable(saver = saver, init = init)
+    val store = rememberBoomerangStore(init)
     CompositionLocalProvider(LocalBoomerangStoreInternal provides store, content)
 }

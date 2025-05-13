@@ -22,7 +22,7 @@ fun BoomerangStoreHost.createOrRestoreDefaultBoomerangStore(savedInstanceState: 
     boomerangStore = savedInstanceState
         ?.getBundle(DEFAULT_BOOMERANG_STORE_STATE_KEY)
         ?.let { savedDefaultBoomerangStoreState ->
-            DefaultBoomerangStore(savedDefaultBoomerangStoreState.toBoomerang())
+            DefaultBoomerangStore().apply { restoreState(savedDefaultBoomerangStoreState.toBoomerang()) }
         }
         ?: DefaultBoomerangStore()
 }

@@ -41,4 +41,8 @@ interface BoomerangStore {
             if (isCaught) dropValue(key)
         }
     }
+
+    fun packState(): Boomerang
+
+    fun restoreState(boomerang: Boomerang)
 }

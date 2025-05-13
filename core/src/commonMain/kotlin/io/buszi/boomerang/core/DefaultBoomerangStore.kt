@@ -4,22 +4,12 @@ package io.buszi.boomerang.core
  * Default implementation of the BoomerangStore interface.
  * Uses a private mutable map to store key-value pairs.
  */
-open class DefaultBoomerangStore() : BoomerangStore {
+open class DefaultBoomerangStore : BoomerangStore {
 
     /**
      * The internal storage for key-value pairs.
      */
     protected val store = mutableMapOf<String, Boomerang>()
-
-    /**
-     * Constructs a DefaultBoomerangStore initialized with the contents of the given Bundle.
-     * Typically used for state restoration.
-     *
-     * @param boomerang The Bundle to initialize the store with
-     */
-    constructor(boomerang: Boomerang) : this() {
-        restoreState(boomerang)
-    }
 
     /**
      * Retrieves a Bundle value for the given key.
@@ -54,13 +44,13 @@ open class DefaultBoomerangStore() : BoomerangStore {
      *
      * @return A Bundle containing all key-value pairs in the store
      */
-    fun packState(): Boomerang = buildBoomerang {
+    override fun packState(): Boomerang = buildBoomerang {
         store.forEach { (key, value) ->
             putBoomerang(key, value)
         }
     }
 
-    protected fun restoreState(boomerang: Boomerang) {
+    override fun restoreState(boomerang: Boomerang) {
         boomerang.getKeys().forEach { key ->
             boomerang.getBoomerang(key)?.let { store[key] = it }
         }
