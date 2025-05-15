@@ -5,10 +5,6 @@ plugins {
 
 gradlePlugin {
     plugins {
-        register("AndroidApplication") {
-            id = "plugins.android.application"
-            implementationClass = "io.buszi.boomerang.convention.AndroidApplicationPlugin"
-        }
         register("AndroidLibrary") {
             id = "plugins.android.library"
             implementationClass = "io.buszi.boomerang.convention.AndroidLibraryPlugin"
@@ -17,9 +13,9 @@ gradlePlugin {
             id = "plugins.multiplatform.library"
             implementationClass = "io.buszi.boomerang.convention.KotlinMultiplatformLibraryPlugin"
         }
-        register("AndroidCompose") {
-            id = "plugins.android.compose"
-            implementationClass = "io.buszi.boomerang.convention.AndroidComposePlugin"
+        register("KotlinMultiplatformApplication") {
+            id = "plugins.multiplatform.application"
+            implementationClass = "io.buszi.boomerang.convention.KotlinMultiplatformApplicationPlugin"
         }
         register("ComposeMultiplatform") {
             id = "plugins.multiplatform.compose"

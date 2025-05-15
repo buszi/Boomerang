@@ -3,19 +3,29 @@ package io.buszi.boomerang.convention
 import com.android.build.gradle.AppExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.assign
-import org.gradle.kotlin.dsl.getByType
-import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
+import org.gradle.kotlin.dsl.configure
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
-class AndroidApplicationPlugin : Plugin<Project> {
+class KotlinMultiplatformApplicationPlugin : Plugin<Project> {
 
-    override fun apply(target: Project): Unit = with(target) {
+    override fun apply(target: Project) = with(target) {
         with(pluginManager) {
+            apply(libs.findPlugin("kotlin-multiplatform"))
             apply(libs.findPlugin("android-application"))
-            apply(libs.findPlugin("kotlin-android"))
         }
 
-        with(extensions.getByType<AppExtension>()) {
+        extensions.configure<KotlinMultiplatformExtension> {
+            androidTarget {
+                compilations.configureEach {
+                    compileTaskProvider.configure {
+                        (this as KotlinJvmCompile).compilerOptions.jvmTarget.set(JVM_TARGET)
+                    }
+                }
+            }
+        }
+
+        extensions.configure<AppExtension> {
             namespace = "io.buszi.boomerang"
             compileSdkVersion = "android-" + libs.findVersionString("compileSdk")
 
@@ -30,10 +40,6 @@ class AndroidApplicationPlugin : Plugin<Project> {
                 sourceCompatibility = JDK_VERSION
                 targetCompatibility = JDK_VERSION
             }
-        }
-
-        with(extensions.getByType<KotlinAndroidProjectExtension>()) {
-            compilerOptions.jvmTarget = JVM_TARGET
         }
     }
 }
