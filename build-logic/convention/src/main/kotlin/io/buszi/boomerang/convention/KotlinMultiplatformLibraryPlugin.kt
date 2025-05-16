@@ -26,6 +26,8 @@ class KotlinMultiplatformLibraryPlugin : Plugin<Project> {
                 compileSdk = libs.findVersionInt("compileSdk")
                 minSdk = libs.findVersionInt("minSdk")
             }
+
+            jvm("desktop")
         }
     }
 }

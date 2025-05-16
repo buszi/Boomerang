@@ -14,7 +14,7 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.core)
 
-            implementation(compose.foundation)
+            implementation(compose.runtime)
 
             implementation(libs.androidx.lifecycle.compose)
         }
