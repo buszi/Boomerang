@@ -4,6 +4,9 @@ import com.android.build.gradle.AppExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.jetbrains.compose.ComposeExtension
+import org.jetbrains.compose.desktop.DesktopExtension
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
@@ -13,6 +16,7 @@ class KotlinMultiplatformApplicationPlugin : Plugin<Project> {
         with(pluginManager) {
             apply(libs.findPlugin("kotlin-multiplatform"))
             apply(libs.findPlugin("android-application"))
+            apply(libs.findPlugin("kotlin-compose-multiplatform"))
         }
 
         extensions.configure<KotlinMultiplatformExtension> {
@@ -23,6 +27,8 @@ class KotlinMultiplatformApplicationPlugin : Plugin<Project> {
                     }
                 }
             }
+
+            jvm("desktop")
         }
 
         extensions.configure<AppExtension> {
@@ -39,6 +45,25 @@ class KotlinMultiplatformApplicationPlugin : Plugin<Project> {
             with(compileOptions) {
                 sourceCompatibility = JDK_VERSION
                 targetCompatibility = JDK_VERSION
+            }
+
+            with(buildFeatures) {
+                compose = true
+                viewBinding = true
+            }
+        }
+
+        extensions.configure<ComposeExtension> {
+            extensions.configure<DesktopExtension> {
+                application {
+                    mainClass = "io.buszi.boomerang.MainKt"
+
+                    nativeDistributions {
+                        targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+                        packageName = "Boomerang Desktop Preview"
+                        packageVersion = "1.0.0"
+                    }
+                }
             }
         }
     }

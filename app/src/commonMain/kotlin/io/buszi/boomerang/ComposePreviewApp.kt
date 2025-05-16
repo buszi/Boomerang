@@ -1,14 +1,20 @@
 package io.buszi.boomerang
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -17,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
@@ -31,7 +38,7 @@ import io.buszi.boomerang.core.boomerangOf
 fun ComposePreviewApp(recreateApp: () -> Unit) {
     CompositionHostedDefaultBoomerangStoreScope {
         MaterialTheme {
-            Surface {
+            Surface(modifier = Modifier.fillMaxSize()) {
                 Navigation(recreateApp)
             }
         }
@@ -96,10 +103,15 @@ private fun Navigation(recreateApp: () -> Unit) {
             var proxiedValue by rememberSaveable { mutableStateOf<String?>(null) }
 
             Column(modifier = Modifier.padding(16.dp)) {
-                Text(
-                    text = "Intermediate Screen",
-                    style = MaterialTheme.typography.headlineMedium
-                )
+                Row(verticalAlignment = CenterVertically) {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                    }
+                    Text(
+                        text = "Intermediate Screen",
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                }
 
                 // Display the proxied/consumed value
                 Spacer(modifier = Modifier.height(8.dp))
@@ -161,10 +173,15 @@ private fun Navigation(recreateApp: () -> Unit) {
             val store = LocalBoomerangStore.current
 
             Column(modifier = Modifier.padding(16.dp)) {
-                Text(
-                    text = "Result Screen",
-                    style = MaterialTheme.typography.headlineMedium
-                )
+                Row(verticalAlignment = CenterVertically) {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                    }
+                    Text(
+                        text = "Result Screen",
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(16.dp))
                 HorizontalDivider()

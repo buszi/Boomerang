@@ -13,11 +13,11 @@ kotlin {
             implementation(projects.core)
             implementation(projects.compose)
 
-            implementation(libs.androidx.navigation.compose)
+            implementation(libs.androidx.navigation.multiplatform)
 
             implementation(compose.ui)
             implementation(compose.material3)
-
+            implementation(compose.materialIconsExtended)
         }
         androidMain.dependencies {
             implementation(projects.fragment)
@@ -36,12 +36,8 @@ kotlin {
             implementation(libs.espresso.core)
             implementation(libs.espresso.contrib)
         }
-    }
-}
-
-android {
-    buildFeatures {
-        compose = true
-        viewBinding = true
+        getByName("desktopMain").dependencies {
+            implementation(compose.desktop.currentOs)
+        }
     }
 }
