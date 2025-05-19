@@ -14,10 +14,10 @@ Add the following dependencies to your app's `build.gradle.kts` file:
 
 ```kotlin
 // For core functionality (required)
-implementation("io.github.buszi.boomerang:core:1.0.0")
+implementation("io.github.buszi.boomerang:core:1.1.0")
 
 // For Jetpack Compose integration
-implementation("io.github.buszi.boomerang:compose:1.0.0")
+implementation("io.github.buszi.boomerang:compose:1.1.0")
 ```
 
 ## Setup
