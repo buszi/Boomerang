@@ -1,0 +1,140 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>rememberBoomerangStore</title>
+<link href="../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<link href="../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../ui-kit/ui-kit.min.js" defer></script>
+<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+<a class="library-name--link" href="../../index.html">
+                    Boomerang
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+        </div>
+        <div class="navigation-controls">
+        <div class="filter-section filter-section_loading" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":compose/androidMain">android</button>
+                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":compose/commonMain">common</button>
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":compose/desktopMain">desktop</button>
+                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":compose/iosMain">ios</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                    <div class="dropdown--header"><span>Platform filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":compose/androidMain" data-filter=":compose/androidMain">
+                                <span class="checkbox--icon"></span>
+                                android
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":compose/commonMain" data-filter=":compose/commonMain">
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":compose/desktopMain" data-filter=":compose/desktopMain">
+                                <span class="checkbox--icon"></span>
+                                desktop
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":compose/iosMain" data-filter=":compose/iosMain">
+                                <span class="checkbox--icon"></span>
+                                ios
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </div>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox">
+                        <div class="dropdown--header">
+                            <span>
+                                    Boomerang
+                            </span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <div class="sidebar--inner" id="sideMenu"></div>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="member" id="content" pageids="compose::io.buszi.boomerang.compose//rememberBoomerangStore/#kotlin.Function0[TypeParam(bounds=[io.buszi.boomerang.core.BoomerangStore])]/PointingToDeclaration//199115342">
+  <div class="breadcrumbs"><a href="../index.html">compose</a><span class="delimiter">/</span><a href="index.html">io.buszi.boomerang.compose</a><span class="delimiter">/</span><span class="current">rememberBoomerangStore</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>remember</span><wbr><span>Boomerang</span><wbr><span><span>Store</span></span></h1>
+  </div>
+  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":compose/androidMain" data-filterable-set=":compose/androidMain" data-active="" data-toggle=":compose/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":compose/commonMain" data-filterable-set=":compose/commonMain" data-toggle=":compose/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":compose/desktopMain" data-filterable-set=":compose/desktopMain" data-toggle=":compose/desktopMain">desktop</button><button class="platform-bookmark" data-filterable-current=":compose/iosMain" data-filterable-set=":compose/iosMain" data-toggle=":compose/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":compose/androidMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="androidx.compose.runtime/Composable///PointingToDeclaration/"><span class="token annotation builtin">Composable</span></span></div></div><span class="token keyword">actual </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="remember-boomerang-store.html">T</a><span class="token operator"> : </span><a href="../../core/io.buszi.boomerang.core/-boomerang-store/index.html">BoomerangStore</a><span class="token operator">&gt; </span><a href="remember-boomerang-store.html"><span class="token function">rememberBoomerangStore</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">init<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="remember-boomerang-store.html">T</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="remember-boomerang-store.html">T</a><span class="clearfix"><span class="floating-right">(<a href="https://github.com/buszi/Boomerang/src/androidMain/kotlin/io/buszi/boomerang/compose/RememberBoomerangStore.android.kt#L24">source</a>)</span></span></div><p class="paragraph">Android-specific implementation of rememberBoomerangStore.</p><p class="paragraph">This implementation uses rememberSaveable with a custom Saver to preserve the BoomerangStore's state across configuration changes.</p><p class="paragraph">The Saver converts the BoomerangStore's state to an Android Bundle for saving and restores it by creating a new BoomerangStore instance and applying the saved state.</p><span class="kdoc-tag"><h4 class="">Return</h4><p class="paragraph">The remembered BoomerangStore instance that persists across configuration changes</p></span><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":compose/androidMain" data-filterable-set=":compose/androidMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>T</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The type of BoomerangStore to remember</p></div></div></div></div><div class="table-row" data-filterable-current=":compose/androidMain" data-filterable-set=":compose/androidMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>init</span></span></u></div></span></div><div><div class="title"><p class="paragraph">A lambda that creates an initial instance of the BoomerangStore</p></div></div></div></div></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":compose/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="androidx.compose.runtime/Composable///PointingToDeclaration/"><span class="token annotation builtin">Composable</span></span></div></div><span class="token keyword">expect </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="remember-boomerang-store.html">T</a><span class="token operator"> : </span><a href="../../core/io.buszi.boomerang.core/-boomerang-store/index.html">BoomerangStore</a><span class="token operator">&gt; </span><a href="remember-boomerang-store.html"><span class="token function">rememberBoomerangStore</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">init<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="remember-boomerang-store.html">T</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="remember-boomerang-store.html">T</a><span class="clearfix"><span class="floating-right">(<a href="https://github.com/buszi/Boomerang/src/commonMain/kotlin/io/buszi/boomerang/compose/RememberBoomerangStore.kt#L18">source</a>)</span></span></div><p class="paragraph">Remembers a BoomerangStore across recompositions and configuration changes. This function is implemented differently on each platform to ensure proper state saving and restoration.</p><p class="paragraph">On Android, it uses rememberSaveable with a custom saver to preserve the store's state across configuration changes. On other platforms, it uses remember to keep the store instance across recompositions.</p><span class="kdoc-tag"><h4 class="">Return</h4><p class="paragraph">The remembered BoomerangStore instance</p></span><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":compose/commonMain" data-filterable-set=":compose/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>T</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The type of BoomerangStore to remember</p></div></div></div></div><div class="table-row" data-filterable-current=":compose/commonMain" data-filterable-set=":compose/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>init</span></span></u></div></span></div><div><div class="title"><p class="paragraph">A lambda that creates an initial instance of the BoomerangStore</p></div></div></div></div></div></div><div class="content sourceset-dependent-content" data-togglable=":compose/desktopMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="androidx.compose.runtime/Composable///PointingToDeclaration/"><span class="token annotation builtin">Composable</span></span></div></div><span class="token keyword">actual </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="remember-boomerang-store.html">T</a><span class="token operator"> : </span><a href="../../core/io.buszi.boomerang.core/-boomerang-store/index.html">BoomerangStore</a><span class="token operator">&gt; </span><a href="remember-boomerang-store.html"><span class="token function">rememberBoomerangStore</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">init<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="remember-boomerang-store.html">T</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="remember-boomerang-store.html">T</a><span class="clearfix"><span class="floating-right">(<a href="https://github.com/buszi/Boomerang/src/desktopMain/kotlin/io/buszi/boomerang/compose/RememberBoomerangStore.desktop.kt#L19">source</a>)</span></span></div><p class="paragraph">Desktop-specific implementation of rememberBoomerangStore.</p><p class="paragraph">This implementation uses the standard remember function to keep the BoomerangStore instance across recompositions. On desktop platforms, there are no configuration changes like on Android, so we don't need the more complex state saving mechanism.</p><span class="kdoc-tag"><h4 class="">Return</h4><p class="paragraph">The remembered BoomerangStore instance</p></span><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":compose/desktopMain" data-filterable-set=":compose/desktopMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>T</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The type of BoomerangStore to remember</p></div></div></div></div><div class="table-row" data-filterable-current=":compose/desktopMain" data-filterable-set=":compose/desktopMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>init</span></span></u></div></span></div><div><div class="title"><p class="paragraph">A lambda that creates an initial instance of the BoomerangStore</p></div></div></div></div></div></div><div class="content sourceset-dependent-content" data-togglable=":compose/iosMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="androidx.compose.runtime/Composable///PointingToDeclaration/"><span class="token annotation builtin">Composable</span></span></div></div><span class="token keyword">actual </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="remember-boomerang-store.html">T</a><span class="token operator"> : </span><a href="../../core/io.buszi.boomerang.core/-boomerang-store/index.html">BoomerangStore</a><span class="token operator">&gt; </span><a href="remember-boomerang-store.html"><span class="token function">rememberBoomerangStore</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">init<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="remember-boomerang-store.html">T</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="remember-boomerang-store.html">T</a><span class="clearfix"><span class="floating-right">(<a href="https://github.com/buszi/Boomerang/src/iosMain/kotlin/io/buszi/boomerang/compose/RememberBoomerangStore.ios.kt#L19">source</a>)</span></span></div><p class="paragraph">iOS-specific implementation of rememberBoomerangStore.</p><p class="paragraph">This implementation uses the standard remember function to keep the BoomerangStore instance across recompositions. On iOS, the app process typically doesn't undergo configuration changes like on Android, so we don't need the more complex state saving mechanism.</p><span class="kdoc-tag"><h4 class="">Return</h4><p class="paragraph">The remembered BoomerangStore instance</p></span><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":compose/iosMain" data-filterable-set=":compose/iosMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>T</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The type of BoomerangStore to remember</p></div></div></div></div><div class="table-row" data-filterable-current=":compose/iosMain" data-filterable-set=":compose/iosMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>init</span></span></u></div></span></div><div><div class="title"><p class="paragraph">A lambda that creates an initial instance of the BoomerangStore</p></div></div></div></div></div></div>  </div>
+</div>
+    <div class="footer">
+        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+        <span>© 2025 Copyright</span>
+        <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
+    </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

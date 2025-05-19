@@ -45,7 +45,8 @@
         </div>
         <div class="navigation-controls">
         <div class="filter-section filter-section_loading" id="filter-section">
-                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":core/release">androidJvm</button>
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":core/androidMain">android</button>
+                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":core/commonMain">common</button>
             <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
                 <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
                 <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
@@ -56,9 +57,16 @@
                     </div>
                         <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
                             <label class="checkbox">
-                                <input type="checkbox" class="checkbox--input" id=":core/release" data-filter=":core/release">
+                                <input type="checkbox" class="checkbox--input" id=":core/androidMain" data-filter=":core/androidMain">
                                 <span class="checkbox--icon"></span>
-                                androidJvm
+                                android
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":core/commonMain" data-filter=":core/commonMain">
+                                <span class="checkbox--icon"></span>
+                                common
                             </label>
                         </li>
                 </ul>
@@ -90,28 +98,28 @@
                 </div>
             </div>
             <div id="main">
-<div class="main-content" data-page-type="classlike" id="content" pageids="core::io.buszi.boomerang.core/DefaultBoomerangStore///PointingToDeclaration//-1261813462">
+<div class="main-content" data-page-type="classlike" id="content" pageids="core::io.buszi.boomerang.core/DefaultBoomerangStore///PointingToDeclaration//1239919082">
   <div class="breadcrumbs"><a href="../../index.html">core</a><span class="delimiter">/</span><a href="../index.html">io.buszi.boomerang.core</a><span class="delimiter">/</span><span class="current">DefaultBoomerangStore</span></div>
   <div class="cover ">
     <h1 class="cover"><span>Default</span><wbr><span>Boomerang</span><wbr><span><span>Store</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">class </span><a href="index.html">DefaultBoomerangStore</a> : <a href="../-boomerang-store/index.html">BoomerangStore</a></div><p class="paragraph">Default implementation of the BoomerangStore interface. Uses a private mutable map to store key-value pairs.</p></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">class </span><a href="index.html">DefaultBoomerangStore</a> : <a href="../-boomerang-store/index.html">BoomerangStore</a><span class="clearfix"><span class="floating-right">(<a href="https://github.com/buszi/Boomerang/src/commonMain/kotlin/io/buszi/boomerang/core/DefaultBoomerangStore.kt#L7">source</a>)</span></span></div><p class="paragraph">Default implementation of the BoomerangStore interface. Uses a private mutable map to store key-value pairs.</p></div></div>
   </div>
   <div class="tabbedcontent">
-    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button><button class="section-tab" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION,EXTENSION_PROPERTY,EXTENSION_FUNCTION">Members &amp; Extensions</button></div>
     <div class="tabs-section-body">
       <div data-togglable="CONSTRUCTOR">
         <h2 class="">Constructors</h2>
-        <div class="table"><a data-name="-795588625%2FConstructors%2F-1261813462" anchor-label="DefaultBoomerangStore" id="-795588625%2FConstructors%2F-1261813462" data-filterable-set=":core/release"></a>
-          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":core/release" data-filterable-set=":core/release">
+        <div class="table"><a data-name="1314918057%2FConstructors%2F1239919082" anchor-label="DefaultBoomerangStore" id="1314918057%2FConstructors%2F1239919082" data-filterable-set=":core/commonMain"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-default-boomerang-store.html"><span>Default</span><wbr><span>Boomerang</span><wbr><span><span>Store</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-795588625%2FConstructors%2F-1261813462"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1314918057%2FConstructors%2F1239919082"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/release"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">bundle<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Constructs a DefaultBoomerangStore initialized with the contents of the given Bundle. Typically used for state restoration.</p></div><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/commonMain"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -120,77 +128,109 @@
       </div>
       <div data-togglable="FUNCTION">
         <h2 class="">Functions</h2>
-        <div class="table"><a data-name="-1451797315%2FFunctions%2F-1261813462" anchor-label="dropValue" id="-1451797315%2FFunctions%2F-1261813462" data-filterable-set=":core/release"></a>
-          <div class="table-row" data-filterable-current=":core/release" data-filterable-set=":core/release">
+        <div class="table"><a data-name="-1451797315%2FFunctions%2F1239919082" anchor-label="dropValue" id="-1451797315%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
+          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="drop-value.html"><span>drop</span><wbr><span><span>Value</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1451797315%2FFunctions%2F-1261813462"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1451797315%2FFunctions%2F1239919082"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="drop-value.html"><span class="token function">dropValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Removes a value for the given key.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="drop-value.html"><span class="token function">dropValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Removes a value for the given key.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="1008995150%2FFunctions%2F-1261813462" anchor-label="getValue" id="1008995150%2FFunctions%2F-1261813462" data-filterable-set=":core/release"></a>
-          <div class="table-row" data-filterable-current=":core/release" data-filterable-set=":core/release">
+<a data-name="1008995150%2FFunctions%2F1239919082" anchor-label="getValue" id="1008995150%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
+          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="get-value.html"><span>get</span><wbr><span><span>Value</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1008995150%2FFunctions%2F-1261813462"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1008995150%2FFunctions%2F1239919082"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-value.html"><span class="token function">getValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Retrieves a Bundle value for the given key.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-value.html"><span class="token function">getValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-boomerang/index.html">Boomerang</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Retrieves a Boomerang value for the given key.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-832929231%2FFunctions%2F-1261813462" anchor-label="packState" id="-832929231%2FFunctions%2F-1261813462" data-filterable-set=":core/release"></a>
-          <div class="table-row" data-filterable-current=":core/release" data-filterable-set=":core/release">
+<a data-name="-832929231%2FFunctions%2F1239919082" anchor-label="packState" id="-832929231%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
+          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="pack-state.html"><span>pack</span><wbr><span><span>State</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-832929231%2FFunctions%2F-1261813462"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-832929231%2FFunctions%2F1239919082"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="pack-state.html"><span class="token function">packState</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a></div><div class="brief "><p class="paragraph">Packs the store into a Bundle. Typically used to store current state during configuration changes in order to restore it using the constructor that accepts Bundle.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="pack-state.html"><span class="token function">packState</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-boomerang/index.html">Boomerang</a></div><div class="brief "><p class="paragraph">Packs the store into a Boomerang object. Typically used to store current state during configuration changes in order to restore it later.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="948339897%2FFunctions%2F-1261813462" anchor-label="storeValue" id="948339897%2FFunctions%2F-1261813462" data-filterable-set=":core/release"></a>
-          <div class="table-row" data-filterable-current=":core/release" data-filterable-set=":core/release">
+<a data-name="-27671922%2FFunctions%2F1239919082" anchor-label="restoreState" id="-27671922%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
+          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="restore-state.html"><span>restore</span><wbr><span><span>State</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-27671922%2FFunctions%2F1239919082"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="restore-state.html"><span class="token function">restoreState</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">boomerang<span class="token operator">: </span><a href="../-boomerang/index.html">Boomerang</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Restores the state of the store from a Boomerang object. Typically used to restore state after configuration changes.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-675180320%2FFunctions%2F1239919082" anchor-label="storeValue" id="-675180320%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
+          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="store-value.html"><span>store</span><wbr><span><span>Value</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="948339897%2FFunctions%2F-1261813462"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-675180320%2FFunctions%2F1239919082"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="store-value.html"><span class="token function">storeValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Stores a Bundle value with the given key.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="store-value.html"><span class="token function">storeValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><a href="../-boomerang/index.html">Boomerang</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Stores a Boomerang value with the given key.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-1104623303%2FFunctions%2F-1261813462" anchor-label="tryConsumeValue" id="-1104623303%2FFunctions%2F-1261813462" data-filterable-set=":core/release"></a>
-          <div class="table-row" data-filterable-current=":core/release" data-filterable-set=":core/release">
+<a data-name="1351536920%2FFunctions%2F-1392126194" anchor-label="storeValue" id="1351536920%2FFunctions%2F-1392126194" data-filterable-set=":core/androidMain,:core/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core/androidMain,:core/commonMain" data-filterable-set=":core/androidMain,:core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="../-boomerang-store/try-consume-value.html"><span>try</span><wbr><span>Consume</span><wbr><span><span>Value</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1104623303%2FFunctions%2F-1261813462"></span>
+                  <div><a href="../store-value.html"><span>store</span><wbr><span><span>Value</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1351536920%2FFunctions%2F-1392126194"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="../-boomerang-store/try-consume-value.html"><span class="token function">tryConsumeValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">catcher<span class="token operator">: </span><a href="../-boomerang-catcher/index.html">BoomerangCatcher</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Tries to consume a value using a BoomerangCatcher. Default implementation drops the value if it's caught (catcher returns true).</p></div></div></div>
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":core/androidMain" data-filterable-set=":core/androidMain" data-active="" data-toggle=":core/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain" data-toggle=":core/commonMain">common</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":core/androidMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="../-boomerang-store/index.html">BoomerangStore</a><span class="token punctuation">.</span><a href="../store-value.html"><span class="token function">storeValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">bundle<span class="token operator">: </span><span data-unresolved-link="android.os/Bundle///PointingToDeclaration/">Bundle</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Stores an Android Bundle in a BoomerangStore with the given key.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":core/commonMain"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><a href="../-boomerang-store/index.html">BoomerangStore</a><span class="token punctuation">.</span><a href="../store-value.html"><span class="token function">storeValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">resultBuilder<span class="token operator">: </span><a href="../-boomerang/index.html">Boomerang</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Extension function for BoomerangStore that allows storing a value using a builder function. This is a convenient way to create and store a Boomerang in a single expression.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1104623303%2FFunctions%2F1239919082" anchor-label="tryConsumeValue" id="-1104623303%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
+          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-boomerang-store/try-consume-value.html"><span>try</span><wbr><span>Consume</span><wbr><span><span>Value</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1104623303%2FFunctions%2F1239919082"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="../-boomerang-store/try-consume-value.html"><span class="token function">tryConsumeValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">catcher<span class="token operator">: </span><a href="../-boomerang-catcher/index.html">BoomerangCatcher</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Tries to consume a value using a BoomerangCatcher. Default implementation drops the value if it's caught (catcher returns true).</p></div></div></div>
                 </div>
               </div>
             </div>

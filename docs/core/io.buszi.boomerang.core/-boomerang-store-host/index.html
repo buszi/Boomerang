@@ -45,7 +45,7 @@
         </div>
         <div class="navigation-controls">
         <div class="filter-section filter-section_loading" id="filter-section">
-                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":core/release">androidJvm</button>
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":core/androidMain">android</button>
             <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
                 <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
                 <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
@@ -56,9 +56,9 @@
                     </div>
                         <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
                             <label class="checkbox">
-                                <input type="checkbox" class="checkbox--input" id=":core/release" data-filter=":core/release">
+                                <input type="checkbox" class="checkbox--input" id=":core/androidMain" data-filter=":core/androidMain">
                                 <span class="checkbox--icon"></span>
-                                androidJvm
+                                android
                             </label>
                         </li>
                 </ul>
@@ -90,28 +90,32 @@
                 </div>
             </div>
             <div id="main">
-<div class="main-content" data-page-type="classlike" id="content" pageids="core::io.buszi.boomerang.core/BoomerangStoreHost///PointingToDeclaration//-1261813462">
+<div class="main-content" data-page-type="classlike" id="content" pageids="core::io.buszi.boomerang.core/BoomerangStoreHost///PointingToDeclaration//605213360">
   <div class="breadcrumbs"><a href="../../index.html">core</a><span class="delimiter">/</span><a href="../index.html">io.buszi.boomerang.core</a><span class="delimiter">/</span><span class="current">BoomerangStoreHost</span></div>
   <div class="cover ">
     <h1 class="cover"><span>Boomerang</span><wbr><span>Store</span><wbr><span><span>Host</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/release"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">BoomerangStoreHost</a></div><p class="paragraph">Interface for a component that hosts a BoomerangStore. This interface is typically implemented by Activities or other lifecycle-aware components that need to provide a BoomerangStore to their children Fragments. Implementation of this interface is required for Fragments and mixed navigation result to work. In order to create instance and save instance state of <a href="../-default-boomerang-store/index.html">DefaultBoomerangStore</a> check createOrRestoreDefaultBoomerangStore and saveDefaultBoomerangStoreState in fragment module. <a href="https://github.com/buszi/Boomerang/blob/main/app/src/main/java/io/buszi/boomerang/FullFragmentPreviewActivity.kt">Example implementation</a></p></div></div>
+    <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+      <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":core/androidMain" data-filterable-set=":core/androidMain" data-active="" data-toggle=":core/androidMain">android</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":core/androidMain"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">BoomerangStoreHost</a><span class="clearfix"><span class="floating-right">(<a href="https://github.com/buszi/Boomerang/src/androidMain/kotlin/io/buszi/boomerang/core/BoomerangStoreHost.kt#L10">source</a>)</span></span></div><p class="paragraph">Interface for a component that hosts a BoomerangStore. This interface is typically implemented by Activities or other lifecycle-aware components that need to provide a BoomerangStore to their children Fragments. Implementation of this interface is required for Fragments and mixed navigation result to work. In order to create instance and save instance state of <a href="../-default-boomerang-store/index.html">DefaultBoomerangStore</a> check createOrRestoreDefaultBoomerangStore and saveDefaultBoomerangStoreState in fragment module. <a href="https://github.com/buszi/Boomerang/blob/main/app/src/main/java/io/buszi/boomerang/FullFragmentPreviewActivity.kt">Example implementation</a></p></div>    </div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
       <div data-togglable="PROPERTY">
         <h2 class="">Properties</h2>
-        <div class="table"><a data-name="1728420659%2FProperties%2F-1261813462" anchor-label="boomerangStore" id="1728420659%2FProperties%2F-1261813462" data-filterable-set=":core/release"></a>
-          <div class="table-row" data-filterable-current=":core/release" data-filterable-set=":core/release">
+        <div class="table"><a data-name="1728420659%2FProperties%2F605213360" anchor-label="boomerangStore" id="1728420659%2FProperties%2F605213360" data-filterable-set=":core/androidMain"></a>
+          <div class="table-row" data-filterable-current=":core/androidMain" data-filterable-set=":core/androidMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="boomerang-store.html"><span>boomerang</span><wbr><span><span>Store</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1728420659%2FProperties%2F-1261813462"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1728420659%2FProperties%2F605213360"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">var </span><a href="boomerang-store.html">boomerangStore</a><span class="token operator">: </span><a href="../-boomerang-store/index.html">BoomerangStore</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The BoomerangStore hosted by this component. Should be null by default. This property can be null if the store has not been initialized yet or has been destroyed.</p></div></div></div>
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":core/androidMain" data-filterable-set=":core/androidMain" data-active="" data-toggle=":core/androidMain">android</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":core/androidMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">var </span><a href="boomerang-store.html">boomerangStore</a><span class="token operator">: </span><a href="../-boomerang-store/index.html">BoomerangStore</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The BoomerangStore hosted by this component. Should be null by default. This property can be null if the store has not been initialized yet or has been destroyed.</p></div></div>                  </div>
                 </div>
               </div>
             </div>
