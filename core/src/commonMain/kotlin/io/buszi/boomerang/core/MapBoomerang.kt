@@ -1,5 +1,11 @@
 package io.buszi.boomerang.core
 
+/**
+ * A platform-agnostic implementation of the Boomerang interface that uses a MutableMap for storage.
+ * 
+ * This implementation is used on iOS and Desktop platforms, providing a consistent API
+ * across all platforms while using platform-appropriate storage mechanisms.
+ */
 class MapBoomerang : Boomerang {
     private val map = mutableMapOf<String, Any>()
 

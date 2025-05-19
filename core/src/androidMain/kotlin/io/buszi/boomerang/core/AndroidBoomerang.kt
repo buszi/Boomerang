@@ -2,6 +2,14 @@ package io.buszi.boomerang.core
 
 import android.os.Bundle
 
+/**
+ * Android-specific implementation of the Boomerang interface that uses Android's Bundle for storage.
+ * 
+ * This implementation is used only on the Android platform, providing a consistent API
+ * across all platforms while using platform-appropriate storage mechanisms.
+ * 
+ * @property bundle The Bundle used for storage
+ */
 class AndroidBoomerang(val bundle: Bundle = Bundle()) : Boomerang {
 
     override fun putString(key: String, value: String) {

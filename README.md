@@ -3,7 +3,7 @@
 [![UI Tests](https://github.com/buszi/Boomerang/actions/workflows/android-ui-tests.yml/badge.svg)](https://github.com/buszi/Boomerang/actions/workflows/android-ui-tests.yml)
 [![Version](https://img.shields.io/maven-central/v/io.github.buszi.boomerang/core)](https://central.sonatype.com/artifact/io.github.buszi.boomerang/core)
 
-A lightweight library for handling navigation results in Jetpack Compose and AndroidX Fragment applications.
+A lightweight library for handling navigation results in Jetpack Compose/Compose Multiplatform and AndroidX Fragment applications targeting Android, iOS and Desktop/JVM.
 
 ## Overview
 
@@ -15,7 +15,7 @@ similar to the `setFragmentResultListener` pattern but designed to be lightweigh
 The library consists of three main modules:
 - **Core**: Contains the fundamental concepts and interfaces
 - **Compose**: Provides Jetpack Compose integration
-- **Fragment**: Provides AndroidX Fragment integration
+- **Fragment**: Provides AndroidX Fragment integration (Android only)
 
 ## Features
 
@@ -28,7 +28,7 @@ The library consists of three main modules:
 
 ## Installation
 
-Add the following dependencies to your app's `build.gradle.kts` file:
+Add the following dependencies to your `build.gradle.kts` file:
 
 ```kotlin
 // For core functionality only
@@ -37,7 +37,7 @@ implementation("io.github.buszi.boomerang:core:1.0.0")
 // For Jetpack Compose integration
 implementation("io.github.buszi.boomerang:compose:1.0.0")
 
-// For AndroidX Fragment integration
+// For AndroidX Fragment integration (Android only)
 implementation("io.github.buszi.boomerang:fragment:1.0.0")
 ```
 
@@ -50,15 +50,11 @@ Choose the modules that fit your project's needs. For example, if you're only us
 1. For the default and recommended behavior of Boomerang, wrap your app's content in a `CompositionHostedDefaultBoomerangStoreScope`:
 
 ```kotlin
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            CompositionHostedDefaultBoomerangStoreScope {
-                // Your app content here
-                AppNavigation()
-            }
-        }
+@Composable
+fun YourApplication() {
+    CompositionHostedDefaultBoomerangStoreScope {
+        // Your app content here
+        AppNavigation()
     }
 }
 ```
@@ -95,11 +91,8 @@ fun DetailScreen(navController: NavController) {
     val store = LocalBoomerangStore.current
 
     Button(onClick = {
-        // Create a bundle with your result data
-        val resultBundle = bundleOf("selectedItem" to "Item 1")
-
         // Store the result with a key
-        store.storeValue("home_screen_result", resultBundle)
+        store.storeValue("home_screen_result", boomerangOf("selectedItem" to "Item 1"))
 
         // Navigate back
         navController.popBackStack()
@@ -119,9 +112,9 @@ fun HomeScreen() {
     var selectedItem by remember { mutableStateOf<String?>(null) }
 
     // Set up a catcher that runs when the screen starts
-    CatchBoomerangLifecycleEffect("home_screen_result") { bundle: Bundle ->
-        // Extract data from the bundle
-        selectedItem = bundle.getString("selectedItem")
+    CatchBoomerangLifecycleEffect("home_screen_result") { boomerang ->
+        // Extract data from the boomerang
+        selectedItem = boomerang.getString("selectedItem")
         true // Return true to indicate the result was successfully processed
     }
 
@@ -141,9 +134,9 @@ class HomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         // Set up a catcher that runs when the fragment starts
-        catchBoomerangWithLifecycleEvent("home_screen_result") { bundle: Bundle ->
-            // Extract data from the bundle and process it
-            val selectedItem = bundle.getString("selectedItem")
+        catchBoomerangWithLifecycleEvent("home_screen_result") { boomerang ->
+            // Extract data from the boomerang and process it
+            val selectedItem = boomerang.getString("selectedItem")
             // Do something with the result
             true // Return true to indicate the result was successfully processed
         }
@@ -183,9 +176,7 @@ val hasResult = store.getValue("some_key") != null
 store.dropValue("some_key")
 
 // Store a value
-val bundle = Bundle()
-bundle.putString("result", "Success")
-store.storeValue("some_key", bundle)
+store.storeValue("some_key", boomerangOf("result" to "Success"))
 ```
 
 ## How It Works
@@ -236,18 +227,26 @@ The only requirement is that the producer and consumer components are not part o
 
 ## Kotlin/Compose Multiplatform
 
-The library for now does not yet support Kotlin/Compose Multiplatform.
-I've already done some research, and I'm planning to add support for it in the future.
-For now,
-I'm waiting for wider adoption of the library
-to fix potential issues and potential API changes that are easier to implement in a single platform.
+The library now supports Kotlin/Compose Multiplatform! You can use Boomerang on Android, iOS, and Desktop platforms.
+
+- **Android**: Full support with all features (Compose and Fragment)
+- **iOS**: Support for core functionality and Compose Multiplatform integration
+- **Desktop**: Support for core functionality and Compose integration
+
+The multiplatform implementation uses platform-specific storage mechanisms:
+- On Android, it uses Android's Bundle for storage
+- On iOS and Desktop, it uses a MutableMap for storage
+
+This ensures optimal performance and integration with each platform while maintaining a consistent API across all platforms.
+
+#### Wasm/JS support coming soon!
 
 ## Sample App
 
 The repository includes a sample app that demonstrates how to use Boomerang in a real-world scenario. The app includes examples of:
 
-- Compose navigation with Boomerang
-- Fragment navigation with Boomerang
+- Compose navigation with Boomerang (Android, Desktop, and iOS)
+- Fragment navigation with Boomerang (Android only)
 
 Check the `app` module for complete examples of all these scenarios.
 

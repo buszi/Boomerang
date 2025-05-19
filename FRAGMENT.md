@@ -55,11 +55,10 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<Button>(R.id.selectButton).setOnClickListener {
-            // Create a bundle with your result data
-            val resultBundle = bundleOf("selectedItem" to "Item 1")
-
-            // Find the store and store the result with a key
-            findBoomerangStore().storeValue("home_screen_result", resultBundle)
+            // Find the store and store the result with a key using the builder pattern
+            findBoomerangStore().storeValue("home_screen_result") {
+                putString("selectedItem", "Item 1")
+            }
 
             // Navigate back
             findNavController().popBackStack()
@@ -81,9 +80,9 @@ class HomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         // Set up a catcher that runs when the fragment starts
-        catchBoomerangWithLifecycleEvent("home_screen_result") { bundle: Bundle ->
-            // Extract data from the bundle and process it
-            selectedItem = bundle.getString("selectedItem")
+        catchBoomerangWithLifecycleEvent("home_screen_result") { boomerang ->
+            // Extract data from the boomerang and process it
+            selectedItem = boomerang.getString("selectedItem")
             // Update UI or perform other actions with the result
             true // Return true to indicate the result was successfully processed
         }
@@ -180,7 +179,7 @@ You can specify when to catch results by providing a different lifecycle event:
 catchBoomerangWithLifecycleEvent(
     key = "home_screen_result",
     lifecycleEvent = Lifecycle.Event.ON_RESUME
-) { bundle: Bundle ->
+) { boomerang ->
     // Process the result
     true
 }
@@ -198,7 +197,7 @@ class ManualCatchFragment : Fragment() {
 
         view.findViewById<Button>(R.id.checkButton).setOnClickListener {
             val store = findBoomerangStore()
-            store.tryCatch("some_key") { bundle: Bundle ->
+            store.tryConsumeValue("some_key") { boomerang ->
                 // Process the result
                 true
             }

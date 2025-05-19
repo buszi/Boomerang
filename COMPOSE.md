@@ -1,10 +1,12 @@
 # Module compose
 
-A lightweight library for handling navigation results in Jetpack Compose applications.
+A lightweight multiplatform library for handling navigation results in Compose applications.
 
 ## Overview
 
-The Compose module of Boomerang provides integration with Jetpack Compose, allowing you to pass data between screens in Compose navigation without tight coupling between components. It solves the common problem of returning results from one screen to another, similar to the old `setFragmentResultListener` pattern but designed specifically for modern Compose navigation patterns.
+The Compose module of Boomerang provides integration with Compose Multiplatform, allowing you to pass data between screens in Compose navigation without tight coupling between components. It solves the common problem of returning results from one screen to another, similar to the old `setFragmentResultListener` pattern but designed specifically for modern Compose navigation patterns.
+
+This module supports Android, iOS, and Desktop platforms, providing a consistent API across all platforms while using platform-specific implementations under the hood.
 
 ## Installation
 
@@ -27,15 +29,11 @@ There are two ways to set up Boomerang in a Compose application:
 For applications that use only Jetpack Compose for navigation, wrap your app's content in a `CompositionHostedDefaultBoomerangStoreScope`:
 
 ```kotlin
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            CompositionHostedDefaultBoomerangStoreScope {
-                // Your app content here
-                AppNavigation()
-            }
-        }
+@Composable
+fun YourApplication() {
+    CompositionHostedDefaultBoomerangStoreScope {
+        // Your app content here
+        AppNavigation()
     }
 }
 ```
@@ -89,11 +87,10 @@ fun DetailScreen(navController: NavController) {
     val store = LocalBoomerangStore.current
 
     Button(onClick = {
-        // Create a bundle with your result data
-        val resultBundle = bundleOf("selectedItem" to "Item 1")
-
-        // Store the result with a key
-        store.storeValue("home_screen_result", resultBundle)
+        // Store the result with a key using the builder pattern
+        store.storeValue("home_screen_result") {
+            putString("selectedItem", "Item 1")
+        }
 
         // Navigate back
         navController.popBackStack()
@@ -113,9 +110,9 @@ fun HomeScreen() {
     var selectedItem by remember { mutableStateOf<String?>(null) }
 
     // Set up a catcher that runs when the screen starts
-    CatchBoomerangLifecycleEffect("home_screen_result") { bundle: Bundle ->
-        // Extract data from the bundle
-        selectedItem = bundle.getString("selectedItem")
+    CatchBoomerangLifecycleEffect("home_screen_result") { boomerang ->
+        // Extract data from the boomerang
+        selectedItem = boomerang.getString("selectedItem")
         true // Return true to indicate the result was successfully processed
     }
 
@@ -155,9 +152,14 @@ A Composable function that retrieves a `BoomerangStore` from an Activity that im
 
 A Composable effect that tries to catch a boomerang value from the `BoomerangStore` when a specific lifecycle event occurs. This is typically used to process data that was stored in the `BoomerangStore` when the UI becomes visible.
 
-### DefaultBoomerangStoreSaver
+### rememberBoomerangStore
 
-A Saver for `DefaultBoomerangStore` that saves the store's state to a Bundle and restores it from a Bundle. This is used with `rememberSaveable` to preserve the store's state across configuration changes.
+A Composable function that remembers a BoomerangStore across recompositions and configuration changes. This function is implemented differently on each platform:
+
+- On Android, it uses `rememberSaveable` with a custom saver to preserve the store's state across configuration changes
+- On iOS and Desktop, it uses `remember` to keep the store instance across recompositions
+
+This ensures proper state saving and restoration on each platform while providing a consistent API.
 
 ## Advanced Usage
 
@@ -169,7 +171,7 @@ You can specify when to catch results by providing a different lifecycle event:
 CatchBoomerangLifecycleEffect(
     key = "home_screen_result",
     lifecycleEvent = Lifecycle.Event.ON_RESUME
-) { bundle: Bundle ->
+) { boomerang ->
     // Process the result
     true
 }
@@ -185,7 +187,7 @@ fun ManualCatchExample() {
     val store = LocalBoomerangStore.current
 
     Button(onClick = {
-        store.tryCatch("some_key") { bundle: Bundle ->
+        store.tryCatch("some_key") { boomerang ->
             // Process the result
             true
         }
@@ -197,9 +199,13 @@ fun ManualCatchExample() {
 
 ## Requirements
 
-- Android API level 21+
 - Kotlin 1.5.0+
-- Jetpack Compose 1.0.0+
+- Compose Multiplatform 1.0.0+
+
+### Platform-specific requirements:
+- **Android**: API level 21+
+- **iOS**: iOS 14+
+- **Desktop**: JVM 11+
 
 ## Sample App
 

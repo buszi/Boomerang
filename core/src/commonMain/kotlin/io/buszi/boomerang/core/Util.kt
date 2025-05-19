@@ -6,6 +6,9 @@ import androidx.lifecycle.Lifecycle
  * Asserts that the lifecycle event is valid for catching a boomerang.
  * Valid events are ON_START and ON_RESUME.
  *
+ * This function is available on all platforms that support the Lifecycle component
+ * (Android, iOS with Compose, Desktop with Compose).
+ *
  * @throws IllegalArgumentException if the event is not ON_START or ON_RESUME
  */
 fun Lifecycle.Event.assertValidForBoomerangCatcher() {
