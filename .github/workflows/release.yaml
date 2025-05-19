@@ -32,7 +32,7 @@ jobs:
         run: |
           mkdir -p $HOME/.gradle
           echo "signingInMemoryKeyPassword=${{ secrets.SIGNING_KEY_PASSWORD }}" >> $HOME/.gradle/gradle.properties
-          echo "${{ secrets.SIGNING_KEY_BASE64 }}" | base64 --decode | sed -z 's/\n/\\n/g' > $RUNNER_TEMP/key.txt
+          echo "${{ secrets.SIGNING_KEY_BASE64 }}" | base64 --decode | awk '{printf "%s\\n", $0}' > $RUNNER_TEMP/key.txt
           echo "signingInMemoryKey=$(cat $RUNNER_TEMP/key.txt)" >> $HOME/.gradle/gradle.properties
           echo "mavenCentralUsername=${{ secrets.MAVEN_CENTRAL_USERNAME }}" >> $HOME/.gradle/gradle.properties
           echo "mavenCentralPassword=${{ secrets.MAVEN_CENTRAL_PASSWORD }}" >> $HOME/.gradle/gradle.properties
