@@ -80,6 +80,46 @@ interface BoomerangStoreHost {
 
 This interface is typically implemented by Activities or other lifecycle-aware components that need to provide a `BoomerangStore` to their children.
 
+### Logging Components
+
+Boomerang provides optional logging capabilities to help with debugging:
+
+#### BoomerangLogger
+
+The `BoomerangLogger` interface defines a simple logging mechanism:
+
+```kotlin
+interface BoomerangLogger {
+    fun log(tag: String, message: String)
+}
+```
+
+This interface can be implemented by applications to integrate with their preferred logging system.
+
+#### BoomerangConfig
+
+The `BoomerangConfig` object provides global configuration options:
+
+```kotlin
+object BoomerangConfig {
+    var logger: BoomerangLogger? = null
+}
+```
+
+By default, `logger` is `null`, which means logging is disabled. To enable logging, set this property to an instance of `BoomerangLogger`.
+
+#### AndroidBoomerangLogger
+
+For Android applications, Boomerang provides an Android-specific logger that integrates with Android's Log utility:
+
+```kotlin
+class AndroidBoomerangLogger(
+    private val level: LogLevel = LogLevel.DEBUG
+) : BoomerangLogger
+```
+
+The `LogLevel` enum defines the available log levels (VERBOSE, DEBUG, INFO, WARN, ERROR).
+
 ## Usage
 
 The Core module is not typically used directly in your application code. Instead, you'll use either the Compose or Fragment modules, which provide integration with their respective UI frameworks.
@@ -139,6 +179,30 @@ val restoredStore = DefaultBoomerangStore().apply {
     restoreState(stateBoomerang)
 }
 ```
+
+### Configuring Logging
+
+```kotlin
+// For Android applications
+BoomerangConfig.logger = AndroidBoomerangLogger(LogLevel.DEBUG)
+
+// For other platforms or simple console logging
+BoomerangConfig.logger = BoomerangLogger.PRINT_LOGGER
+
+// Create a custom logger
+val customLogger = object : BoomerangLogger {
+    override fun log(tag: String, message: String) {
+        // Integrate with your preferred logging system
+        YourLoggingSystem.log("$tag: $message")
+    }
+}
+BoomerangConfig.logger = customLogger
+
+// Disable logging
+BoomerangConfig.logger = null
+```
+
+When logging is enabled, Boomerang will log operations like storing and retrieving values, which can be helpful for debugging navigation flows and understanding how data is being passed between screens.
 
 ## Advanced Usage
 

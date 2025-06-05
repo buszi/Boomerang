@@ -1,5 +1,7 @@
 package io.buszi.boomerang.core
 
+import io.buszi.boomerang.core.BoomerangConfig.logger
+
 /**
  * Interface for a key-value store that stores navigation results as Boomerang objects.
  * This store is used to pass data between different parts of the application.
@@ -38,9 +40,18 @@ interface BoomerangStore {
      * @param catcher The BoomerangCatcher to use for catching the value
      */
     fun tryConsumeValue(key: String, catcher: BoomerangCatcher) {
+        logger?.log("BoomerangStore", "Trying to consume value for key $key")
         getValue(key)?.let { value ->
+            logger?.log("BoomerangStore", "Boomerang for key $key is present")
             val isCaught = catcher.tryCatch(value)
-            if (isCaught) dropValue(key)
+            if (isCaught) {
+                logger?.log("BoomerangStore", "Boomerang for key $key caught by catcher")
+                dropValue(key)
+            } else {
+                logger?.log("BoomerangStore", "Boomerang for key $key not caught by catcher")
+            }
+        } ?: run {
+            logger?.log("BoomerangStore", "Boomerang for key $key not present")
         }
     }
 

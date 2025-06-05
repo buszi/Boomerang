@@ -1,5 +1,7 @@
 package io.buszi.boomerang.core
 
+import io.buszi.boomerang.core.BoomerangConfig.logger
+
 /**
  * Default implementation of the BoomerangStore interface.
  * Uses a private mutable map to store key-value pairs.
@@ -17,7 +19,10 @@ open class DefaultBoomerangStore : BoomerangStore {
      * @param key The key to retrieve the value for
      * @return The Boomerang value associated with the key, or null if no value exists
      */
-    override fun getValue(key: String): Boomerang? = store[key]
+    override fun getValue(key: String): Boomerang? {
+        logger?.log("DefaultBoomerangStore", "Getting Boomerang for key $key")
+        return store[key]
+    }
 
     /**
      * Stores a Boomerang value with the given key.
@@ -26,6 +31,7 @@ open class DefaultBoomerangStore : BoomerangStore {
      * @param value The Boomerang value to store
      */
     override fun storeValue(key: String, value: Boomerang) {
+        logger?.log("DefaultBoomerangStore", "Storing Boomerang for key $key")
         store[key] = value
     }
 
@@ -35,6 +41,7 @@ open class DefaultBoomerangStore : BoomerangStore {
      * @param key The key to remove the value for
      */
     override fun dropValue(key: String) {
+        logger?.log("DefaultBoomerangStore", "Dropping Boomerang for key $key")
         store.remove(key)
     }
 
@@ -45,6 +52,7 @@ open class DefaultBoomerangStore : BoomerangStore {
      * @return A Boomerang object containing all key-value pairs in the store
      */
     override fun packState(): Boomerang = buildBoomerang {
+        logger?.log("DefaultBoomerangStore", "Packing DefaultBoomerangStore state")
         store.forEach { (key, value) ->
             putBoomerang(key, value)
         }
@@ -57,6 +65,7 @@ open class DefaultBoomerangStore : BoomerangStore {
      * @param boomerang The Boomerang object containing the state to restore
      */
     override fun restoreState(boomerang: Boomerang) {
+        logger?.log("DefaultBoomerangStore", "Restoring DefaultBoomerangStore state")
         boomerang.getKeys().forEach { key ->
             boomerang.getBoomerang(key)?.let { store[key] = it }
         }

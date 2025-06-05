@@ -179,6 +179,26 @@ store.dropValue("some_key")
 store.storeValue("some_key", boomerangOf("result" to "Success"))
 ```
 
+#### Logging
+
+Boomerang provides optional logging capabilities to help with debugging:
+
+```kotlin
+// Enable logging with Android's LogCat (Android only)
+BoomerangConfig.logger = AndroidBoomerangLogger(LogLevel.DEBUG)
+
+// For other platforms or simple console logging
+BoomerangConfig.logger = BoomerangLogger.PRINT_LOGGER
+
+// Disable logging
+BoomerangConfig.logger = null
+
+// You can also implement BoomerangLogger interface for your own loggers
+class MyBoomerangLogger : BoomerangLogger
+```
+
+When logging is enabled, Boomerang will log operations like storing and retrieving values, which can be helpful for debugging navigation flows.
+
 ## How It Works
 
 Boomerang uses a simple but effective pattern:

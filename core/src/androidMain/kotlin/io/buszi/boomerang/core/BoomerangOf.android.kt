@@ -13,7 +13,7 @@ import java.io.Serializable
  * @return A new Boomerang instance with the provided key-value pairs
  * @throws IllegalArgumentException if any value has an unsupported type
  */
-fun boomerangOf(vararg pairs: Pair<String, Any>): Boomerang = buildBoomerang {
+actual fun boomerangOf(vararg pairs: Pair<String, Any>): Boomerang = buildBoomerang {
     pairs.forEach { (key, value) ->
         when (value) {
             is String -> putString(key, value)

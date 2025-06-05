@@ -5,6 +5,7 @@
     <application
         android:label="Boomerang"
         android:supportsRtl="true"
+        android:name=".App"
         android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar"
         tools:ignore="MissingApplicationIcon">
         <activity
