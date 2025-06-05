@@ -65,6 +65,38 @@ class MapBoomerang : Boomerang {
         return map[key] as? Boomerang
     }
 
+    override fun putByte(key: String, value: Byte) {
+        map[key] = value
+    }
+
+    override fun getByte(key: String): Byte? {
+        return map[key] as? Byte
+    }
+
+    override fun putByteArray(key: String, value: ByteArray) {
+        map[key] = value
+    }
+
+    override fun getByteArray(key: String): ByteArray? {
+        return map[key] as? ByteArray
+    }
+
+    override fun putChar(key: String, value: Char) {
+        map[key] = value
+    }
+
+    override fun getChar(key: String): Char? {
+        return map[key] as? Char
+    }
+
+    override fun putShort(key: String, value: Short) {
+        map[key] = value
+    }
+
+    override fun getShort(key: String): Short? {
+        return map[key] as? Short
+    }
+
     override fun contains(key: String): Boolean {
         return map.containsKey(key)
     }

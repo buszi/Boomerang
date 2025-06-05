@@ -122,8 +122,72 @@ interface Boomerang {
     fun getBoomerang(key: String): Boomerang?
 
     /**
+     * Stores a Byte value with the given key.
+     *
+     * @param key The key to store the value under
+     * @param value The Byte value to store
+     */
+    fun putByte(key: String, value: Byte)
+
+    /**
+     * Retrieves a Byte value for the given key.
+     *
+     * @param key The key to retrieve the value for
+     * @return The Byte value, or null if no value exists for the key
+     */
+    fun getByte(key: String): Byte?
+
+    /**
+     * Stores a ByteArray value with the given key.
+     *
+     * @param key The key to store the value under
+     * @param value The ByteArray value to store
+     */
+    fun putByteArray(key: String, value: ByteArray)
+
+    /**
+     * Retrieves a ByteArray value for the given key.
+     *
+     * @param key The key to retrieve the value for
+     * @return The ByteArray value, or null if no value exists for the key
+     */
+    fun getByteArray(key: String): ByteArray?
+
+    /**
+     * Stores a Char value with the given key.
+     *
+     * @param key The key to store the value under
+     * @param value The Char value to store
+     */
+    fun putChar(key: String, value: Char)
+
+    /**
+     * Retrieves a Char value for the given key.
+     *
+     * @param key The key to retrieve the value for
+     * @return The Char value, or null if no value exists for the key
+     */
+    fun getChar(key: String): Char?
+
+    /**
+     * Stores a Short value with the given key.
+     *
+     * @param key The key to store the value under
+     * @param value The Short value to store
+     */
+    fun putShort(key: String, value: Short)
+
+    /**
+     * Retrieves a Short value for the given key.
+     *
+     * @param key The key to retrieve the value for
+     * @return The Short value, or null if no value exists for the key
+     */
+    fun getShort(key: String): Short?
+
+    /**
      * Checks if a value exists for the given key.
-     * 
+     *
      * @param key The key to check
      * @return true if a value exists for the key, false otherwise
      */
@@ -131,14 +195,14 @@ interface Boomerang {
 
     /**
      * Gets all keys in this Boomerang instance.
-     * 
+     *
      * @return A Set of all keys
      */
     fun getKeys(): Set<String>
 
     /**
      * Removes the value for the given key.
-     * 
+     *
      * @param key The key to remove the value for
      */
     fun remove(key: String)
@@ -195,6 +259,10 @@ fun boomerangOf(vararg pairs: Pair<String, Any>): Boomerang = buildBoomerang {
             is Float -> putFloat(key, value)
             is Double -> putDouble(key, value)
             is Boolean -> putBoolean(key, value)
+            is Byte -> putByte(key, value)
+            is ByteArray -> putByteArray(key, value)
+            is Char -> putChar(key, value)
+            is Short -> putShort(key, value)
             else -> error("Unsupported type: ${value::class.simpleName}")
         }
     }
