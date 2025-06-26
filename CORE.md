@@ -29,6 +29,7 @@ The `BoomerangStore` interface defines a key-value store for navigation results:
 interface BoomerangStore {
     fun getValue(key: String): Boomerang?
     fun storeValue(key: String, value: Boomerang)
+    fun storeEvent(key: String)
     fun dropValue(key: String)
     fun tryConsumeValue(key: String, catcher: BoomerangCatcher)
     fun packState(): Boomerang
@@ -39,6 +40,7 @@ interface BoomerangStore {
 This interface provides methods for:
 - Retrieving a value for a key (`getValue`)
 - Storing a value with a key (`storeValue`)
+- Storing an event notification with a key (`storeEvent`)
 - Removing a value for a key (`dropValue`)
 - Trying to catch a value using a `BoomerangCatcher` (`tryConsumeValue`)
 - Packing the store's state into a Boomerang object (`packState`)
@@ -55,6 +57,19 @@ fun interface BoomerangCatcher {
 ```
 
 Implementations of this interface determine whether a Boomerang value should be "caught" (processed and removed from the store).
+
+### EventBoomerangCatcher
+
+The `eventBoomerangCatcher` function creates a specialized `BoomerangCatcher` for handling event notifications:
+
+```kotlin
+inline fun eventBoomerangCatcher(
+    key: String,
+    crossinline onEvent: () -> Unit,
+): BoomerangCatcher
+```
+
+This function is useful when you only need to be notified that something happened, without needing to pass any additional data. It checks if the Boomerang contains an event with the specified key and calls the provided callback when the event is caught.
 
 ### DefaultBoomerangStore
 
@@ -166,6 +181,22 @@ store.tryConsumeValue("home_screen_result") { boomerang ->
     // Return true to indicate the value was successfully caught and should be removed
     true
 }
+```
+
+### Storing and Catching Events
+
+```kotlin
+// Store an event notification
+store.storeEvent("notification_event")
+
+// Create an event catcher
+val eventCatcher = eventBoomerangCatcher("notification_event") {
+    // This callback is executed when the event is caught
+    println("Event received!")
+}
+
+// Try to catch the event
+store.tryConsumeValue("notification_event", eventCatcher)
 ```
 
 ### Saving and Restoring State

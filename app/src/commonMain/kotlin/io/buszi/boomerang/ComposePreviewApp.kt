@@ -30,6 +30,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import io.buszi.boomerang.compose.CatchBoomerangLifecycleEffect
+import io.buszi.boomerang.compose.CatchEventBoomerangLifecycleEffect
 import io.buszi.boomerang.compose.CompositionHostedDefaultBoomerangStoreScope
 import io.buszi.boomerang.compose.LocalBoomerangStore
 import io.buszi.boomerang.core.boomerangOf
@@ -56,6 +57,8 @@ private fun Navigation(recreateApp: () -> Unit) {
         composable("home") {
             // Using rememberSaveable to persist the result across recompositions
             var result by rememberSaveable { mutableStateOf<String?>(null) }
+            // Using rememberSaveable to persist the event notification across recompositions
+            var eventReceived by rememberSaveable { mutableStateOf(false) }
 
             // TEST CASE 1: Test navigation result is passed correctly
             // CatchBoomerangLifecycleEffect will try to catch a value with the key "home"
@@ -67,6 +70,14 @@ private fun Navigation(recreateApp: () -> Unit) {
                 true
             }
 
+            // TEST CASE 5: Test event handling
+            // CatchEventBoomerangLifecycleEffect will try to catch an event with the key "home_event"
+            // when the composable enters the ON_START lifecycle event
+            CatchEventBoomerangLifecycleEffect("home_event") {
+                // Update the state to indicate that the event was received
+                eventReceived = true
+            }
+
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
                     text = "Home Screen",
@@ -74,6 +85,13 @@ private fun Navigation(recreateApp: () -> Unit) {
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(text = "Current result: ${result ?: "No result yet"}")
+
+                // Display event status
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Event status: ${if (eventReceived) "Event received" else "No event received"}",
+                    style = MaterialTheme.typography.bodyLarge
+                )
 
                 Spacer(modifier = Modifier.height(16.dp))
                 HorizontalDivider()
@@ -93,6 +111,11 @@ private fun Navigation(recreateApp: () -> Unit) {
                 // Clear the result
                 Button(onClick = { result = null }) {
                     Text(text = "Clear Result")
+                }
+
+                // Clear the event status
+                Button(onClick = { eventReceived = false }) {
+                    Text(text = "Clear Event Status")
                 }
             }
         }
@@ -195,6 +218,16 @@ private fun Navigation(recreateApp: () -> Unit) {
                     navController.popBackStack()
                 }) {
                     Text(text = "Store Result and Return")
+                }
+
+                // TEST CASE 5: Test event handling
+                Button(onClick = {
+                    // Store an event with the key "home_event"
+                    store.storeEvent("home_event")
+                    // Navigate back to home
+                    navController.popBackStack()
+                }) {
+                    Text(text = "Trigger Event and Return")
                 }
             }
         }

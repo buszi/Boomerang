@@ -123,6 +123,50 @@ fun HomeScreen() {
 
 By default, `CatchBoomerangLifecycleEffect` triggers on the `ON_START` lifecycle event, but you can specify `ON_RESUME` if needed.
 
+### Catching an Event
+
+For simple notifications without data, you can use the event handling feature:
+
+```kotlin
+@Composable
+fun NotificationScreen() {
+    var eventReceived by remember { mutableStateOf(false) }
+
+    // Set up an event catcher that runs when the screen starts
+    CatchEventBoomerangLifecycleEffect("notification_event") {
+        // Update state when the event is received
+        eventReceived = true
+    }
+
+    // Display the event status
+    Text("Event status: ${if (eventReceived) "Event received" else "No event received"}")
+
+    // Button to clear the event status
+    Button(onClick = { eventReceived = false }) {
+        Text("Clear Event Status")
+    }
+}
+```
+
+To store an event:
+
+```kotlin
+@Composable
+fun EventTriggerScreen(navController: NavController) {
+    val store = LocalBoomerangStore.current
+
+    Button(onClick = {
+        // Store an event notification
+        store.storeEvent("notification_event")
+
+        // Navigate back
+        navController.popBackStack()
+    }) {
+        Text("Trigger Event and Return")
+    }
+}
+```
+
 ## Key Components
 
 ### LocalBoomerangStore
@@ -151,6 +195,10 @@ A Composable function that retrieves a `BoomerangStore` from an Activity that im
 ### CatchBoomerangLifecycleEffect
 
 A Composable effect that tries to catch a boomerang value from the `BoomerangStore` when a specific lifecycle event occurs. This is typically used to process data that was stored in the `BoomerangStore` when the UI becomes visible.
+
+### CatchEventBoomerangLifecycleEffect
+
+A specialized Composable effect for catching event notifications from the `BoomerangStore`. This is a convenience function that simplifies catching events in Compose UI, specifically designed for handling simple event notifications without additional data.
 
 ### rememberBoomerangStore
 

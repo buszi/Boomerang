@@ -1,6 +1,7 @@
 package io.buszi.boomerang.core
 
 import io.buszi.boomerang.core.BoomerangConfig.logger
+import io.buszi.boomerang.core.BoomerangStore.Companion.EVENT_KEY
 
 /**
  * Default implementation of the BoomerangStore interface.
@@ -33,6 +34,20 @@ open class DefaultBoomerangStore : BoomerangStore {
     override fun storeValue(key: String, value: Boomerang) {
         logger?.log("DefaultBoomerangStore", "Storing Boomerang for key $key")
         store[key] = value
+    }
+
+    /**
+     * Stores an event notification with the given key.
+     * Creates a Boomerang object with a single string entry using the EVENT_KEY constant
+     * and the provided key, then stores it in the store.
+     *
+     * @param key The key to store the event with
+     */
+    override fun storeEvent(key: String) {
+        logger?.log("DefaultBoomerangStore", "Storing event for key $key")
+        store[key] = buildBoomerang {
+            putString(EVENT_KEY, key)
+        }
     }
 
     /**

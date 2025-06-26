@@ -10,11 +10,12 @@ import org.junit.runner.RunWith
 
 /**
  * UI tests for the Compose implementation of Boomerang.
- * Tests the four key scenarios:
+ * Tests the five key scenarios:
  * 1. Basic navigation result flow
  * 2. Result persistence (recreate activity when in between screen)
  * 3. Dropping value
  * 4. Proxy value in-between
+ * 5. Event handling
  */
 @RunWith(AndroidJUnit4::class)
 class ComposeBoomerangTest {
@@ -153,5 +154,44 @@ class ComposeBoomerangTest {
 
         // Verify no result is displayed in Home screen
         composeTestRule.onNodeWithText("Current result: No result yet").assertIsDisplayed()
+    }
+
+    /**
+     * Test Case 5: Event handling
+     * 
+     * Steps:
+     * 1. Verify initial event status is "No event received"
+     * 2. Navigate from Home to Intermediate screen
+     * 3. Navigate from Intermediate to Result screen
+     * 4. Trigger an event in Result screen and navigate back
+     * 5. Verify that the event status is updated to "Event received"
+     * 6. Clear the event status
+     * 7. Verify that the event status is reset to "No event received"
+     */
+    @Test
+    fun testEventHandling() {
+        // Verify we're on Home screen and initial event status
+        composeTestRule.onNodeWithText("Home Screen").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Event status: No event received").assertIsDisplayed()
+
+        // Navigate to Intermediate screen
+        composeTestRule.onNodeWithText("Navigate to Intermediate Screen").performClick()
+
+        // Navigate to Result screen
+        composeTestRule.onNodeWithText("Continue to Result Screen").performClick()
+
+        // Trigger event and navigate back
+        composeTestRule.onNodeWithText("Trigger Event and Return").performClick()
+        Espresso.pressBack()
+
+        // Verify we're back on Home screen and the event status is updated
+        composeTestRule.onNodeWithText("Home Screen").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Event status: Event received").assertIsDisplayed()
+
+        // Clear the event status
+        composeTestRule.onNodeWithText("Clear Event Status").performClick()
+
+        // Verify the event status is reset
+        composeTestRule.onNodeWithText("Event status: No event received").assertIsDisplayed()
     }
 }

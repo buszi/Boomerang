@@ -12,6 +12,7 @@ import io.buszi.boomerang.databinding.FragmentALayoutBinding
 import io.buszi.boomerang.databinding.FragmentBLayoutBinding
 import io.buszi.boomerang.databinding.FragmentCLayoutBinding
 import io.buszi.boomerang.fragment.catchBoomerangWithLifecycleEvent
+import io.buszi.boomerang.fragment.catchEventBoomerangWithLifecycleEvent
 import io.buszi.boomerang.fragment.createOrRestoreDefaultBoomerangStore
 import io.buszi.boomerang.fragment.findBoomerangStore
 import io.buszi.boomerang.fragment.saveDefaultBoomerangStoreState
@@ -51,6 +52,8 @@ class FullFragmentPreviewActivity : AppCompatActivity(), BoomerangStoreHost {
 class FragmentA : Fragment(R.layout.fragment_a_layout) {
     // Using a property to store the current result for display
     private var currentResult: String? = null
+    // Using a property to track when an event is received
+    private var eventReceived: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +71,15 @@ class FragmentA : Fragment(R.layout.fragment_a_layout) {
             // Return true to indicate that the value was caught and should be removed from the store
             true
         }
+
+        // TEST CASE 5: Test event handling
+        // Set up an EventBoomerangCatcher that will be triggered when the fragment starts
+        catchEventBoomerangWithLifecycleEvent("fragment_a_event") {
+            // Update the state to indicate that the event was received
+            eventReceived = true
+            // Update the UI if the view is available
+            updateEventStatus()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,9 +92,18 @@ class FragmentA : Fragment(R.layout.fragment_a_layout) {
             updateResultText()
         }
 
+        // Restore the event status from savedInstanceState if available
+        if (savedInstanceState != null) {
+            eventReceived = savedInstanceState.getBoolean("event_received", false)
+            updateEventStatus()
+        }
+
         with(FragmentALayoutBinding.bind(view)) {
             // Update the result text with the current value
             resultLabel.text = currentResult ?: "No result yet"
+
+            // Update the event status text
+            eventStatusLabel.text = "Event status: ${if (eventReceived) "Event received" else "No event received"}"
 
             // Navigate to the intermediate screen
             navigateButton.setOnClickListener {
@@ -94,6 +115,12 @@ class FragmentA : Fragment(R.layout.fragment_a_layout) {
                 currentResult = null
                 resultLabel.text = "No result yet"
             }
+
+            // Clear the event status
+            clearEventButton.setOnClickListener {
+                eventReceived = false
+                updateEventStatus()
+            }
         }
     }
 
@@ -104,11 +131,21 @@ class FragmentA : Fragment(R.layout.fragment_a_layout) {
         currentResult?.let {
             outState.putString("current_result", it)
         }
+
+        // Save the event status to the outState bundle
+        outState.putBoolean("event_received", eventReceived)
     }
 
     private fun updateResultText() {
         view?.let {
             FragmentALayoutBinding.bind(it).resultLabel.text = currentResult ?: "No result yet"
+        }
+    }
+
+    private fun updateEventStatus() {
+        view?.let {
+            FragmentALayoutBinding.bind(it).eventStatusLabel.text = 
+                "Event status: ${if (eventReceived) "Event received" else "No event received"}"
         }
     }
 }
@@ -203,6 +240,14 @@ class FragmentC : Fragment(R.layout.fragment_c_layout) {
             navigateBackButton.setOnClickListener {
                 // Store a result value with the key "fragment_a"
                 findBoomerangStore().storeValue("fragment_a", boomerangOf("result" to "Result from result screen"))
+                // Navigate back
+                findNavController().popBackStack()
+            }
+
+            // TEST CASE 5: Test event handling
+            triggerEventButton.setOnClickListener {
+                // Store an event with the key "fragment_a_event"
+                findBoomerangStore().storeEvent("fragment_a_event")
                 // Navigate back
                 findNavController().popBackStack()
             }

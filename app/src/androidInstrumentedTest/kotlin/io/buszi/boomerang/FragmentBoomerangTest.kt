@@ -13,11 +13,12 @@ import org.junit.runner.RunWith
 
 /**
  * UI tests for the Fragment implementation of Boomerang.
- * Tests the four key scenarios:
+ * Tests the five key scenarios:
  * 1. Basic navigation result flow
  * 2. Result persistence (recreate activity when in between screen)
  * 3. Dropping value
  * 4. Proxy value in-between
+ * 5. Event handling
  */
 @RunWith(AndroidJUnit4::class)
 class FragmentBoomerangTest {
@@ -151,5 +152,42 @@ class FragmentBoomerangTest {
 
         // Verify no result is displayed in FragmentA
         onView(withText("No result yet")).check(matches(isDisplayed()))
+    }
+
+    /**
+     * Test Case 5: Event handling
+     * 
+     * Steps:
+     * 1. Verify initial event status is "No event received"
+     * 2. Navigate from FragmentA to FragmentB
+     * 3. Navigate from FragmentB to FragmentC
+     * 4. Trigger an event in FragmentC and navigate back
+     * 5. Verify that the event status is updated to "Event received"
+     * 6. Clear the event status
+     * 7. Verify that the event status is reset to "No event received"
+     */
+    @Test
+    fun testEventHandling() {
+        // Verify we're on FragmentA and initial event status
+        onView(withText("Event status: No event received")).check(matches(isDisplayed()))
+
+        // Navigate to FragmentB
+        onView(withId(R.id.navigate_button)).perform(click())
+
+        // Navigate to FragmentC
+        onView(withId(R.id.navigate_button)).perform(click())
+
+        // Trigger event and navigate back
+        onView(withId(R.id.trigger_event_button)).perform(click())
+        Espresso.pressBack()
+
+        // Verify we're back on FragmentA and the event status is updated
+        onView(withText("Event status: Event received")).check(matches(isDisplayed()))
+
+        // Clear the event status
+        onView(withId(R.id.clear_event_button)).perform(click())
+
+        // Verify the event status is reset
+        onView(withText("Event status: No event received")).check(matches(isDisplayed()))
     }
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import io.buszi.boomerang.core.BoomerangCatcher
 import io.buszi.boomerang.core.assertValidForBoomerangCatcher
+import io.buszi.boomerang.core.eventBoomerangCatcher
 
 /**
  * Extension function for Fragment that sets up a lifecycle observer to catch a boomerang value when a specific lifecycle event occurs.
@@ -44,4 +45,31 @@ fun Fragment.catchBoomerangWithLifecycleEvent(
         }
     }
     lifecycle.addObserver(observer)
+}
+
+/**
+ * Extension function for Fragment that simplifies catching event notifications from the BoomerangStore.
+ * This is a specialized version of catchBoomerangWithLifecycleEvent specifically for handling
+ * simple event notifications without additional data.
+ * 
+ * This function should be called in the Fragment's onCreate method to not multiply the observers.
+ * [Example usage](https://github.com/buszi/Boomerang/blob/main/app/src/androidMain/kotlin/io/buszi/boomerang/FullFragmentPreviewActivity.kt)
+ *
+ * @param key The event key to catch
+ * @param lifecycleEvent The lifecycle event that triggers the catch attempt (default is ON_START)
+ * @param onEvent Callback function to execute when the event is caught
+ * @throws IllegalArgumentException if the lifecycleEvent is not ON_START or ON_RESUME
+ * @throws IllegalStateException if called after Fragment's onCreate, if the Fragment is not attached to an Activity,
+ *                              if the Activity does not implement BoomerangStoreHost, or if the BoomerangStore is not initialized
+ */
+inline fun Fragment.catchEventBoomerangWithLifecycleEvent(
+    key: String,
+    lifecycleEvent: Lifecycle.Event = Lifecycle.Event.ON_START,
+    crossinline onEvent: () -> Unit,
+) {
+    catchBoomerangWithLifecycleEvent(
+        key = key,
+        lifecycleEvent = lifecycleEvent,
+        catcher = eventBoomerangCatcher(key, onEvent),
+    )
 }

@@ -24,6 +24,7 @@ The library consists of three main modules:
 - 🧩 Modular design with separate core, compose, and fragment modules
 - 🔌 Easy integration with any Jetpack Compose or AndroidX Fragment navigation library
 - 🔀 Support for mixed projects using both Compose and Fragments
+- 📢 Simple event handling for notifications without data
 - 🧪 Lightweight with minimal dependencies
 
 ## Installation
@@ -144,6 +145,63 @@ class HomeFragment : Fragment() {
 }
 ```
 
+### Event Handling
+
+For simple notifications without data, you can use the event handling feature:
+
+#### Storing an Event
+
+```kotlin
+// In Compose
+val store = LocalBoomerangStore.current
+store.storeEvent("notification_event")
+
+// In Fragment
+findBoomerangStore().storeEvent("notification_event")
+```
+
+#### Catching an Event in Compose
+
+```kotlin
+@Composable
+fun NotificationScreen() {
+    var eventReceived by remember { mutableStateOf(false) }
+
+    // Set up an event catcher that runs when the screen starts
+    CatchEventBoomerangLifecycleEffect("notification_event") {
+        // Update state when the event is received
+        eventReceived = true
+    }
+
+    // Display the event status
+    Text("Event status: ${if (eventReceived) "Event received" else "No event received"}")
+}
+```
+
+#### Catching an Event in Fragments
+
+```kotlin
+class NotificationFragment : Fragment() {
+
+    private var eventReceived = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Set up an event catcher that runs when the fragment starts
+        catchEventBoomerangWithLifecycleEvent("notification_event") {
+            // Update state when the event is received
+            eventReceived = true
+            updateUI()
+        }
+    }
+
+    private fun updateUI() {
+        // Update UI based on event status
+    }
+}
+```
+
 ### Advanced Usage
 
 #### In Compose
@@ -219,6 +277,7 @@ The only requirement is that the producer and consumer components are not part o
 - **BoomerangCatcher**: Functional interface for processing navigation results
 - **DefaultBoomerangStore**: Default implementation of BoomerangStore using a MutableMap
 - **BoomerangStoreHost**: Interface for components that host a BoomerangStore (only for Fragment and mixed setup)
+- **eventBoomerangCatcher**: Function that creates a BoomerangCatcher specifically for handling event notifications
 
 ### Compose Components
 
@@ -226,10 +285,12 @@ The only requirement is that the producer and consumer components are not part o
 - **CompositionHostedBoomerangStoreScope**: Composable function that provides your custom implementation of BoomerangStore
 - **CompositionHostedDefaultBoomerangStoreScope**: Composable function that provides a default BoomerangStore
 - **CatchBoomerangLifecycleEffect**: Composable function that catches results at specific lifecycle events
+- **CatchEventBoomerangLifecycleEffect**: Specialized Composable function for catching event notifications
 
 ### Fragment Components
 
 - **catchBoomerangWithLifecycleEvent**: Extension function for Fragment to catch results at specific lifecycle events
+- **catchEventBoomerangWithLifecycleEvent**: Extension function for Fragment to catch event notifications
 - **findBoomerangStore**: Extension function for Fragment to find the BoomerangStore from the hosting Activity
 - **createOrRestoreDefaultBoomerangStore**: Extension function for BoomerangStoreHost to create or restore a DefaultBoomerangStore
 - **saveDefaultBoomerangStoreState**: Extension function for BoomerangStoreHost to save the state of a DefaultBoomerangStore

@@ -104,6 +104,68 @@ class HomeFragment : Fragment() {
 
 By default, `catchBoomerangWithLifecycleEvent` triggers on the `ON_START` lifecycle event, but you can specify `ON_RESUME` if needed.
 
+### Catching an Event
+
+For simple notifications without data, you can use the event handling feature:
+
+```kotlin
+class NotificationFragment : Fragment() {
+
+    private var eventReceived = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Set up an event catcher that runs when the fragment starts
+        catchEventBoomerangWithLifecycleEvent("notification_event") {
+            // Update state when the event is received
+            eventReceived = true
+            updateUI()
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Display the event status
+        updateUI()
+
+        // Button to clear the event status
+        view.findViewById<Button>(R.id.clearEventButton).setOnClickListener {
+            eventReceived = false
+            updateUI()
+        }
+    }
+
+    private fun updateUI() {
+        // Update UI with the event status
+        view?.let {
+            val statusText = "Event status: ${if (eventReceived) "Event received" else "No event received"}"
+            it.findViewById<TextView>(R.id.eventStatusText).text = statusText
+        }
+    }
+}
+```
+
+To store an event:
+
+```kotlin
+class EventTriggerFragment : Fragment() {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        view.findViewById<Button>(R.id.triggerEventButton).setOnClickListener {
+            // Store an event notification
+            findBoomerangStore().storeEvent("notification_event")
+
+            // Navigate back
+            findNavController().popBackStack()
+        }
+    }
+}
+```
+
 ## Key Components
 
 ### findBoomerangStore
@@ -133,6 +195,21 @@ catchBoomerangWithLifecycleEvent(
 ) { bundle: Bundle ->
     // Process the result
     true // Return true to indicate the result was successfully processed
+}
+```
+
+### catchEventBoomerangWithLifecycleEvent
+
+An extension function for Fragment that simplifies catching event notifications from the BoomerangStore. This is a specialized version of catchBoomerangWithLifecycleEvent specifically for handling simple event notifications without additional data:
+
+```kotlin
+// Inside a Fragment's onCreate method
+catchEventBoomerangWithLifecycleEvent(
+    key = "notification_event",
+    lifecycleEvent = Lifecycle.Event.ON_START
+) {
+    // This callback is executed when the event is caught
+    // Update UI or perform other actions
 }
 ```
 

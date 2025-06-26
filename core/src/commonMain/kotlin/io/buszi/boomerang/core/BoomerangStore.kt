@@ -5,7 +5,7 @@ import io.buszi.boomerang.core.BoomerangConfig.logger
 /**
  * Interface for a key-value store that stores navigation results as Boomerang objects.
  * This store is used to pass data between different parts of the application.
- * 
+ *
  * This interface is available on all supported platforms (Android, iOS, Desktop).
  */
 interface BoomerangStore {
@@ -25,6 +25,15 @@ interface BoomerangStore {
      * @param value The Boomerang value to store
      */
     fun storeValue(key: String, value: Boomerang)
+
+    /**
+     * Stores an event notification with the given key.
+     * Unlike storeValue, this method doesn't require a value parameter as it creates
+     * a simple event notification without additional data.
+     *
+     * @param key The key to store the event with
+     */
+    fun storeEvent(key: String)
 
     /**
      * Removes a value for the given key.
@@ -70,4 +79,8 @@ interface BoomerangStore {
      * @param boomerang The Boomerang object containing the state to restore
      */
     fun restoreState(boomerang: Boomerang)
+
+    companion object {
+        const val EVENT_KEY = "boomerang_event_internal"
+    }
 }
