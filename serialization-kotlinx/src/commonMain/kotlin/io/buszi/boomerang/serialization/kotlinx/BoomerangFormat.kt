@@ -11,5 +11,10 @@ open class BoomerangFormat {
         return encoder.boomerang
     }
 
+    inline fun <reified T : Any> deserialize(boomerang: Boomerang): T {
+        val decoder = RootBoomerangDecoder(boomerang)
+        return decoder.decodeSerializableValue(serializer<T>())
+    }
+
     companion object : BoomerangFormat()
 }
