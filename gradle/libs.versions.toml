@@ -2,6 +2,7 @@
 kotlin = "2.1.20"
 dokka = "2.0.0"
 vanniktech-publish = "0.31.0"
+kotlin-serialization = "1.9.0"
 
 agp = "8.9.1"
 minSdk = "21"
@@ -29,6 +30,7 @@ androidx-navigation-fragment = { group = "androidx.navigation", name = "navigati
 androidx-navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
 
 kotlin-dokka-android = { module = "org.jetbrains.dokka:android-documentation-plugin", version.ref = "dokka" }
+kotlin-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization" }
 
 # Testing dependencies
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -56,4 +58,5 @@ kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref 
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 kotlin-dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 vanniktech-publish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech-publish" }

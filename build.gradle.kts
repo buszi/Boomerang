@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform) apply false
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.kotlin.compose.multiplatform) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.vanniktech.publish) apply false
     alias(libs.plugins.kotlin.dokka)
 }
@@ -18,4 +19,5 @@ dependencies {
     dokka(projects.core)
     dokka(projects.compose)
     dokka(projects.fragment)
+    dokka(projects.serializationKotlinx)
 }
