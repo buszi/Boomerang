@@ -269,3 +269,13 @@ inline fun buildBoomerang(builder: Boomerang.() -> Unit): Boomerang =
  * @throws IllegalArgumentException if any value has an unsupported type
  */
 expect fun boomerangOf(vararg pairs: Pair<String, Any>): Boomerang
+
+/**
+ * Creates a new empty Boomerang instance.
+ *
+ * This is a convenient way to create an empty Boomerang without any initial values.
+ * Works on all supported platforms (Android, iOS, Desktop).
+ *
+ * @return A new empty Boomerang instance
+ */
+fun emptyBoomerang(): Boomerang = BoomerangFactory.create()
