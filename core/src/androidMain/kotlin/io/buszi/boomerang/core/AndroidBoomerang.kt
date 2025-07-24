@@ -1,5 +1,6 @@
 package io.buszi.boomerang.core
 
+import android.os.Build
 import android.os.Bundle
 import io.buszi.boomerang.core.BoomerangConfig.logger
 
@@ -81,12 +82,31 @@ class AndroidBoomerang(val bundle: Bundle = Bundle()) : Boomerang {
 
     override fun putBoomerang(key: String, boomerang: Boomerang) {
         logger?.log("AndroidBoomerang", "Storing nested Boomerang for key: $key")
-        bundle.putBundle(key, (boomerang as AndroidBoomerang).bundle)
+        bundle.putBundle(key, boomerang.toBundle())
     }
 
     override fun getBoomerang(key: String): Boomerang? {
         val value = if (bundle.containsKey(key)) bundle.getBundle(key)?.let(::AndroidBoomerang) else null
         logger?.log("AndroidBoomerang", "Retrieved nested Boomerang for key: $key, exists: ${value != null}")
+        return value
+    }
+
+    override fun putBoomerangsList(key: String, boomerangs: List<Boomerang>) {
+        logger?.log("AndroidBoomerang", "Storing list of Boomerangs of size ${boomerangs.size} for key: $key")
+        val arrayList = ArrayList<Bundle>()
+        boomerangs.forEach { arrayList.add(it.toBundle()) }
+        bundle.putParcelableArrayList(key, arrayList)
+    }
+
+    override fun getBoomerangsList(key: String): List<Boomerang>? {
+        val value = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            bundle.getParcelableArrayList(key, Bundle::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            bundle.getParcelableArrayList(key)
+        }
+            ?.map(::AndroidBoomerang)
+        logger?.log("AndroidBoomerang", "Retrieved list of Boomerangs of size ${value?.size} for key: $key, exists: ${value != null}")
         return value
     }
 

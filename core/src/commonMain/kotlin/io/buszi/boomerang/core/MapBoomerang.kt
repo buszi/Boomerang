@@ -4,7 +4,7 @@ import io.buszi.boomerang.core.BoomerangConfig.logger
 
 /**
  * A platform-agnostic implementation of the Boomerang interface that uses a MutableMap for storage.
- * 
+ *
  * This implementation is used on iOS and Desktop platforms, providing a consistent API
  * across all platforms while using platform-appropriate storage mechanisms.
  */
@@ -85,6 +85,20 @@ class MapBoomerang : Boomerang {
     override fun getBoomerang(key: String): Boomerang? {
         val value = map[key] as? Boomerang
         logger?.log("MapBoomerang", "Retrieved nested Boomerang for key: $key, exists: ${value != null}")
+        return value
+    }
+
+    override fun putBoomerangsList(key: String, boomerangs: List<Boomerang>) {
+        logger?.log("MapBoomerang", "Storing list of Boomerangs of size ${boomerangs.size} for key: $key")
+        map[key] = ArrayList(boomerangs)
+    }
+
+    override fun getBoomerangsList(key: String): List<Boomerang>? {
+        val uncheckedValue = map[key] as? List<*>
+        val value = uncheckedValue
+            ?.filterIsInstance<Boomerang>()
+            ?.takeIf { it.size == uncheckedValue.size }
+        logger?.log("MapBoomerang", "Retrieved list of Boomerangs of size ${value?.size} for key: $key, exists: ${value != null}")
         return value
     }
 
