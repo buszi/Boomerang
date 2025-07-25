@@ -2,7 +2,7 @@
 kotlin = "2.1.20"
 dokka = "2.0.0"
 vanniktech-publish = "0.31.0"
-kotlin-serialization = "1.9.0"
+kotlin-serialization = "1.8.1"
 
 agp = "8.9.1"
 minSdk = "21"

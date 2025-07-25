@@ -3,7 +3,13 @@ $dokka.linkExtension:html
 
 module:compose
 io.buszi.boomerang.compose
+module:compose-serialization-kotlinx
+io.buszi.boomerang.compose.serialization.kotlinx
 module:core
 io.buszi.boomerang.core
 module:fragment
 io.buszi.boomerang.fragment
+module:fragment-serialization-kotlinx
+io.buszi.boomerang.fragment.serialization.kotlinx
+module:serialization-kotlinx
+io.buszi.boomerang.serialization.kotlinx

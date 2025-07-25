@@ -14,19 +14,19 @@ Add the following dependencies to your app's `build.gradle.kts` file:
 
 ```kotlin
 // For core functionality (required)
-implementation("io.github.buszi.boomerang:core:1.3.0")
+implementation("io.github.buszi.boomerang:core:1.4.0")
 
 // For AndroidX Fragment integration
-implementation("io.github.buszi.boomerang:fragment:1.3.0")
+implementation("io.github.buszi.boomerang:fragment:1.4.0")
 
 // For Kotlinx Serialization integration
-implementation("io.github.buszi.boomerang:serialization-kotlinx:1.3.0")
+implementation("io.github.buszi.boomerang:serialization-kotlinx:1.4.0")
 
 // For Fragment with Kotlinx Serialization integration
-implementation("io.github.buszi.boomerang:fragment-serialization-kotlinx:1.3.0")
+implementation("io.github.buszi.boomerang:fragment-serialization-kotlinx:1.4.0")
 
 // Kotlinx Serialization dependency
-implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.0")
+implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.4.0")
 ```
 
 ## Usage
