@@ -9,9 +9,9 @@ android {
 }
 
 dependencies {
-    implementation(projects.core)
-    implementation(projects.fragment)
-    implementation(projects.serializationKotlinx)
+    api(projects.core)
+    api(projects.fragment)
+    api(projects.serializationKotlinx)
 
     implementation(libs.androidx.fragment.core)
     implementation(libs.androidx.lifecycle.runtime)

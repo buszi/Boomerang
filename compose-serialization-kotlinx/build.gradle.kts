@@ -12,9 +12,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.core)
-            implementation(projects.serializationKotlinx)
-            implementation(projects.compose)
+            api(projects.core)
+            api(projects.serializationKotlinx)
+            api(projects.compose)
 
             implementation(compose.runtime)
 

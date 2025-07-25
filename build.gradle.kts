@@ -20,4 +20,6 @@ dependencies {
     dokka(projects.compose)
     dokka(projects.fragment)
     dokka(projects.serializationKotlinx)
+    dokka(projects.composeSerializationKotlinx)
+    dokka(projects.fragmentSerializationKotlinx)
 }

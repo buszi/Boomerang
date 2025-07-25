@@ -9,7 +9,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.core)
+    api(projects.core)
 
     implementation(libs.androidx.fragment.core)
     implementation(libs.androidx.lifecycle.runtime)
