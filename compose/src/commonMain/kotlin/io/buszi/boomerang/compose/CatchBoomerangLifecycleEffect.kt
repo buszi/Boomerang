@@ -46,7 +46,7 @@ fun CatchBoomerangLifecycleEffect(
  * @throws IllegalArgumentException if the lifecycleEvent is not ON_START or ON_RESUME
  */
 @Composable
-inline fun CatchBoomerangLifecycleEffect(
+inline fun ConsumeBoomerangLifecycleEffect(
     key: String,
     lifecycleEvent: Lifecycle.Event = Lifecycle.Event.ON_START,
     crossinline catcher: (Boomerang) -> Unit,
