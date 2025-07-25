@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.CenterVertically
@@ -33,8 +34,24 @@ import io.buszi.boomerang.compose.CatchBoomerangLifecycleEffect
 import io.buszi.boomerang.compose.CatchEventBoomerangLifecycleEffect
 import io.buszi.boomerang.compose.CompositionHostedDefaultBoomerangStoreScope
 import io.buszi.boomerang.compose.LocalBoomerangStore
+import io.buszi.boomerang.compose.serialization.kotlinx.ConsumeSerializableLifecycleEffect
 import io.buszi.boomerang.core.boomerangOf
+import io.buszi.boomerang.serialization.kotlinx.storeValue
+import kotlinx.serialization.Serializable
 
+/**
+ * Main Composable function that demonstrates the usage of Boomerang with Jetpack Compose.
+ * 
+ * This function sets up a Compose application that showcases various Boomerang features including:
+ * - Navigation result passing
+ * - Result persistence across configuration changes
+ * - Value dropping
+ * - Value proxying
+ * - Event handling
+ * - Serializable object passing
+ *
+ * @param recreateApp A callback function that recreates the app to simulate configuration changes
+ */
 @Composable
 fun ComposePreviewApp(recreateApp: () -> Unit) {
     CompositionHostedDefaultBoomerangStoreScope {
@@ -45,6 +62,18 @@ fun ComposePreviewApp(recreateApp: () -> Unit) {
         }
     }
 }
+
+/**
+ * A serializable data class used to demonstrate Kotlinx Serialization integration with Boomerang in Compose.
+ * 
+ * This class is used in the Compose navigation example to show how serializable objects
+ * can be passed between composables using Boomerang's serialization support.
+ *
+ * @property name The name of the result
+ * @property age The age value associated with the result
+ */
+@Serializable
+data class SerializableResult(val name: String, val age: Int)
 
 @Composable
 private fun Navigation(recreateApp: () -> Unit) {
@@ -59,6 +88,7 @@ private fun Navigation(recreateApp: () -> Unit) {
             var result by rememberSaveable { mutableStateOf<String?>(null) }
             // Using rememberSaveable to persist the event notification across recompositions
             var eventReceived by rememberSaveable { mutableStateOf(false) }
+            var serializableItem by remember { mutableStateOf<SerializableResult?>(null) }
 
             // TEST CASE 1: Test navigation result is passed correctly
             // CatchBoomerangLifecycleEffect will try to catch a value with the key "home"
@@ -78,6 +108,10 @@ private fun Navigation(recreateApp: () -> Unit) {
                 eventReceived = true
             }
 
+            ConsumeSerializableLifecycleEffect<SerializableResult> { item ->
+                serializableItem = item
+            }
+
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
                     text = "Home Screen",
@@ -90,6 +124,13 @@ private fun Navigation(recreateApp: () -> Unit) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Event status: ${if (eventReceived) "Event received" else "No event received"}",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+
+                // Display event status
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Serializable item: ${serializableItem ?: "No item yet"}",
                     style = MaterialTheme.typography.bodyLarge
                 )
 
@@ -117,6 +158,11 @@ private fun Navigation(recreateApp: () -> Unit) {
                 Button(onClick = { eventReceived = false }) {
                     Text(text = "Clear Event Status")
                 }
+
+                // Clear the event status
+                Button(onClick = { serializableItem = null }) {
+                    Text(text = "Clear Serializable Item")
+                }
             }
         }
 
@@ -128,7 +174,10 @@ private fun Navigation(recreateApp: () -> Unit) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Row(verticalAlignment = CenterVertically) {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = null
+                        )
                     }
                     Text(
                         text = "Intermediate Screen",
@@ -198,7 +247,10 @@ private fun Navigation(recreateApp: () -> Unit) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Row(verticalAlignment = CenterVertically) {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = null
+                        )
                     }
                     Text(
                         text = "Result Screen",
@@ -228,6 +280,13 @@ private fun Navigation(recreateApp: () -> Unit) {
                     navController.popBackStack()
                 }) {
                     Text(text = "Trigger Event and Return")
+                }
+
+                Button(onClick = {
+                    store.storeValue(SerializableResult("Serializable name", 10))
+                    navController.popBackStack()
+                }) {
+                    Text(text = "Store Serializable result and Return")
                 }
             }
         }

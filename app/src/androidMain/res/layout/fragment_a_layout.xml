@@ -32,4 +32,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Clear event status" />
+
+    <TextView
+        android:id="@+id/serializable_item_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/clear_serializable_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear serializable item" />
 </LinearLayout>

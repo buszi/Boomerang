@@ -10,12 +10,13 @@ import org.junit.runner.RunWith
 
 /**
  * UI tests for the Compose implementation of Boomerang.
- * Tests the five key scenarios:
+ * Tests the key scenarios:
  * 1. Basic navigation result flow
  * 2. Result persistence (recreate activity when in between screen)
  * 3. Dropping value
  * 4. Proxy value in-between
  * 5. Event handling
+ * 6. Serializable item handling
  */
 @RunWith(AndroidJUnit4::class)
 class ComposeBoomerangTest {
@@ -193,5 +194,44 @@ class ComposeBoomerangTest {
 
         // Verify the event status is reset
         composeTestRule.onNodeWithText("Event status: No event received").assertIsDisplayed()
+    }
+
+    /**
+     * Test Case 6: Serializable item handling
+     * 
+     * Steps:
+     * 1. Verify initial serializable item status is "No item yet"
+     * 2. Navigate from Home to Intermediate screen
+     * 3. Navigate from Intermediate to Result screen
+     * 4. Store a serializable item in Result screen and navigate back
+     * 5. Verify that the serializable item is displayed in Home screen
+     * 6. Clear the serializable item
+     * 7. Verify that the serializable item is reset to "No item yet"
+     */
+    @Test
+    fun testSerializableItemHandling() {
+        // Verify we're on Home screen and initial serializable item status
+        composeTestRule.onNodeWithText("Home Screen").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Serializable item: No item yet").assertIsDisplayed()
+
+        // Navigate to Intermediate screen
+        composeTestRule.onNodeWithText("Navigate to Intermediate Screen").performClick()
+
+        // Navigate to Result screen
+        composeTestRule.onNodeWithText("Continue to Result Screen").performClick()
+
+        // Store serializable item and navigate back
+        composeTestRule.onNodeWithText("Store Serializable result and Return").performClick()
+        Espresso.pressBack()
+
+        // Verify we're back on Home screen and the serializable item is displayed
+        composeTestRule.onNodeWithText("Home Screen").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Serializable item: SerializableResult(name=Serializable name, age=10)").assertIsDisplayed()
+
+        // Clear the serializable item
+        composeTestRule.onNodeWithText("Clear Serializable Item").performClick()
+
+        // Verify the serializable item is reset
+        composeTestRule.onNodeWithText("Serializable item: No item yet").assertIsDisplayed()
     }
 }

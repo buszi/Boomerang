@@ -16,4 +16,10 @@
         android:layout_height="wrap_content"
         android:text="Trigger event and navigate back" />
 
+    <Button
+        android:id="@+id/store_serializable_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Store serializable item and navigate back" />
+
 </LinearLayout>

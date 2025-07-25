@@ -16,6 +16,9 @@ import io.buszi.boomerang.fragment.catchEventBoomerangWithLifecycleEvent
 import io.buszi.boomerang.fragment.createOrRestoreDefaultBoomerangStore
 import io.buszi.boomerang.fragment.findBoomerangStore
 import io.buszi.boomerang.fragment.saveDefaultBoomerangStoreState
+import io.buszi.boomerang.fragment.serialization.kotlinx.consumeSerializableWithLifecycleEvent
+import io.buszi.boomerang.serialization.kotlinx.storeValue
+import kotlinx.serialization.Serializable
 
 /**
  * This activity demonstrates the usage of Boomerang with Fragments.
@@ -46,6 +49,18 @@ class FullFragmentPreviewActivity : AppCompatActivity(), BoomerangStoreHost {
 }
 
 /**
+ * A serializable data class used to demonstrate Kotlinx Serialization integration with Boomerang.
+ * 
+ * This class is used in the fragment navigation example to show how serializable objects
+ * can be passed between fragments using Boomerang's serialization support.
+ *
+ * @property name The name of the item
+ * @property age The age value associated with the item
+ */
+@Serializable
+data class SerializableItem(val name: String, val age: Int)
+
+/**
  * Home screen fragment that demonstrates catching and displaying navigation results.
  * This fragment is the destination for navigation results.
  */
@@ -54,6 +69,8 @@ class FragmentA : Fragment(R.layout.fragment_a_layout) {
     private var currentResult: String? = null
     // Using a property to track when an event is received
     private var eventReceived: Boolean = false
+    // Using a property to store the serializable item
+    private var serializableItem: SerializableItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +97,13 @@ class FragmentA : Fragment(R.layout.fragment_a_layout) {
             // Update the UI if the view is available
             updateEventStatus()
         }
+
+        consumeSerializableWithLifecycleEvent<SerializableItem> { item ->
+            // Store the serializable item for later use
+            serializableItem = item
+            // Update the UI if the view is available
+            updateSerializableItemText()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -96,6 +120,22 @@ class FragmentA : Fragment(R.layout.fragment_a_layout) {
         if (savedInstanceState != null) {
             eventReceived = savedInstanceState.getBoolean("event_received", false)
             updateEventStatus()
+            
+            // Restore the serializable item if available
+            savedInstanceState.getString("serializable_item")?.let { serializedItem ->
+                try {
+                    // This is a simplified approach - in a real app, you might want to use a proper serialization library
+                    val parts = serializedItem.split(",")
+                    if (parts.size == 2) {
+                        val name = parts[0]
+                        val age = parts[1].toIntOrNull() ?: 0
+                        serializableItem = SerializableItem(name, age)
+                        updateSerializableItemText()
+                    }
+                } catch (e: Exception) {
+                    // Handle deserialization error
+                }
+            }
         }
 
         with(FragmentALayoutBinding.bind(view)) {
@@ -104,6 +144,9 @@ class FragmentA : Fragment(R.layout.fragment_a_layout) {
 
             // Update the event status text
             eventStatusLabel.text = "Event status: ${if (eventReceived) "Event received" else "No event received"}"
+            
+            // Update the serializable item text
+            serializableItemLabel.text = "Serializable item: ${serializableItem ?: "No item yet"}"
 
             // Navigate to the intermediate screen
             navigateButton.setOnClickListener {
@@ -121,6 +164,12 @@ class FragmentA : Fragment(R.layout.fragment_a_layout) {
                 eventReceived = false
                 updateEventStatus()
             }
+            
+            // Clear the serializable item
+            clearSerializableButton.setOnClickListener {
+                serializableItem = null
+                updateSerializableItemText()
+            }
         }
     }
 
@@ -134,6 +183,12 @@ class FragmentA : Fragment(R.layout.fragment_a_layout) {
 
         // Save the event status to the outState bundle
         outState.putBoolean("event_received", eventReceived)
+        
+        // Save the serializable item to the outState bundle
+        serializableItem?.let {
+            // This is a simplified approach - in a real app, you might want to use a proper serialization library
+            outState.putString("serializable_item", "${it.name},${it.age}")
+        }
     }
 
     private fun updateResultText() {
@@ -146,6 +201,13 @@ class FragmentA : Fragment(R.layout.fragment_a_layout) {
         view?.let {
             FragmentALayoutBinding.bind(it).eventStatusLabel.text = 
                 "Event status: ${if (eventReceived) "Event received" else "No event received"}"
+        }
+    }
+    
+    private fun updateSerializableItemText() {
+        view?.let {
+            FragmentALayoutBinding.bind(it).serializableItemLabel.text = 
+                "Serializable item: ${serializableItem ?: "No item yet"}"
         }
     }
 }
@@ -248,6 +310,16 @@ class FragmentC : Fragment(R.layout.fragment_c_layout) {
             triggerEventButton.setOnClickListener {
                 // Store an event with the key "fragment_a_event"
                 findBoomerangStore().storeEvent("fragment_a_event")
+                // Navigate back
+                findNavController().popBackStack()
+            }
+            
+            // Store a serializable item and navigate back
+            storeSerializableButton.setOnClickListener {
+                // Create a serializable item
+                val item = SerializableItem("Test Name", 25)
+                // Store the serializable item using the extension function
+                findBoomerangStore().storeValue(item)
                 // Navigate back
                 findNavController().popBackStack()
             }

@@ -13,12 +13,13 @@ import org.junit.runner.RunWith
 
 /**
  * UI tests for the Fragment implementation of Boomerang.
- * Tests the five key scenarios:
+ * Tests the key scenarios:
  * 1. Basic navigation result flow
  * 2. Result persistence (recreate activity when in between screen)
  * 3. Dropping value
  * 4. Proxy value in-between
  * 5. Event handling
+ * 6. Serializable item handling
  */
 @RunWith(AndroidJUnit4::class)
 class FragmentBoomerangTest {
@@ -189,5 +190,42 @@ class FragmentBoomerangTest {
 
         // Verify the event status is reset
         onView(withText("Event status: No event received")).check(matches(isDisplayed()))
+    }
+
+    /**
+     * Test Case 6: Serializable item handling
+     * 
+     * Steps:
+     * 1. Verify initial serializable item status is "No item yet"
+     * 2. Navigate from FragmentA to FragmentB
+     * 3. Navigate from FragmentB to FragmentC
+     * 4. Store a serializable item in FragmentC and navigate back
+     * 5. Verify that the serializable item is displayed in FragmentA
+     * 6. Clear the serializable item
+     * 7. Verify that the serializable item is reset to "No item yet"
+     */
+    @Test
+    fun testSerializableItemHandling() {
+        // Verify we're on FragmentA and initial serializable item status
+        onView(withText("Serializable item: No item yet")).check(matches(isDisplayed()))
+
+        // Navigate to FragmentB
+        onView(withId(R.id.navigate_button)).perform(click())
+
+        // Navigate to FragmentC
+        onView(withId(R.id.navigate_button)).perform(click())
+
+        // Store serializable item and navigate back
+        onView(withId(R.id.store_serializable_button)).perform(click())
+        Espresso.pressBack()
+
+        // Verify we're back on FragmentA and the serializable item is displayed
+        onView(withText("Serializable item: SerializableItem(name=Test Name, age=25)")).check(matches(isDisplayed()))
+
+        // Clear the serializable item
+        onView(withId(R.id.clear_serializable_button)).perform(click())
+
+        // Verify the serializable item is reset
+        onView(withText("Serializable item: No item yet")).check(matches(isDisplayed()))
     }
 }
