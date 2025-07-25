@@ -39,4 +39,4 @@ jobs:
 
       # Builds artifacts on modules and publishes them to maven central
       - name: Upload artifacts
-        run: ./gradlew :core:publishToMavenCentral :compose:publishToMavenCentral :fragment:publishToMavenCentral --no-configuration-cache
+        run: ./gradlew :core:publishToMavenCentral :compose:publishToMavenCentral :fragment:publishToMavenCentral :serialization-kotlinx:publishToMavenCentral :compose-serialization-kotlinx:publishToMavenCentral :fragment-serialization-kotlinx:publishToMavenCentral --no-configuration-cache
