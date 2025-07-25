@@ -12,10 +12,13 @@ to pass data between screens in Jetpack Compose and AndroidX Fragment navigation
 It solves the common problem of returning results from one screen to another,
 similar to the `setFragmentResultListener` pattern but designed to be lightweight and flexible.
 
-The library consists of three main modules:
+The library consists of several modules:
 - **Core**: Contains the fundamental concepts and interfaces
 - **Compose**: Provides Jetpack Compose integration
 - **Fragment**: Provides AndroidX Fragment integration (Android only)
+- **Serialization-Kotlinx** (since 1.3.0): Provides Kotlinx Serialization integration (Experimental, supports only flat objects)
+- **Compose-Serialization-Kotlinx** (since 1.3.0): Provides Kotlinx Serialization integration for Compose
+- **Fragment-Serialization-Kotlinx** (since 1.3.0): Provides Kotlinx Serialization integration for Fragments
 
 ## Features
 
@@ -40,9 +43,18 @@ implementation("io.github.buszi.boomerang:compose:1.3.0")
 
 // For AndroidX Fragment integration (Android only)
 implementation("io.github.buszi.boomerang:fragment:1.3.0")
+
+// For Kotlinx Serialization integration (Experimental)
+implementation("io.github.buszi.boomerang:serialization-kotlinx:1.3.0")
+
+// For Compose with Kotlinx Serialization integration
+implementation("io.github.buszi.boomerang:compose-serialization-kotlinx:1.3.0")
+
+// For Fragment with Kotlinx Serialization integration (Android only)
+implementation("io.github.buszi.boomerang:fragment-serialization-kotlinx:1.3.0")
 ```
 
-Choose the modules that fit your project's needs. For example, if you're only using Fragments, you only need the core and fragment modules.
+Choose the modules that fit your project's needs. For example, if you're only using Fragments, you only need the core and fragment modules. If you want to use serialization features, you'll need the appropriate serialization module along with Kotlinx Serialization dependency.
 
 ## Usage
 
@@ -202,6 +214,100 @@ class NotificationFragment : Fragment() {
 }
 ```
 
+### Serialization (Experimental, since 1.3.0)
+
+> **Note:** The serialization feature is experimental and currently only supports flat (non-nested) objects.
+
+Boomerang provides integration with Kotlinx Serialization, allowing you to store and retrieve serializable objects.
+
+#### Defining a Serializable Object
+
+```kotlin
+@Serializable
+data class UserPreference(
+    val theme: String,
+    val notificationsEnabled: Boolean,
+    val fontSize: Int
+)
+```
+
+#### Storing a Serializable Object
+
+```kotlin
+// In Compose
+val store = LocalBoomerangStore.current
+val userPreference = UserPreference("dark", true, 14)
+store.storeValue("user_preferences", userPreference)
+
+// Or store using the type as the key
+store.storeValue(userPreference)
+
+// In Fragment
+val store = findBoomerangStore()
+val userPreference = UserPreference("dark", true, 14)
+store.storeValue("user_preferences", userPreference)
+```
+
+#### Retrieving a Serializable Object
+
+```kotlin
+// In Compose
+val store = LocalBoomerangStore.current
+val userPreference: UserPreference? = store.getSerializable("user_preferences")
+
+// Or retrieve using the type as the key
+val userPreference: UserPreference? = store.getSerializable()
+
+// In Fragment
+val store = findBoomerangStore()
+val userPreference: UserPreference? = store.getSerializable("user_preferences")
+```
+
+#### Catching a Serializable Object in Compose
+
+```kotlin
+@Composable
+fun PreferencesScreen() {
+    var userPreference by remember { mutableStateOf<UserPreference?>(null) }
+
+    // Catch a serializable object with a specific key
+    CatchSerializableLifecycleEffect<UserPreference>("user_preferences") { preference ->
+        userPreference = preference
+        true // Return true to indicate the object was successfully processed
+    }
+
+    // Or catch using the type as the key
+    CatchSerializableLifecycleEffect<UserPreference> { preference ->
+        userPreference = preference
+        true
+    }
+}
+```
+
+#### Catching a Serializable Object in Fragment
+
+```kotlin
+class PreferencesFragment : Fragment() {
+    private var userPreference: UserPreference? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Catch a serializable object with a specific key
+        catchSerializableWithLifecycleEvent<UserPreference>("user_preferences") { preference ->
+            userPreference = preference
+            true // Return true to indicate the object was successfully processed
+        }
+
+        // Or catch using the type as the key
+        catchSerializableWithLifecycleEvent<UserPreference> { preference ->
+            userPreference = preference
+            true
+        }
+    }
+}
+```
+
 ### Advanced Usage
 
 #### In Compose
@@ -299,12 +405,30 @@ The only requirement is that the producer and consumer components are not part o
 
 - **ActivityHostedBoomerangStoreScope**: Composable function that provides BoomerangStore hosted by activity with BoomerangStoreHost
 
+### Serialization Components (since 1.3.0)
+
+- **BoomerangFormat**: Class that provides methods for serializing and deserializing objects
+- **kotlinxSerializationBoomerangCatcher**: Function that creates a BoomerangCatcher for serializable objects
+- **storeValue/getSerializable**: Extension functions for BoomerangStore to store and retrieve serializable objects
+- **putSerializable/getSerializable**: Extension functions for Boomerang to add and retrieve serializable objects
+
+### Compose Serialization Components (since 1.3.0)
+
+- **CatchSerializableLifecycleEffect**: Composable function that catches serializable objects at specific lifecycle events
+- **ConsumeSerializableLifecycleEffect**: Specialized Composable function for consuming serializable objects
+
+### Fragment Serialization Components (since 1.3.0)
+
+- **catchSerializableWithLifecycleEvent**: Extension function for Fragment to catch serializable objects at specific lifecycle events
+- **consumeSerializableWithLifecycleEvent**: Extension function for Fragment to consume serializable objects
+
 ## Requirements
 
 - Android API level 21+
 - Kotlin 1.5.0+
 - For Compose module: Jetpack Compose 1.0.0+
 - For Fragment module: AndroidX Fragment 1.3.0+
+- For Serialization modules: Kotlinx Serialization 1.5.0+
 
 ## Kotlin/Compose Multiplatform
 

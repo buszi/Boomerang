@@ -21,6 +21,9 @@ class DokkaPlugin : Plugin<Project> {
                     rootProject.file("CORE.md"),
                     rootProject.file("COMPOSE.md"),
                     rootProject.file("FRAGMENT.md"),
+                    rootProject.file("SERIALIZATION-KOTLINX.md"),
+                    rootProject.file("COMPOSE-SERIALIZATION-KOTLINX.md"),
+                    rootProject.file("FRAGMENT-SERIALIZATION-KOTLINX.md"),
                 )
             }
         }
