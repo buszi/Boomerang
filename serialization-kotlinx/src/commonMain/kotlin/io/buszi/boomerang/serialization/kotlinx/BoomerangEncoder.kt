@@ -70,8 +70,8 @@ class RootBoomerangEncoder(
     }
 
     override fun beginCollection(descriptor: SerialDescriptor, collectionSize: Int): CompositeEncoder {
-        // Support List/Collection by storing List<Boomerang> under the current property key
-        val property = getCurrentPropertyName()
+        // Support List/Collection. If at root (no current property), store under reserved ROOT_LIST_KEY.
+        val property = currentPropertyName ?: ROOT_LIST_KEY
         return ListEncoder(property)
     }
 

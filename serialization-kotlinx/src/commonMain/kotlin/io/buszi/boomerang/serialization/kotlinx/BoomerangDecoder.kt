@@ -41,8 +41,8 @@ class RootBoomerangDecoder(
         // If this is a list/collection, return a dedicated decoder for it
         return when (descriptor.kind) {
             is StructureKind.LIST -> {
-                val listKey = getCurrentPropertyName()
-                ListDecoder(listKey)
+                val listKey = currentPropertyName ?: ROOT_LIST_KEY
+                return ListDecoder(listKey)
             }
             else -> {
                 // For root-level object, keep using this decoder
