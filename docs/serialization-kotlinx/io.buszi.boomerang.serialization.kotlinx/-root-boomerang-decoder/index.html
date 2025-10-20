@@ -1,22 +1,22 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>RootBoomerangDecoder</title>
-<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
-    <script>document.documentElement.classList.replace("no-js","js");</script>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
-    if (storage == null) {
+      if (storage == null) {
         const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
         if (osDarkSchemePreferred === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    } else {
+      } else {
         const savedDarkMode = JSON.parse(storage)
-        if(savedDarkMode === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    }
+      }
     </script>
 <script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
 <script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
@@ -24,19 +24,17 @@
 <link href="../../../styles/main.css" rel="Stylesheet">
 <link href="../../../styles/prism.css" rel="Stylesheet">
 <link href="../../../styles/logo-styles.css" rel="Stylesheet">
-<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
 <link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
-<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/safe-local-storage_blocking.js"></script>
 <script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
 <script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
 <script type="text/javascript" src="../../../scripts/main.js" defer></script>
 <script type="text/javascript" src="../../../scripts/prism.js" async></script>
-<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer></script>
-<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer></script></head>
 <body>
-    <div class="root">
-    <nav class="navigation theme-dark" id="navigation-wrapper">
-<a class="library-name--link" href="../../../index.html">
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../../index.html" tabindex="1">
                     Boomerang
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
@@ -44,13 +42,13 @@
         <div class="library-version" id="library-version">
         </div>
         <div class="navigation-controls">
-        <div class="filter-section filter-section_loading" id="filter-section">
-                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":serialization-kotlinx/commonMain">common</button>
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector common-like" data-active="" aria-pressed="true" data-filter=":serialization-kotlinx/commonMain">common</button>
             <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
                 <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
-                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
-                    <div class="dropdown--header"><span>Platform filter</span>
-                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
                             <i class="ui-kit-icon ui-kit-icon_cross"></i>
                         </button>
                     </div>
@@ -64,45 +62,47 @@
                 </ul>
                 <div class="dropdown--overlay"></div>
             </div>
-        </div>
+        </ul>
             <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
             </button>
             <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
                 API
             </div>
         </div>
-    </nav>
-        <div id="container">
-            <div class="sidebar" id="leftColumn">
-                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
-                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox">
-                        <div class="dropdown--header">
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
                             <span>
                                     Boomerang
                             </span>
-                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
-                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
-                            </button>
-                        </div>
-                        <div class="sidebar--inner" id="sideMenu"></div>
-                    </ul>
-                    <div class="dropdown--overlay"></div>
-                </div>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
             </div>
-            <div id="main">
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
 <div class="main-content" data-page-type="classlike" id="content" pageids="serialization-kotlinx::io.buszi.boomerang.serialization.kotlinx/RootBoomerangDecoder///PointingToDeclaration//582499699">
   <div class="breadcrumbs"><a href="../../index.html">serialization-kotlinx</a><span class="delimiter">/</span><a href="../index.html">io.buszi.boomerang.serialization.kotlinx</a><span class="delimiter">/</span><span class="current">RootBoomerangDecoder</span></div>
   <div class="cover ">
     <h1 class="cover"><span>Root</span><wbr><span>Boomerang</span><wbr><span><span>Decoder</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":serialization-kotlinx/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">RootBoomerangDecoder</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>boomerang<span class="token operator">: </span><a href="../../../core/io.buszi.boomerang.core/-boomerang/index.html">Boomerang</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>serializersModule<span class="token operator">: </span><span data-unresolved-link="kotlinx.serialization.modules/SerializersModule///PointingToDeclaration/">SerializersModule</span><span class="token operator"> = </span>EmptySerializersModule()</span></span><span class="token punctuation">)</span> : <span data-unresolved-link="kotlinx.serialization.encoding/AbstractDecoder///PointingToDeclaration/">AbstractDecoder</span><span class="clearfix"><span class="floating-right">(<a href="https://github.com/buszi/Boomerang/src/commonMain/kotlin/io/buszi/boomerang/serialization/kotlinx/BoomerangDecoder.kt#L12">source</a>)</span></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":serialization-kotlinx/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">RootBoomerangDecoder</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>boomerang<span class="token operator">: </span><a href="../../../core/io.buszi.boomerang.core/-boomerang/index.html">Boomerang</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>serializersModule<span class="token operator">: </span><span data-unresolved-link="kotlinx.serialization.modules/SerializersModule///PointingToDeclaration/">SerializersModule</span><span class="token operator"> = </span>EmptySerializersModule()</span></span><span class="token punctuation">)</span> : <span data-unresolved-link="kotlinx.serialization.encoding/AbstractDecoder///PointingToDeclaration/">AbstractDecoder</span><span class="source-link-wrapper"><span class="source-link" data-element-type="source-link">(<a href="https://github.com/buszi/Boomerang/src/commonMain/kotlin/io/buszi/boomerang/serialization/kotlinx/BoomerangDecoder.kt#L21">source</a>)</span></span></div><p class="paragraph">Kotlinx Serialization decoder that reads values from a <a href="../../../core/io.buszi.boomerang.core/-boomerang/index.html">Boomerang</a>.</p><p class="paragraph">This is used internally by <a href="../-boomerang-format/deserialize.html">BoomerangFormat.deserialize</a> and reconstructs objects from the nested <code class="lang-kotlin">Boomerang</code> containers and lists produced by the encoder. Although public, this class is not generally intended for direct consumption by library users.</p></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
       <div data-togglable="CONSTRUCTOR">
-        <h2 class="">Constructors</h2>
+        <h2 class="tableheader">Constructors</h2>
         <div class="table"><a data-name="1353692471%2FConstructors%2F582499699" anchor-label="RootBoomerangDecoder" id="1353692471%2FConstructors%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-togglable="CONSTRUCTOR" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-root-boomerang-decoder.html"><span>Root</span><wbr><span>Boomerang</span><wbr><span><span>Decoder</span></span></a></div>
@@ -119,9 +119,9 @@
         </div>
       </div>
       <div data-togglable="PROPERTY">
-        <h2 class="">Properties</h2>
+        <h2 class="tableheader">Properties</h2>
         <div class="table"><a data-name="-752579715%2FProperties%2F582499699" anchor-label="boomerang" id="-752579715%2FProperties%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="boomerang.html"><span><span>boomerang</span></span></a></div>
@@ -136,7 +136,7 @@
             </div>
           </div>
 <a data-name="-2107181326%2FProperties%2F582499699" anchor-label="serializersModule" id="-2107181326%2FProperties%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="serializers-module.html"><span>serializers</span><wbr><span><span>Module</span></span></a></div>
@@ -153,9 +153,9 @@
         </div>
       </div>
       <div data-togglable="FUNCTION">
-        <h2 class="">Functions</h2>
+        <h2 class="tableheader">Functions</h2>
         <div class="table"><a data-name="-1973055153%2FFunctions%2F582499699" anchor-label="beginStructure" id="-1973055153%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="begin-structure.html"><span>begin</span><wbr><span><span>Structure</span></span></a></div>
@@ -170,7 +170,7 @@
             </div>
           </div>
 <a data-name="1449391397%2FFunctions%2F582499699" anchor-label="decodeBoolean" id="1449391397%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="decode-boolean.html"><span>decode</span><wbr><span><span>Boolean</span></span></a></div>
@@ -185,7 +185,7 @@
             </div>
           </div>
 <a data-name="1154532184%2FFunctions%2F582499699" anchor-label="decodeBooleanElement" id="1154532184%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#1154532184%2FFunctions%2F582499699"><span>decode</span><wbr><span>Boolean</span><wbr><span><span>Element</span></span></a></div>
@@ -200,7 +200,7 @@
             </div>
           </div>
 <a data-name="-1923349211%2FFunctions%2F582499699" anchor-label="decodeByte" id="-1923349211%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="decode-byte.html"><span>decode</span><wbr><span><span>Byte</span></span></a></div>
@@ -215,7 +215,7 @@
             </div>
           </div>
 <a data-name="-1401365196%2FFunctions%2F582499699" anchor-label="decodeByteElement" id="-1401365196%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#-1401365196%2FFunctions%2F582499699"><span>decode</span><wbr><span>Byte</span><wbr><span><span>Element</span></span></a></div>
@@ -230,7 +230,7 @@
             </div>
           </div>
 <a data-name="-1882233193%2FFunctions%2F582499699" anchor-label="decodeChar" id="-1882233193%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="decode-char.html"><span>decode</span><wbr><span><span>Char</span></span></a></div>
@@ -245,7 +245,7 @@
             </div>
           </div>
 <a data-name="-2095209050%2FFunctions%2F582499699" anchor-label="decodeCharElement" id="-2095209050%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#-2095209050%2FFunctions%2F582499699"><span>decode</span><wbr><span>Char</span><wbr><span><span>Element</span></span></a></div>
@@ -260,7 +260,7 @@
             </div>
           </div>
 <a data-name="-1090755613%2FFunctions%2F582499699" anchor-label="decodeCollectionSize" id="-1090755613%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#-1090755613%2FFunctions%2F582499699"><span>decode</span><wbr><span>Collection</span><wbr><span><span>Size</span></span></a></div>
@@ -275,7 +275,7 @@
             </div>
           </div>
 <a data-name="548000380%2FFunctions%2F582499699" anchor-label="decodeDouble" id="548000380%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="decode-double.html"><span>decode</span><wbr><span><span>Double</span></span></a></div>
@@ -290,7 +290,7 @@
             </div>
           </div>
 <a data-name="981418891%2FFunctions%2F582499699" anchor-label="decodeDoubleElement" id="981418891%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#981418891%2FFunctions%2F582499699"><span>decode</span><wbr><span>Double</span><wbr><span><span>Element</span></span></a></div>
@@ -305,7 +305,7 @@
             </div>
           </div>
 <a data-name="117488789%2FFunctions%2F582499699" anchor-label="decodeElementIndex" id="117488789%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="decode-element-index.html"><span>decode</span><wbr><span>Element</span><wbr><span><span>Index</span></span></a></div>
@@ -320,7 +320,7 @@
             </div>
           </div>
 <a data-name="-740062742%2FFunctions%2F582499699" anchor-label="decodeEnum" id="-740062742%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="decode-enum.html"><span>decode</span><wbr><span><span>Enum</span></span></a></div>
@@ -335,7 +335,7 @@
             </div>
           </div>
 <a data-name="-844905103%2FFunctions%2F582499699" anchor-label="decodeFloat" id="-844905103%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="decode-float.html"><span>decode</span><wbr><span><span>Float</span></span></a></div>
@@ -350,7 +350,7 @@
             </div>
           </div>
 <a data-name="-1593052636%2FFunctions%2F582499699" anchor-label="decodeFloatElement" id="-1593052636%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#-1593052636%2FFunctions%2F582499699"><span>decode</span><wbr><span>Float</span><wbr><span><span>Element</span></span></a></div>
@@ -365,7 +365,7 @@
             </div>
           </div>
 <a data-name="-1467422496%2FFunctions%2F582499699" anchor-label="decodeInline" id="-1467422496%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#-1467422496%2FFunctions%2F582499699"><span>decode</span><wbr><span><span>Inline</span></span></a></div>
@@ -380,7 +380,7 @@
             </div>
           </div>
 <a data-name="-744803901%2FFunctions%2F582499699" anchor-label="decodeInlineElement" id="-744803901%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#-744803901%2FFunctions%2F582499699"><span>decode</span><wbr><span>Inline</span><wbr><span><span>Element</span></span></a></div>
@@ -395,7 +395,7 @@
             </div>
           </div>
 <a data-name="-1791324354%2FFunctions%2F582499699" anchor-label="decodeInt" id="-1791324354%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="decode-int.html"><span>decode</span><wbr><span><span>Int</span></span></a></div>
@@ -410,7 +410,7 @@
             </div>
           </div>
 <a data-name="1722943985%2FFunctions%2F582499699" anchor-label="decodeIntElement" id="1722943985%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#1722943985%2FFunctions%2F582499699"><span>decode</span><wbr><span>Int</span><wbr><span><span>Element</span></span></a></div>
@@ -425,7 +425,7 @@
             </div>
           </div>
 <a data-name="1847388721%2FFunctions%2F582499699" anchor-label="decodeLong" id="1847388721%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="decode-long.html"><span>decode</span><wbr><span><span>Long</span></span></a></div>
@@ -440,7 +440,7 @@
             </div>
           </div>
 <a data-name="1919548480%2FFunctions%2F582499699" anchor-label="decodeLongElement" id="1919548480%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#1919548480%2FFunctions%2F582499699"><span>decode</span><wbr><span>Long</span><wbr><span><span>Element</span></span></a></div>
@@ -455,7 +455,7 @@
             </div>
           </div>
 <a data-name="-256873146%2FFunctions%2F582499699" anchor-label="decodeNotNullMark" id="-256873146%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="decode-not-null-mark.html"><span>decode</span><wbr><span>Not</span><wbr><span>Null</span><wbr><span><span>Mark</span></span></a></div>
@@ -470,7 +470,7 @@
             </div>
           </div>
 <a data-name="-62956154%2FFunctions%2F582499699" anchor-label="decodeNull" id="-62956154%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="decode-null.html"><span>decode</span><wbr><span><span>Null</span></span></a></div>
@@ -485,7 +485,7 @@
             </div>
           </div>
 <a data-name="688572507%2FFunctions%2F582499699" anchor-label="decodeNullableSerializableElement" id="688572507%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#688572507%2FFunctions%2F582499699"><span>decode</span><wbr><span>Nullable</span><wbr><span>Serializable</span><wbr><span><span>Element</span></span></a></div>
@@ -500,7 +500,7 @@
             </div>
           </div>
 <a data-name="-1990472531%2FFunctions%2F582499699" anchor-label="decodeNullableSerializableValue" id="-1990472531%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#-1990472531%2FFunctions%2F582499699"><span>decode</span><wbr><span>Nullable</span><wbr><span>Serializable</span><wbr><span><span>Value</span></span></a></div>
@@ -509,13 +509,13 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":serialization-kotlinx/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="index.html#-1990472531%2FFunctions%2F582499699">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="index.html#-1990472531%2FFunctions%2F582499699"><span class="token function">decodeNullableSerializableValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">deserializer<span class="token operator">: </span><span data-unresolved-link="kotlinx.serialization/DeserializationStrategy///PointingToDeclaration/">DeserializationStrategy</span><span class="token operator">&lt;</span><a href="index.html#-1990472531%2FFunctions%2F582499699">T</a><span class="token operator">?</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html#-1990472531%2FFunctions%2F582499699">T</a><span class="token operator">?</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":serialization-kotlinx/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="kotlinx.serialization/ExperimentalSerializationApi///PointingToDeclaration/"><span class="token annotation builtin">ExperimentalSerializationApi</span></span></div></div><span class="token keyword">open </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="index.html#-1990472531%2FFunctions%2F582499699">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="index.html#-1990472531%2FFunctions%2F582499699"><span class="token function">decodeNullableSerializableValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">deserializer<span class="token operator">: </span><span data-unresolved-link="kotlinx.serialization/DeserializationStrategy///PointingToDeclaration/">DeserializationStrategy</span><span class="token operator">&lt;</span><a href="index.html#-1990472531%2FFunctions%2F582499699">T</a><span class="token operator">?</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html#-1990472531%2FFunctions%2F582499699">T</a><span class="token operator">?</span></div></div></div>
                 </div>
               </div>
             </div>
           </div>
 <a data-name="-1029032744%2FFunctions%2F582499699" anchor-label="decodeSequentially" id="-1029032744%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#-1029032744%2FFunctions%2F582499699"><span>decode</span><wbr><span><span>Sequentially</span></span></a></div>
@@ -524,13 +524,13 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":serialization-kotlinx/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1029032744%2FFunctions%2F582499699"><span class="token function">decodeSequentially</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":serialization-kotlinx/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="kotlinx.serialization/ExperimentalSerializationApi///PointingToDeclaration/"><span class="token annotation builtin">ExperimentalSerializationApi</span></span></div></div><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1029032744%2FFunctions%2F582499699"><span class="token function">decodeSequentially</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
                 </div>
               </div>
             </div>
           </div>
 <a data-name="-197381303%2FFunctions%2F582499699" anchor-label="decodeSerializableElement" id="-197381303%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#-197381303%2FFunctions%2F582499699"><span>decode</span><wbr><span>Serializable</span><wbr><span><span>Element</span></span></a></div>
@@ -545,7 +545,7 @@
             </div>
           </div>
 <a data-name="31799474%2FFunctions%2F582499699" anchor-label="decodeSerializableValue" id="31799474%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#1910178398%2FFunctions%2F582499699"><span>decode</span><wbr><span>Serializable</span><wbr><span><span>Value</span></span></a></div>
@@ -560,7 +560,7 @@
             </div>
           </div>
 <a data-name="-7665839%2FFunctions%2F582499699" anchor-label="decodeShort" id="-7665839%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="decode-short.html"><span>decode</span><wbr><span><span>Short</span></span></a></div>
@@ -575,7 +575,7 @@
             </div>
           </div>
 <a data-name="-1405074428%2FFunctions%2F582499699" anchor-label="decodeShortElement" id="-1405074428%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#-1405074428%2FFunctions%2F582499699"><span>decode</span><wbr><span>Short</span><wbr><span><span>Element</span></span></a></div>
@@ -590,7 +590,7 @@
             </div>
           </div>
 <a data-name="-305580484%2FFunctions%2F582499699" anchor-label="decodeString" id="-305580484%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="decode-string.html"><span>decode</span><wbr><span><span>String</span></span></a></div>
@@ -605,7 +605,7 @@
             </div>
           </div>
 <a data-name="1875429195%2FFunctions%2F582499699" anchor-label="decodeStringElement" id="1875429195%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#1875429195%2FFunctions%2F582499699"><span>decode</span><wbr><span>String</span><wbr><span><span>Element</span></span></a></div>
@@ -620,7 +620,7 @@
             </div>
           </div>
 <a data-name="-247490770%2FFunctions%2F582499699" anchor-label="decodeValue" id="-247490770%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="index.html#-247490770%2FFunctions%2F582499699"><span>decode</span><wbr><span><span>Value</span></span></a></div>
@@ -635,7 +635,7 @@
             </div>
           </div>
 <a data-name="-643859455%2FFunctions%2F582499699" anchor-label="endStructure" id="-643859455%2FFunctions%2F582499699" data-filterable-set=":serialization-kotlinx/commonMain"></a>
-          <div class="table-row" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":serialization-kotlinx/commonMain" data-filterable-set=":serialization-kotlinx/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="end-structure.html"><span>end</span><wbr><span><span>Structure</span></span></a></div>
@@ -655,17 +655,21 @@
   </div>
 </div>
     <div class="footer">
-        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
-        <span>© 2025 Copyright</span>
-        <span class="pull-right">
-            <span>Generated by </span>
-            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
-                <span>dokka</span>
-            </a>
-        </span>
-    </div>
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2025 Copyright</div>
+                </div>
             </div>
         </div>
     </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

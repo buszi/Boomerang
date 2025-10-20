@@ -8,7 +8,7 @@ The Compose Serialization Kotlinx module of Boomerang provides integration betwe
 
 This module supports Android, iOS, and Desktop platforms, providing a consistent API across all platforms while using platform-specific implementations under the hood.
 
-**Note:** The serialization feature currently only supports flat non-nested objects.
+Supports primitives, enums, nested objects, and lists. Configure via `BoomerangFormat` and `SerializersModule`.
 
 ## Installation
 
@@ -16,20 +16,34 @@ Add the following dependencies to your app's `build.gradle.kts` file:
 
 ```kotlin
 // For core functionality (required)
-implementation("io.github.buszi.boomerang:core:1.4.0")
+implementation("io.github.buszi.boomerang:core:1.5.0")
 
 // For Jetpack Compose integration
-implementation("io.github.buszi.boomerang:compose:1.4.0")
+implementation("io.github.buszi.boomerang:compose:1.5.0")
 
 // For Kotlinx Serialization integration
-implementation("io.github.buszi.boomerang:serialization-kotlinx:1.4.0")
+implementation("io.github.buszi.boomerang:serialization-kotlinx:1.5.0")
 
 // For Compose with Kotlinx Serialization integration
-implementation("io.github.buszi.boomerang:compose-serialization-kotlinx:1.4.0")
+implementation("io.github.buszi.boomerang:compose-serialization-kotlinx:1.5.0")
 
 // Kotlinx Serialization dependency
-implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.4.0")
+implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.5.0")
 ```
+
+## Configuration
+
+Set a global `BoomerangFormat` to configure serializers used by helpers in this module:
+
+```kotlin
+BoomerangConfig.format = BoomerangFormat {
+    serializersModule = SerializersModule {
+        // polymorphic {}, contextual {}, etc.
+    }
+}
+```
+
+This affects `storeValue(value)`, `getSerializable()`, and related helpers.
 
 ## Usage
 

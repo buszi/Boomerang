@@ -1,22 +1,22 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>Boomerang</title>
-<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
-    <script>document.documentElement.classList.replace("no-js","js");</script>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
-    if (storage == null) {
+      if (storage == null) {
         const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
         if (osDarkSchemePreferred === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    } else {
+      } else {
         const savedDarkMode = JSON.parse(storage)
-        if(savedDarkMode === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    }
+      }
     </script>
 <script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
 <script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
@@ -24,19 +24,17 @@
 <link href="../../../styles/main.css" rel="Stylesheet">
 <link href="../../../styles/prism.css" rel="Stylesheet">
 <link href="../../../styles/logo-styles.css" rel="Stylesheet">
-<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
 <link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
-<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/safe-local-storage_blocking.js"></script>
 <script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
 <script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
 <script type="text/javascript" src="../../../scripts/main.js" defer></script>
 <script type="text/javascript" src="../../../scripts/prism.js" async></script>
-<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer></script>
-<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer></script></head>
 <body>
-    <div class="root">
-    <nav class="navigation theme-dark" id="navigation-wrapper">
-<a class="library-name--link" href="../../../index.html">
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../../index.html" tabindex="1">
                     Boomerang
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
@@ -44,14 +42,14 @@
         <div class="library-version" id="library-version">
         </div>
         <div class="navigation-controls">
-        <div class="filter-section filter-section_loading" id="filter-section">
-                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":core/androidMain">android</button>
-                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":core/commonMain">common</button>
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":core/androidMain">android</button>
+                <button class="platform-tag platform-selector common-like" data-active="" aria-pressed="true" data-filter=":core/commonMain">common</button>
             <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
                 <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
-                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
-                    <div class="dropdown--header"><span>Platform filter</span>
-                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
                             <i class="ui-kit-icon ui-kit-icon_cross"></i>
                         </button>
                     </div>
@@ -72,45 +70,47 @@
                 </ul>
                 <div class="dropdown--overlay"></div>
             </div>
-        </div>
+        </ul>
             <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
             </button>
             <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
                 API
             </div>
         </div>
-    </nav>
-        <div id="container">
-            <div class="sidebar" id="leftColumn">
-                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
-                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox">
-                        <div class="dropdown--header">
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
                             <span>
                                     Boomerang
                             </span>
-                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
-                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
-                            </button>
-                        </div>
-                        <div class="sidebar--inner" id="sideMenu"></div>
-                    </ul>
-                    <div class="dropdown--overlay"></div>
-                </div>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
             </div>
-            <div id="main">
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
 <div class="main-content" data-page-type="classlike" id="content" pageids="core::io.buszi.boomerang.core/Boomerang///PointingToDeclaration//1239919082">
   <div class="breadcrumbs"><a href="../../index.html">core</a><span class="delimiter">/</span><a href="../index.html">io.buszi.boomerang.core</a><span class="delimiter">/</span><span class="current">Boomerang</span></div>
   <div class="cover ">
     <h1 class="cover"><span><span>Boomerang</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/commonMain"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">Boomerang</a><span class="clearfix"><span class="floating-right">(<a href="https://github.com/buszi/Boomerang/src/commonMain/kotlin/io/buszi/boomerang/core/Boomerang.kt#L9">source</a>)</span></span></div><p class="paragraph">A key-value store for storing and retrieving data across different parts of your application. This interface is implemented by platform-specific classes to provide a consistent API across all platforms.</p><p class="paragraph">Boomerang is designed to be used in multiplatform projects and works on Android, iOS, and Desktop.</p><h4 class="">Inheritors</h4><div class="table"><div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../../../core/io.buszi.boomerang.core/-android-boomerang/index.html">AndroidBoomerang</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../-map-boomerang/index.html">MapBoomerang</a></div></span></div><div></div></div></div></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core/commonMain"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">Boomerang</a><span class="source-link-wrapper"><span class="source-link" data-element-type="source-link">(<a href="https://github.com/buszi/Boomerang/src/commonMain/kotlin/io/buszi/boomerang/core/Boomerang.kt#L9">source</a>)</span></span></div><p class="paragraph">A key-value store for storing and retrieving data across different parts of your application. This interface is implemented by platform-specific classes to provide a consistent API across all platforms.</p><p class="paragraph">Boomerang is designed to be used in multiplatform projects and works on Android, iOS, and Desktop.</p><h4 class="tableheader">Inheritors</h4><div class="table"><div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../../../core/io.buszi.boomerang.core/-android-boomerang/index.html">AndroidBoomerang</a></div></span></div><div></div></div></div><div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../-map-boomerang/index.html">MapBoomerang</a></div></span></div><div></div></div></div></div></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button><button class="section-tab" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION,EXTENSION_PROPERTY,EXTENSION_FUNCTION">Members &amp; Extensions</button></div>
     <div class="tabs-section-body">
       <div data-togglable="FUNCTION">
-        <h2 class="">Functions</h2>
+        <h2 class="tableheader">Functions</h2>
         <div class="table"><a data-name="1668996954%2FFunctions%2F1239919082" anchor-label="clear" id="1668996954%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="clear.html"><span><span>clear</span></span></a></div>
@@ -125,7 +125,7 @@
             </div>
           </div>
 <a data-name="-1257214832%2FFunctions%2F1239919082" anchor-label="contains" id="-1257214832%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="contains.html"><span><span>contains</span></span></a></div>
@@ -140,7 +140,7 @@
             </div>
           </div>
 <a data-name="1984462243%2FFunctions%2F1239919082" anchor-label="getBoolean" id="1984462243%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="get-boolean.html"><span>get</span><wbr><span><span>Boolean</span></span></a></div>
@@ -155,7 +155,7 @@
             </div>
           </div>
 <a data-name="353098493%2FFunctions%2F1239919082" anchor-label="getBoomerang" id="353098493%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="get-boomerang.html"><span>get</span><wbr><span><span>Boomerang</span></span></a></div>
@@ -170,7 +170,7 @@
             </div>
           </div>
 <a data-name="789973634%2FFunctions%2F1239919082" anchor-label="getBoomerangsList" id="789973634%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="get-boomerangs-list.html"><span>get</span><wbr><span>Boomerangs</span><wbr><span><span>List</span></span></a></div>
@@ -185,7 +185,7 @@
             </div>
           </div>
 <a data-name="-1464902695%2FFunctions%2F605213360" anchor-label="getBundle" id="-1464902695%2FFunctions%2F605213360" data-filterable-set=":core/androidMain"></a>
-          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core/androidMain" data-filterable-set=":core/androidMain">
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core/androidMain" data-filterable-set=":core/androidMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../get-bundle.html"><span>get</span><wbr><span><span>Bundle</span></span></a></div>
@@ -202,7 +202,7 @@
             </div>
           </div>
 <a data-name="2051781851%2FFunctions%2F1239919082" anchor-label="getByte" id="2051781851%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="get-byte.html"><span>get</span><wbr><span><span>Byte</span></span></a></div>
@@ -217,7 +217,7 @@
             </div>
           </div>
 <a data-name="275993580%2FFunctions%2F1239919082" anchor-label="getByteArray" id="275993580%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="get-byte-array.html"><span>get</span><wbr><span>Byte</span><wbr><span><span>Array</span></span></a></div>
@@ -232,7 +232,7 @@
             </div>
           </div>
 <a data-name="-387859287%2FFunctions%2F1239919082" anchor-label="getChar" id="-387859287%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="get-char.html"><span>get</span><wbr><span><span>Char</span></span></a></div>
@@ -247,7 +247,7 @@
             </div>
           </div>
 <a data-name="-1154693660%2FFunctions%2F1239919082" anchor-label="getDouble" id="-1154693660%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="get-double.html"><span>get</span><wbr><span><span>Double</span></span></a></div>
@@ -262,7 +262,7 @@
             </div>
           </div>
 <a data-name="-368729641%2FFunctions%2F1239919082" anchor-label="getFloat" id="-368729641%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="get-float.html"><span>get</span><wbr><span><span>Float</span></span></a></div>
@@ -277,7 +277,7 @@
             </div>
           </div>
 <a data-name="1996310058%2FFunctions%2F1239919082" anchor-label="getInt" id="1996310058%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="get-int.html"><span>get</span><wbr><span><span>Int</span></span></a></div>
@@ -292,7 +292,7 @@
             </div>
           </div>
 <a data-name="1774065722%2FFunctions%2F605213360" anchor-label="getJavaSerializable" id="1774065722%2FFunctions%2F605213360" data-filterable-set=":core/androidMain"></a>
-          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core/androidMain" data-filterable-set=":core/androidMain">
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core/androidMain" data-filterable-set=":core/androidMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../get-java-serializable.html"><span>get</span><wbr><span>Java</span><wbr><span><span>Serializable</span></span></a></div>
@@ -309,7 +309,7 @@
             </div>
           </div>
 <a data-name="1150435165%2FFunctions%2F1239919082" anchor-label="getKeys" id="1150435165%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="get-keys.html"><span>get</span><wbr><span><span>Keys</span></span></a></div>
@@ -324,7 +324,7 @@
             </div>
           </div>
 <a data-name="-850631857%2FFunctions%2F1239919082" anchor-label="getLong" id="-850631857%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="get-long.html"><span>get</span><wbr><span><span>Long</span></span></a></div>
@@ -339,7 +339,7 @@
             </div>
           </div>
 <a data-name="1716485720%2FFunctions%2F605213360" anchor-label="getParcelable" id="1716485720%2FFunctions%2F605213360" data-filterable-set=":core/androidMain"></a>
-          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core/androidMain" data-filterable-set=":core/androidMain">
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core/androidMain" data-filterable-set=":core/androidMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../get-parcelable.html"><span>get</span><wbr><span><span>Parcelable</span></span></a></div>
@@ -356,7 +356,7 @@
             </div>
           </div>
 <a data-name="968911863%2FFunctions%2F1239919082" anchor-label="getShort" id="968911863%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="get-short.html"><span>get</span><wbr><span><span>Short</span></span></a></div>
@@ -371,7 +371,7 @@
             </div>
           </div>
 <a data-name="-1547863516%2FFunctions%2F1239919082" anchor-label="getString" id="-1547863516%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="get-string.html"><span>get</span><wbr><span><span>String</span></span></a></div>
@@ -386,7 +386,7 @@
             </div>
           </div>
 <a data-name="-1086497862%2FFunctions%2F1239919082" anchor-label="putBoolean" id="-1086497862%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="put-boolean.html"><span>put</span><wbr><span><span>Boolean</span></span></a></div>
@@ -401,7 +401,7 @@
             </div>
           </div>
 <a data-name="1742439649%2FFunctions%2F1239919082" anchor-label="putBoomerang" id="1742439649%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="put-boomerang.html"><span>put</span><wbr><span><span>Boomerang</span></span></a></div>
@@ -416,7 +416,7 @@
             </div>
           </div>
 <a data-name="-803104746%2FFunctions%2F1239919082" anchor-label="putBoomerangsList" id="-803104746%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="put-boomerangs-list.html"><span>put</span><wbr><span>Boomerangs</span><wbr><span><span>List</span></span></a></div>
@@ -431,7 +431,7 @@
             </div>
           </div>
 <a data-name="-684102058%2FFunctions%2F605213360" anchor-label="putBundle" id="-684102058%2FFunctions%2F605213360" data-filterable-set=":core/androidMain"></a>
-          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core/androidMain" data-filterable-set=":core/androidMain">
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core/androidMain" data-filterable-set=":core/androidMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../put-bundle.html"><span>put</span><wbr><span><span>Bundle</span></span></a></div>
@@ -448,7 +448,7 @@
             </div>
           </div>
 <a data-name="979909282%2FFunctions%2F1239919082" anchor-label="putByte" id="979909282%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="put-byte.html"><span>put</span><wbr><span><span>Byte</span></span></a></div>
@@ -463,7 +463,7 @@
             </div>
           </div>
 <a data-name="1670832616%2FFunctions%2F1239919082" anchor-label="putByteArray" id="1670832616%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="put-byte-array.html"><span>put</span><wbr><span>Byte</span><wbr><span><span>Array</span></span></a></div>
@@ -478,7 +478,7 @@
             </div>
           </div>
 <a data-name="284955490%2FFunctions%2F1239919082" anchor-label="putChar" id="284955490%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="put-char.html"><span>put</span><wbr><span><span>Char</span></span></a></div>
@@ -493,7 +493,7 @@
             </div>
           </div>
 <a data-name="-1670771070%2FFunctions%2F1239919082" anchor-label="putDouble" id="-1670771070%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="put-double.html"><span>put</span><wbr><span><span>Double</span></span></a></div>
@@ -508,7 +508,7 @@
             </div>
           </div>
 <a data-name="-984054318%2FFunctions%2F1239919082" anchor-label="putFloat" id="-984054318%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="put-float.html"><span>put</span><wbr><span><span>Float</span></span></a></div>
@@ -523,7 +523,7 @@
             </div>
           </div>
 <a data-name="-1995726292%2FFunctions%2F1239919082" anchor-label="putInt" id="-1995726292%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="put-int.html"><span>put</span><wbr><span><span>Int</span></span></a></div>
@@ -538,7 +538,7 @@
             </div>
           </div>
 <a data-name="-27549117%2FFunctions%2F605213360" anchor-label="putJavaSerializable" id="-27549117%2FFunctions%2F605213360" data-filterable-set=":core/androidMain"></a>
-          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core/androidMain" data-filterable-set=":core/androidMain">
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core/androidMain" data-filterable-set=":core/androidMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../put-java-serializable.html"><span>put</span><wbr><span>Java</span><wbr><span><span>Serializable</span></span></a></div>
@@ -555,7 +555,7 @@
             </div>
           </div>
 <a data-name="952210210%2FFunctions%2F1239919082" anchor-label="putLong" id="952210210%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="put-long.html"><span>put</span><wbr><span><span>Long</span></span></a></div>
@@ -570,7 +570,7 @@
             </div>
           </div>
 <a data-name="427681424%2FFunctions%2F605213360" anchor-label="putParcelable" id="427681424%2FFunctions%2F605213360" data-filterable-set=":core/androidMain"></a>
-          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core/androidMain" data-filterable-set=":core/androidMain">
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core/androidMain" data-filterable-set=":core/androidMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../put-parcelable.html"><span>put</span><wbr><span><span>Parcelable</span></span></a></div>
@@ -587,7 +587,7 @@
             </div>
           </div>
 <a data-name="-1388484206%2FFunctions%2F1239919082" anchor-label="putShort" id="-1388484206%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="put-short.html"><span>put</span><wbr><span><span>Short</span></span></a></div>
@@ -602,7 +602,7 @@
             </div>
           </div>
 <a data-name="-2018531710%2FFunctions%2F1239919082" anchor-label="putString" id="-2018531710%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="put-string.html"><span>put</span><wbr><span><span>String</span></span></a></div>
@@ -617,7 +617,7 @@
             </div>
           </div>
 <a data-name="1963509173%2FFunctions%2F1239919082" anchor-label="remove" id="1963509173%2FFunctions%2F1239919082" data-filterable-set=":core/commonMain"></a>
-          <div class="table-row" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
+          <div class="table-row table-row_content" data-filterable-current=":core/commonMain" data-filterable-set=":core/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="remove.html"><span><span>remove</span></span></a></div>
@@ -632,7 +632,7 @@
             </div>
           </div>
 <a data-name="1528048020%2FFunctions%2F605213360" anchor-label="toBundle" id="1528048020%2FFunctions%2F605213360" data-filterable-set=":core/androidMain"></a>
-          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core/androidMain" data-filterable-set=":core/androidMain">
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core/androidMain" data-filterable-set=":core/androidMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../to-bundle.html"><span>to</span><wbr><span><span>Bundle</span></span></a></div>
@@ -654,17 +654,21 @@
   </div>
 </div>
     <div class="footer">
-        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
-        <span>© 2025 Copyright</span>
-        <span class="pull-right">
-            <span>Generated by </span>
-            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
-                <span>dokka</span>
-            </a>
-        </span>
-    </div>
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2025 Copyright</div>
+                </div>
             </div>
         </div>
     </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

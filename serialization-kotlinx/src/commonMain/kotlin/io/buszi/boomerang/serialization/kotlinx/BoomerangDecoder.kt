@@ -11,6 +11,13 @@ import kotlinx.serialization.modules.EmptySerializersModule
 import kotlinx.serialization.modules.SerializersModule
 
 @OptIn(ExperimentalSerializationApi::class)
+/**
+ * Kotlinx Serialization decoder that reads values from a [Boomerang].
+ *
+ * This is used internally by [BoomerangFormat.deserialize] and reconstructs objects from
+ * the nested `Boomerang` containers and lists produced by the encoder. Although public,
+ * this class is not generally intended for direct consumption by library users.
+ */
 class RootBoomerangDecoder(
     val boomerang: Boomerang,
     override val serializersModule: SerializersModule = EmptySerializersModule(),

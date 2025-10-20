@@ -6,7 +6,7 @@ A lightweight library for handling serializable objects in AndroidX Fragment app
 
 The Fragment Serialization Kotlinx module of Boomerang provides integration between the Fragment module and Kotlinx Serialization, allowing you to pass serializable objects between screens in Fragment navigation without tight coupling between components. It simplifies the process of catching and processing serializable objects in Fragment UI.
 
-**Note:** The serialization feature currently only supports flat non-nested objects.
+Supports primitives, enums, nested objects, and lists. Configure via `BoomerangFormat` and `SerializersModule`.
 
 ## Installation
 
@@ -14,20 +14,34 @@ Add the following dependencies to your app's `build.gradle.kts` file:
 
 ```kotlin
 // For core functionality (required)
-implementation("io.github.buszi.boomerang:core:1.4.0")
+implementation("io.github.buszi.boomerang:core:1.5.0")
 
 // For AndroidX Fragment integration
-implementation("io.github.buszi.boomerang:fragment:1.4.0")
+implementation("io.github.buszi.boomerang:fragment:1.5.0")
 
 // For Kotlinx Serialization integration
-implementation("io.github.buszi.boomerang:serialization-kotlinx:1.4.0")
+implementation("io.github.buszi.boomerang:serialization-kotlinx:1.5.0")
 
 // For Fragment with Kotlinx Serialization integration
-implementation("io.github.buszi.boomerang:fragment-serialization-kotlinx:1.4.0")
+implementation("io.github.buszi.boomerang:fragment-serialization-kotlinx:1.5.0")
 
 // Kotlinx Serialization dependency
-implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.4.0")
+implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.5.0")
 ```
+
+## Configuration
+
+Set a global `BoomerangFormat` to configure serializers used by helpers in this module:
+
+```kotlin
+BoomerangConfig.format = BoomerangFormat {
+    serializersModule = SerializersModule {
+        // polymorphic {}, contextual {}, etc.
+    }
+}
+```
+
+This affects `storeValue(value)`, `getSerializable()`, and related helpers.
 
 ## Usage
 

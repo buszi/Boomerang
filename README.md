@@ -16,9 +16,9 @@ The library consists of several modules:
 - **Core**: Contains the fundamental concepts and interfaces
 - **Compose**: Provides Jetpack Compose integration
 - **Fragment**: Provides AndroidX Fragment integration (Android only)
-- **Serialization-Kotlinx** (since 1.4.0): Provides Kotlinx Serialization integration (Experimental, supports only flat objects)
-- **Compose-Serialization-Kotlinx** (since 1.4.0): Provides Kotlinx Serialization integration for Compose
-- **Fragment-Serialization-Kotlinx** (since 1.4.0): Provides Kotlinx Serialization integration for Fragments
+- **Serialization-Kotlinx** (since 1.4.0): Kotlinx Serialization integration. Since last release: supports nested objects and lists; configurable via `BoomerangFormat` and `SerializersModule`.
+- **Compose-Serialization-Kotlinx** (since 1.4.0): Kotlinx Serialization integration for Compose.
+- **Fragment-Serialization-Kotlinx** (since 1.4.0): Kotlinx Serialization integration for Fragments.
 
 ## Features
 
@@ -36,22 +36,22 @@ Add the following dependencies to your `build.gradle.kts` file:
 
 ```kotlin
 // For core functionality only
-implementation("io.github.buszi.boomerang:core:1.4.0")
+implementation("io.github.buszi.boomerang:core:1.5.0")
 
 // For Jetpack Compose integration
-implementation("io.github.buszi.boomerang:compose:1.4.0")
+implementation("io.github.buszi.boomerang:compose:1.5.0")
 
 // For AndroidX Fragment integration (Android only)
-implementation("io.github.buszi.boomerang:fragment:1.4.0")
+implementation("io.github.buszi.boomerang:fragment:1.5.0")
 
 // For Kotlinx Serialization integration (Experimental)
-implementation("io.github.buszi.boomerang:serialization-kotlinx:1.4.0")
+implementation("io.github.buszi.boomerang:serialization-kotlinx:1.5.0")
 
 // For Compose with Kotlinx Serialization integration
-implementation("io.github.buszi.boomerang:compose-serialization-kotlinx:1.4.0")
+implementation("io.github.buszi.boomerang:compose-serialization-kotlinx:1.5.0")
 
 // For Fragment with Kotlinx Serialization integration (Android only)
-implementation("io.github.buszi.boomerang:fragment-serialization-kotlinx:1.4.0")
+implementation("io.github.buszi.boomerang:fragment-serialization-kotlinx:1.5.0")
 ```
 
 Choose the modules that fit your project's needs. For example, if you're only using Fragments, you only need the core and fragment modules. If you want to use serialization features, you'll need the appropriate serialization module along with Kotlinx Serialization dependency.
@@ -214,11 +214,10 @@ class NotificationFragment : Fragment() {
 }
 ```
 
-### Serialization (Experimental, since 1.4.0)
-
-> **Note:** The serialization feature is experimental and currently only supports flat (non-nested) objects.
+### Serialization (Experimental)
 
 Boomerang provides integration with Kotlinx Serialization, allowing you to store and retrieve serializable objects.
+Supports objects, nested objects, collections, and enums.
 
 #### Defining a Serializable Object
 

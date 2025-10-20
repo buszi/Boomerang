@@ -11,6 +11,13 @@ import kotlinx.serialization.modules.EmptySerializersModule
 import kotlinx.serialization.modules.SerializersModule
 
 @OptIn(ExperimentalSerializationApi::class)
+/**
+ * Kotlinx Serialization encoder that writes values into a [Boomerang].
+ *
+ * This is used internally by [BoomerangFormat.serialize] and mirrors the shape of the
+ * serialized object into nested `Boomerang` containers and lists. Although public, this
+ * class is not generally intended for direct consumption by library users.
+ */
 class RootBoomerangEncoder(
     override val serializersModule: SerializersModule = EmptySerializersModule(),
 ) : AbstractEncoder() {

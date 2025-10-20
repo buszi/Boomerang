@@ -8,7 +8,7 @@ The Serialization Kotlinx module of Boomerang provides integration with Kotlinx 
 
 This module supports Android, iOS, and Desktop platforms, providing a consistent API across all platforms while using platform-specific implementations under the hood.
 
-**Note:** The serialization feature currently only supports flat non-nested objects.
+Supports primitives, enums, nested objects, and lists. Configure polymorphism/custom serializers via `SerializersModule`.
 
 ## Installation
 
@@ -16,14 +16,45 @@ Add the following dependencies to your app's `build.gradle.kts` file:
 
 ```kotlin
 // For core functionality (required)
-implementation("io.github.buszi.boomerang:core:1.4.0")
+implementation("io.github.buszi.boomerang:core:1.5.0")
 
 // For Kotlinx Serialization integration
-implementation("io.github.buszi.boomerang:serialization-kotlinx:1.4.0")
+implementation("io.github.buszi.boomerang:serialization-kotlinx:1.5.0")
 
 // Kotlinx Serialization dependency
-implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.4.0")
+implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.5.0")
 ```
+
+## Configuration
+
+Boomerang uses `BoomerangFormat` to bridge Kotlinx Serialization and the Boomerang container.
+
+- Local configuration:
+  ```kotlin
+  val format = BoomerangFormat {
+      serializersModule = SerializersModule {
+          // polymorphic {}, contextual {}, etc.
+      }
+  }
+
+  val b: Boomerang = format.serialize(
+      UserPreference(theme = "dark", notificationsEnabled = true, fontSize = 14)
+  )
+  val pref: UserPreference = format.deserialize(b)
+  ```
+- Global configuration for module helpers:
+  ```kotlin
+  BoomerangConfig.format = BoomerangFormat {
+      serializersModule = SerializersModule {
+          // custom serializers
+      }
+  }
+  ```
+  Setting this affects helpers like `BoomerangStore.storeValue(value)`, `BoomerangStore.getSerializable()`, `Boomerang.putSerializable(key, value)`, and `Boomerang.getSerializable(key)`.
+
+Behavior notes:
+- Missing primitive fields deserialize to their default values.
+- Nested objects and lists are preserved as nested Boomerang containers and lists.
 
 ## Usage
 
