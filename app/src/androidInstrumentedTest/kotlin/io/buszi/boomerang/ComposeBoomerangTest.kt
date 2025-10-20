@@ -226,7 +226,7 @@ class ComposeBoomerangTest {
 
         // Verify we're back on Home screen and the serializable item is displayed
         composeTestRule.onNodeWithText("Home Screen").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Serializable item: SerializableResult(name=Serializable name, age=10)").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Serializable item: SerializableResult(name=Serializable name, age=10, ids=[1, 2, 3], metadata=Metadata(states=[A, B, C]), users=[User(id=1), User(id=2)])").assertIsDisplayed()
 
         // Clear the serializable item
         composeTestRule.onNodeWithText("Clear Serializable Item").performClick()
