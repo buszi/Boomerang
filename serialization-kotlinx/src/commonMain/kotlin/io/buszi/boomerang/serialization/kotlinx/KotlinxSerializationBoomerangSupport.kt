@@ -1,6 +1,7 @@
 package io.buszi.boomerang.serialization.kotlinx
 
 import io.buszi.boomerang.core.Boomerang
+import io.buszi.boomerang.core.BoomerangConfig
 import io.buszi.boomerang.core.BoomerangStore
 import kotlinx.serialization.Serializable
 
@@ -14,7 +15,7 @@ import kotlinx.serialization.Serializable
  * @param value The serializable object to store
  */
 inline fun <reified T : @Serializable Any> BoomerangStore.storeValue(key: String, value: T) {
-    val boomerang = BoomerangFormat.serialize(value)
+    val boomerang = BoomerangConfig.format.serialize(value)
     storeValue(key, boomerang)
 }
 
@@ -28,7 +29,7 @@ inline fun <reified T : @Serializable Any> BoomerangStore.storeValue(key: String
  * @param value The serializable object to store
  */
 inline fun <reified T : @Serializable Any> BoomerangStore.storeValue(value: T) {
-    val boomerang = BoomerangFormat.serialize(value)
+    val boomerang = BoomerangConfig.format.serialize(value)
     storeValue(requireNotNull(T::class.qualifiedName), boomerang)
 }
 
@@ -43,7 +44,7 @@ inline fun <reified T : @Serializable Any> BoomerangStore.storeValue(value: T) {
  */
 inline fun <reified T : @Serializable Any> BoomerangStore.getSerializable(key: String): T? {
     val boomerang = getValue(key) ?: return null
-    return BoomerangFormat.deserialize(boomerang)
+    return BoomerangConfig.format.deserialize(boomerang)
 }
 
 /**
@@ -57,7 +58,7 @@ inline fun <reified T : @Serializable Any> BoomerangStore.getSerializable(key: S
  */
 inline fun <reified T : @Serializable Any> BoomerangStore.getSerializable(): T? {
     val boomerang = getValue(requireNotNull(T::class.qualifiedName)) ?: return null
-    return BoomerangFormat.deserialize(boomerang)
+    return BoomerangConfig.format.deserialize(boomerang)
 }
 
 /**
@@ -70,7 +71,7 @@ inline fun <reified T : @Serializable Any> BoomerangStore.getSerializable(): T? 
  * @param value The serializable object to add
  */
 inline fun <reified T : @Serializable Any> Boomerang.putSerializable(key: String, value: T) {
-    val boomerang = BoomerangFormat.serialize(value)
+    val boomerang = BoomerangConfig.format.serialize(value)
     putBoomerang(key, boomerang)
 }
 
@@ -85,5 +86,5 @@ inline fun <reified T : @Serializable Any> Boomerang.putSerializable(key: String
  */
 inline fun <reified T : @Serializable Any> Boomerang.getSerializable(key: String): T? {
     val boomerang = getBoomerang(key) ?: return null
-    return BoomerangFormat.deserialize(boomerang)
+    return BoomerangConfig.format.deserialize(boomerang)
 }
