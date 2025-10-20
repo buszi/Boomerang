@@ -73,7 +73,7 @@ fun ComposePreviewApp(recreateApp: () -> Unit) {
  * @property age The age value associated with the result
  */
 @Serializable
-data class SerializableResult(val name: String, val age: Int)
+data class SerializableResult(val name: String, val age: Int, val ids: List<Long>)
 
 @Composable
 private fun Navigation(recreateApp: () -> Unit) {
@@ -283,7 +283,7 @@ private fun Navigation(recreateApp: () -> Unit) {
                 }
 
                 Button(onClick = {
-                    store.storeValue(SerializableResult("Serializable name", 10))
+                    store.storeValue(SerializableResult("Serializable name", 10, listOf(1, 2, 3)))
                     navController.popBackStack()
                 }) {
                     Text(text = "Store Serializable result and Return")
