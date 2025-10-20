@@ -1,6 +1,7 @@
 package io.buszi.boomerang.serialization.kotlinx
 
 import io.buszi.boomerang.core.Boomerang
+import io.buszi.boomerang.core.emptyBoomerang
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.StructureKind
@@ -38,12 +39,19 @@ class RootBoomerangDecoder(
 
     override fun beginStructure(descriptor: SerialDescriptor): CompositeDecoder {
         // If this is a list/collection, return a dedicated decoder for it
-        return if (descriptor.kind is StructureKind.LIST) {
-            val listKey = getCurrentPropertyName()
-            ListDecoder(listKey)
-        } else {
-            // Flat/nested object decoding is done directly on this decoder
-            this
+        return when (descriptor.kind) {
+            is StructureKind.LIST -> {
+                val listKey = getCurrentPropertyName()
+                ListDecoder(listKey)
+            }
+            else -> {
+                // For root-level object, keep using this decoder
+                if (currentPropertyName == null) return this
+                // For nested object under a property, decode from the nested Boomerang stored under that key
+                val key = getCurrentPropertyName()
+                val nested = boomerang.getBoomerang(key) ?: emptyBoomerang()
+                RootBoomerangDecoder(nested, serializersModule)
+            }
         }
     }
 

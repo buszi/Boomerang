@@ -41,7 +41,7 @@ import kotlinx.serialization.Serializable
 
 /**
  * Main Composable function that demonstrates the usage of Boomerang with Jetpack Compose.
- * 
+ *
  * This function sets up a Compose application that showcases various Boomerang features including:
  * - Navigation result passing
  * - Result persistence across configuration changes
@@ -65,15 +65,24 @@ fun ComposePreviewApp(recreateApp: () -> Unit) {
 
 /**
  * A serializable data class used to demonstrate Kotlinx Serialization integration with Boomerang in Compose.
- * 
+ *
  * This class is used in the Compose navigation example to show how serializable objects
  * can be passed between composables using Boomerang's serialization support.
- *
- * @property name The name of the result
- * @property age The age value associated with the result
  */
 @Serializable
-data class SerializableResult(val name: String, val age: Int, val ids: List<Long>)
+data class SerializableResult(
+    val name: String,
+    val age: Int,
+    val ids: List<Long>,
+    val metadata: Metadata,
+    val users: List<User>,
+) {
+    @Serializable
+    data class Metadata(val states: List<String>)
+
+    @Serializable
+    data class User(val id: Long)
+}
 
 @Composable
 private fun Navigation(recreateApp: () -> Unit) {
@@ -283,7 +292,14 @@ private fun Navigation(recreateApp: () -> Unit) {
                 }
 
                 Button(onClick = {
-                    store.storeValue(SerializableResult("Serializable name", 10, listOf(1, 2, 3)))
+                    store.storeValue(
+                        SerializableResult(
+                            name = "Serializable name",
+                            age = 10,
+                            ids = listOf(1, 2, 3),
+                            metadata = SerializableResult.Metadata(states = listOf("A", "B", "C")),
+                            users = listOf(SerializableResult.User(1), SerializableResult.User(2)),
+                        ))
                     navController.popBackStack()
                 }) {
                     Text(text = "Store Serializable result and Return")

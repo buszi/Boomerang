@@ -76,8 +76,20 @@ class RootBoomerangEncoder(
     }
 
     override fun beginStructure(descriptor: SerialDescriptor): CompositeEncoder {
-        // For nested objects at the root level, we serialize flatly into the same boomerang
-        return this
+        // For root-level object, we serialize into the same boomerang (no current property set)
+        if (currentPropertyName == null) return this
+
+        // For nested objects (non-list) under a property, create a sub-boomerang and store it under the property key
+        return when (descriptor.kind) {
+            is StructureKind.LIST -> this // Collections are handled by beginCollection
+            else -> {
+                val property = getCurrentPropertyName()
+                val sub = emptyBoomerang()
+                ObjectEncoder(sub) { finished ->
+                    boomerang.putBoomerang(property, finished)
+                }
+            }
+        }
     }
 
     override fun endStructure(descriptor: SerialDescriptor) {
