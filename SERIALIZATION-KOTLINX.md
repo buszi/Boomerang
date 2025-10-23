@@ -16,13 +16,13 @@ Add the following dependencies to your app's `build.gradle.kts` file:
 
 ```kotlin
 // For core functionality (required)
-implementation("io.github.buszi.boomerang:core:1.5.0")
+implementation("io.github.buszi.boomerang:core:1.5.1")
 
 // For Kotlinx Serialization integration
-implementation("io.github.buszi.boomerang:serialization-kotlinx:1.5.0")
+implementation("io.github.buszi.boomerang:serialization-kotlinx:1.5.1")
 
 // Kotlinx Serialization dependency
-implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.5.0")
+implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:<*>")
 ```
 
 ## Configuration

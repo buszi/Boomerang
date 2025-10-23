@@ -12,10 +12,10 @@ Add the following dependencies to your app's `build.gradle.kts` file:
 
 ```kotlin
 // For core functionality (required)
-implementation("io.github.buszi.boomerang:core:1.5.0")
+implementation("io.github.buszi.boomerang:core:1.5.1")
 
 // For AndroidX Fragment integration
-implementation("io.github.buszi.boomerang:fragment:1.5.0")
+implementation("io.github.buszi.boomerang:fragment:1.5.1")
 ```
 
 ## Setup

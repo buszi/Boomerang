@@ -36,22 +36,22 @@ Add the following dependencies to your `build.gradle.kts` file:
 
 ```kotlin
 // For core functionality only
-implementation("io.github.buszi.boomerang:core:1.5.0")
+implementation("io.github.buszi.boomerang:core:1.5.1")
 
 // For Jetpack Compose integration
-implementation("io.github.buszi.boomerang:compose:1.5.0")
+implementation("io.github.buszi.boomerang:compose:1.5.1")
 
 // For AndroidX Fragment integration (Android only)
-implementation("io.github.buszi.boomerang:fragment:1.5.0")
+implementation("io.github.buszi.boomerang:fragment:1.5.1")
 
 // For Kotlinx Serialization integration (Experimental)
-implementation("io.github.buszi.boomerang:serialization-kotlinx:1.5.0")
+implementation("io.github.buszi.boomerang:serialization-kotlinx:1.5.1")
 
 // For Compose with Kotlinx Serialization integration
-implementation("io.github.buszi.boomerang:compose-serialization-kotlinx:1.5.0")
+implementation("io.github.buszi.boomerang:compose-serialization-kotlinx:1.5.1")
 
 // For Fragment with Kotlinx Serialization integration (Android only)
-implementation("io.github.buszi.boomerang:fragment-serialization-kotlinx:1.5.0")
+implementation("io.github.buszi.boomerang:fragment-serialization-kotlinx:1.5.1")
 ```
 
 Choose the modules that fit your project's needs. For example, if you're only using Fragments, you only need the core and fragment modules. If you want to use serialization features, you'll need the appropriate serialization module along with Kotlinx Serialization dependency.
