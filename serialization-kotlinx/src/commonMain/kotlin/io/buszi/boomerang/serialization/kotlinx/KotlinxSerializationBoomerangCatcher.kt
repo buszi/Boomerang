@@ -1,6 +1,7 @@
 package io.buszi.boomerang.serialization.kotlinx
 
 import io.buszi.boomerang.core.BoomerangCatcher
+import io.buszi.boomerang.core.BoomerangConfig
 import kotlinx.serialization.Serializable
 
 /**
@@ -16,6 +17,6 @@ import kotlinx.serialization.Serializable
 inline fun <reified T : @Serializable Any> kotlinxSerializationBoomerangCatcher(
     crossinline catcher: (T) -> Boolean,
 ) = BoomerangCatcher { boomerang ->
-    val value = BoomerangFormat.deserialize<T>(boomerang)
+    val value = BoomerangConfig.format.deserialize<T>(boomerang)
     catcher(value)
 }
