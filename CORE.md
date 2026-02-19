@@ -9,7 +9,7 @@ Targets Android, iOS, and Desktop.
 ## Installation
 
 ```kotlin
-implementation("io.github.buszi.boomerang:core:1.5.1")
+implementation("io.github.buszi.boomerang:core:1.6.0")
 ```
 
 ## Key Concepts

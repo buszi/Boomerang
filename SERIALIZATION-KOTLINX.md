@@ -7,8 +7,8 @@ Supports primitives, enums, nested objects, lists, and maps. Targets Android, iO
 ## Installation
 
 ```kotlin
-implementation("io.github.buszi.boomerang:core:1.5.1")
-implementation("io.github.buszi.boomerang:serialization-kotlinx:1.5.1")
+implementation("io.github.buszi.boomerang:core:1.6.0")
+implementation("io.github.buszi.boomerang:serialization-kotlinx:1.6.0")
 
 // Kotlinx Serialization dependency
 implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:<version>")

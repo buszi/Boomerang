@@ -73,7 +73,7 @@ class KotlinMultiplatformApplicationPlugin : Plugin<Project> {
                     nativeDistributions {
                         targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
                         packageName = "Boomerang Desktop Preview"
-                        packageVersion = "1.5.1"
+                        packageVersion = "1.6.0"
                     }
                 }
             }

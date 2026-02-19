@@ -7,8 +7,8 @@ Android only.
 ## Installation
 
 ```kotlin
-implementation("io.github.buszi.boomerang:core:1.5.1")
-implementation("io.github.buszi.boomerang:fragment:1.5.1")
+implementation("io.github.buszi.boomerang:core:1.6.0")
+implementation("io.github.buszi.boomerang:fragment:1.6.0")
 ```
 
 ## Setup

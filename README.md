@@ -69,23 +69,23 @@ Add the modules you need to your `build.gradle.kts`:
 
 ```kotlin
 // Core (required by all modules)
-implementation("io.github.buszi.boomerang:core:1.5.1")
+implementation("io.github.buszi.boomerang:core:1.6.0")
 
 // Compose integration
-implementation("io.github.buszi.boomerang:compose:1.5.1")
+implementation("io.github.buszi.boomerang:compose:1.6.0")
 
 // Kotlinx Serialization integration
-implementation("io.github.buszi.boomerang:serialization-kotlinx:1.5.1")
+implementation("io.github.buszi.boomerang:serialization-kotlinx:1.6.0")
 
 // Compose + Serialization (lifecycle-aware catching of @Serializable objects)
-implementation("io.github.buszi.boomerang:compose-serialization-kotlinx:1.5.1")
+implementation("io.github.buszi.boomerang:compose-serialization-kotlinx:1.6.0")
 ```
 
 **Fragment users (Android only):**
 
 ```kotlin
-implementation("io.github.buszi.boomerang:fragment:1.5.1")
-implementation("io.github.buszi.boomerang:fragment-serialization-kotlinx:1.5.1")
+implementation("io.github.buszi.boomerang:fragment:1.6.0")
+implementation("io.github.buszi.boomerang:fragment-serialization-kotlinx:1.6.0")
 ```
 
 Pick what fits your project. A Compose-only app typically needs `core`, `compose`, `serialization-kotlinx`, and `compose-serialization-kotlinx`. A Fragment-only app needs `core`, `fragment`, `serialization-kotlinx`, and `fragment-serialization-kotlinx`.
