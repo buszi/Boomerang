@@ -1,29 +1,46 @@
 # Module core
 
-A lightweight multiplatform library providing the fundamental concepts and interfaces for handling navigation results in applications.
+The foundation of Boomerang. Defines the core interfaces and platform implementations for storing, retrieving, and processing navigation results between screens.
 
-## Overview
+This module is a dependency of every other Boomerang module. You rarely use it directly -- the Compose and Fragment modules build on top of it -- but it's the right starting point if you're building a custom integration or just want to understand how things work under the hood.
 
-The Core module of Boomerang contains the essential components that power both the Compose and Fragment modules. It defines the key interfaces and classes for storing, retrieving, and processing navigation results between screens without tight coupling between components.
-
-This module supports Android, iOS, and Desktop platforms, providing a consistent API across all platforms while using platform-specific implementations under the hood.
+Targets Android, iOS, and Desktop.
 
 ## Installation
 
-Add the following dependency to your app's `build.gradle.kts` file:
-
 ```kotlin
-// For core functionality (required by all Boomerang modules)
 implementation("io.github.buszi.boomerang:core:1.5.1")
 ```
 
-The Core module is required by both the Compose and Fragment modules, so you'll need to include it regardless of which integration you're using.
+## Key Concepts
 
-## Key Components
+### Boomerang
+
+A typed key-value container for navigation results. Think of it like a `Bundle` that works on every platform. You put values in, pass it through the store, and pull values out on the other side.
+
+Platform implementations:
+- **Android** -- `AndroidBoomerang`, backed by `Bundle`
+- **iOS / Desktop** -- `MapBoomerang`, backed by `MutableMap`
+
+You create instances through factory functions:
+
+```kotlin
+// From key-value pairs
+val boomerang = boomerangOf("name" to "Alice", "age" to 30)
+
+// With a builder
+val boomerang = buildBoomerang {
+    putString("name", "Alice")
+    putInt("age", 30)
+}
+
+// Empty
+val boomerang = emptyBoomerang()
+```
 
 ### BoomerangStore
 
-The `BoomerangStore` interface defines a key-value store for navigation results:
+The central store that holds navigation results. One screen writes to it, another reads from it.
 
 ```kotlin
 interface BoomerangStore {
@@ -37,18 +54,11 @@ interface BoomerangStore {
 }
 ```
 
-This interface provides methods for:
-- Retrieving a value for a key (`getValue`)
-- Storing a value with a key (`storeValue`)
-- Storing an event notification with a key (`storeEvent`)
-- Removing a value for a key (`dropValue`)
-- Trying to catch a value using a `BoomerangCatcher` (`tryConsumeValue`)
-- Packing the store's state into a Boomerang object (`packState`)
-- Restoring the store's state from a Boomerang object (`restoreState`)
+`DefaultBoomerangStore` is the built-in implementation. It stores entries in a `MutableMap` and supports packing/restoring its state for surviving configuration changes and process death.
 
 ### BoomerangCatcher
 
-The `BoomerangCatcher` functional interface is used for catching and processing Boomerang values:
+A functional interface that processes a `Boomerang` and returns `true` if it was successfully handled (which removes it from the store):
 
 ```kotlin
 fun interface BoomerangCatcher {
@@ -56,36 +66,9 @@ fun interface BoomerangCatcher {
 }
 ```
 
-Implementations of this interface determine whether a Boomerang value should be "caught" (processed and removed from the store).
-
-### EventBoomerangCatcher
-
-The `eventBoomerangCatcher` function creates a specialized `BoomerangCatcher` for handling event notifications:
-
-```kotlin
-inline fun eventBoomerangCatcher(
-    key: String,
-    crossinline onEvent: () -> Unit,
-): BoomerangCatcher
-```
-
-This function is useful when you only need to be notified that something happened, without needing to pass any additional data. It checks if the Boomerang contains an event with the specified key and calls the provided callback when the event is caught.
-
-### DefaultBoomerangStore
-
-The `DefaultBoomerangStore` class is the default implementation of the `BoomerangStore` interface:
-
-```kotlin
-class DefaultBoomerangStore : BoomerangStore {
-    // Implementation of BoomerangStore methods
-}
-```
-
-The `DefaultBoomerangStore` uses a private mutable map to store key-value pairs and provides methods for packing and restoring its state. It's designed to work across all supported platforms (Android, iOS, Desktop).
-
 ### BoomerangStoreHost
 
-The `BoomerangStoreHost` interface is for components that host a `BoomerangStore`:
+An interface for components that own a `BoomerangStore` -- typically your Activity. Used by the Fragment module and mixed Compose+Fragment setups.
 
 ```kotlin
 interface BoomerangStoreHost {
@@ -93,211 +76,87 @@ interface BoomerangStoreHost {
 }
 ```
 
-This interface is typically implemented by Activities or other lifecycle-aware components that need to provide a `BoomerangStore` to their children.
-
-### Logging Components
-
-Boomerang provides optional logging capabilities to help with debugging:
-
-#### BoomerangLogger
-
-The `BoomerangLogger` interface defines a simple logging mechanism:
-
-```kotlin
-interface BoomerangLogger {
-    fun log(tag: String, message: String)
-}
-```
-
-This interface can be implemented by applications to integrate with their preferred logging system.
-
-#### BoomerangConfig
-
-The `BoomerangConfig` object provides global configuration options:
-
-```kotlin
-object BoomerangConfig {
-    var logger: BoomerangLogger? = null
-}
-```
-
-By default, `logger` is `null`, which means logging is disabled. To enable logging, set this property to an instance of `BoomerangLogger`.
-
-#### AndroidBoomerangLogger
-
-For Android applications, Boomerang provides an Android-specific logger that integrates with Android's Log utility:
-
-```kotlin
-class AndroidBoomerangLogger(
-    private val level: LogLevel = LogLevel.DEBUG
-) : BoomerangLogger
-```
-
-The `LogLevel` enum defines the available log levels (VERBOSE, DEBUG, INFO, WARN, ERROR).
-
 ## Usage
 
-The Core module is not typically used directly in your application code. Instead, you'll use either the Compose or Fragment modules, which provide integration with their respective UI frameworks.
+Most of the time you'll interact with the store through the Compose or Fragment modules. But here's how the core API works directly.
 
-However, if you're building a custom integration or need direct access to the core functionality, you can use the Core module as follows:
-
-### Creating a Store
+### Storing and retrieving values
 
 ```kotlin
-// Create a new DefaultBoomerangStore
 val store = DefaultBoomerangStore()
-```
 
-### Storing a Value
-
-```kotlin
-// Store the result with a key using the builder pattern
-store.storeValue("home_screen_result") {
+// Store a result
+store.storeValue("result_key") {
     putString("selectedItem", "Item 1")
     putInt("quantity", 5)
 }
-```
 
-### Retrieving a Value
-
-```kotlin
-// Get a value for a key
-val boomerang = store.getValue("home_screen_result")
-
-// Extract data from the boomerang
+// Retrieve it
+val boomerang = store.getValue("result_key")
 val selectedItem = boomerang?.getString("selectedItem")
-val quantity = boomerang?.getInt("quantity")
 ```
 
-### Catching a Value
+### Catching values
+
+Catching retrieves a value and removes it from the store in one step:
 
 ```kotlin
-// Try to catch a value using a BoomerangCatcher
-store.tryConsumeValue("home_screen_result") { boomerang ->
-    // Process the boomerang
+store.tryConsumeValue("result_key") { boomerang ->
     val selectedItem = boomerang.getString("selectedItem")
-    val quantity = boomerang.getInt("quantity")
-
-    // Return true to indicate the value was successfully caught and should be removed
-    true
+    true // consumed -- remove from store
 }
 ```
 
-### Storing and Catching Events
+### Events
+
+For simple notifications without data:
 
 ```kotlin
-// Store an event notification
-store.storeEvent("notification_event")
+store.storeEvent("refresh_needed")
 
-// Create an event catcher
-val eventCatcher = eventBoomerangCatcher("notification_event") {
-    // This callback is executed when the event is caught
+val catcher = eventBoomerangCatcher("refresh_needed") {
     println("Event received!")
 }
-
-// Try to catch the event
-store.tryConsumeValue("notification_event", eventCatcher)
+store.tryConsumeValue("refresh_needed", catcher)
 ```
 
-### Saving and Restoring State
+### State preservation
+
+Pack the store's state into a `Boomerang` for saving, and restore it later:
 
 ```kotlin
-// Pack the store's state into a Boomerang object
-val stateBoomerang = store.packState()
+val packed = store.packState()
 
-// Later, restore the store from the saved state
-val restoredStore = DefaultBoomerangStore().apply {
-    restoreState(stateBoomerang)
-}
+// Later...
+val restored = DefaultBoomerangStore()
+restored.restoreState(packed)
 ```
 
-### Configuring Logging
+## Logging
+
+Optional logging for debugging store operations:
 
 ```kotlin
-// For Android applications
+// Android LogCat
 BoomerangConfig.logger = AndroidBoomerangLogger(LogLevel.DEBUG)
 
-// For other platforms or simple console logging
+// Console
 BoomerangConfig.logger = BoomerangLogger.PRINT_LOGGER
 
-// Create a custom logger
-val customLogger = object : BoomerangLogger {
+// Custom
+BoomerangConfig.logger = object : BoomerangLogger {
     override fun log(tag: String, message: String) {
-        // Integrate with your preferred logging system
         YourLoggingSystem.log("$tag: $message")
     }
 }
-BoomerangConfig.logger = customLogger
 
-// Disable logging
+// Disable (default)
 BoomerangConfig.logger = null
 ```
-
-When logging is enabled, Boomerang will log operations like storing and retrieving values, which can be helpful for debugging navigation flows and understanding how data is being passed between screens.
-
-## Advanced Usage
-
-### Custom BoomerangStore Implementation
-
-You can create your own implementation of the `BoomerangStore` interface if you need custom behavior:
-
-```kotlin
-class MyCustomBoomerangStore : BoomerangStore {
-    // Custom implementation of BoomerangStore methods
-}
-```
-
-### Custom BoomerangCatcher Implementation
-
-You can create a reusable `BoomerangCatcher` implementation:
-
-```kotlin
-val myCatcher = BoomerangCatcher { bundle: Bundle ->
-    // Process the bundle
-    true // Return true to indicate the value was successfully caught
-}
-
-// Use the catcher
-store.tryCatch("some_key", myCatcher)
-```
-
-## Platform-Specific Implementations
-
-The Core module provides platform-specific implementations of the `Boomerang` interface:
-
-### Android
-
-On Android, the `AndroidBoomerang` class implements the `Boomerang` interface using Android's Bundle for storage. This provides efficient integration with Android's saved instance state mechanism.
-
-### iOS and Desktop
-
-On iOS and Desktop, the `MapBoomerang` class implements the `Boomerang` interface using a MutableMap for storage. This provides a lightweight and efficient storage mechanism for these platforms.
-
-The `BoomerangFactory` object provides a platform-specific factory for creating the appropriate `Boomerang` implementation for the current platform.
 
 ## Requirements
 
 - Kotlin 1.5.0+
-
-### Platform-specific requirements:
-- **Android**: API level 21+
-- **iOS**: iOS 14+
-- **Desktop**: JVM 11+
-
-## License
-
-```
-Copyright 2025 Buszi
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-```
+- Android API 21+
+- iOS 14+
+- Desktop: JVM 11+

@@ -3,78 +3,109 @@
 [![UI Tests](https://github.com/buszi/Boomerang/actions/workflows/android-ui-tests.yml/badge.svg)](https://github.com/buszi/Boomerang/actions/workflows/android-ui-tests.yml)
 [![Version](https://img.shields.io/maven-central/v/io.github.buszi.boomerang/core)](https://central.sonatype.com/artifact/io.github.buszi.boomerang/core)
 
-A lightweight library for handling navigation results in Jetpack Compose/Compose Multiplatform and AndroidX Fragment applications targeting Android, iOS and Desktop/JVM.
+Type-safe navigation results for Compose Multiplatform and AndroidX Fragment apps. Pass `@Serializable` objects between screens -- across Android, iOS, and Desktop.
 
-## Overview
+## Quick Start
 
-Boomerang provides a clean and efficient way
-to pass data between screens in Jetpack Compose and AndroidX Fragment navigation without tight coupling between components.
-It solves the common problem of returning results from one screen to another,
-similar to the `setFragmentResultListener` pattern but designed to be lightweight and flexible.
+Define a serializable result, store it when leaving a screen, and catch it when arriving back:
 
-The library consists of several modules:
-- **Core**: Contains the fundamental concepts and interfaces
-- **Compose**: Provides Jetpack Compose integration
-- **Fragment**: Provides AndroidX Fragment integration (Android only)
-- **Serialization-Kotlinx** (since 1.4.0): Kotlinx Serialization integration. Since last release: supports nested objects and lists; configurable via `BoomerangFormat` and `SerializersModule`.
-- **Compose-Serialization-Kotlinx** (since 1.4.0): Kotlinx Serialization integration for Compose.
-- **Fragment-Serialization-Kotlinx** (since 1.4.0): Kotlinx Serialization integration for Fragments.
+```kotlin
+@Serializable
+data class UserSelection(val itemId: String, val quantity: Int)
+
+// Screen B: store the result before navigating back
+val store = LocalBoomerangStore.current
+store.storeValue(UserSelection(itemId = "abc", quantity = 2))
+navController.popBackStack()
+
+// Screen A: catch the result when this screen becomes visible again
+@Composable
+fun ScreenA() {
+    var selection by remember { mutableStateOf<UserSelection?>(null) }
+
+    ConsumeSerializableLifecycleEffect<UserSelection> { result ->
+        selection = result
+    }
+}
+```
+
+No manual key-value packing or type casting. The object goes in, the same object comes out.
+
+## Why Boomerang?
+
+Passing results between screens is a solved problem -- until you try to do it cleanly. Most approaches either couple your screens together, lose data on configuration changes, or force you to serialize everything by hand.
+
+Boomerang gives you a shared store that sits outside your navigation graph. One screen writes to it, another reads from it, and neither needs to know the other exists. The store survives configuration changes and process death. And with the Kotlinx Serialization integration, you can pass rich objects (nested data classes, lists, maps, enums) without writing a single `putString`/`getString` pair.
+
+It works with any navigation library -- Jetpack Navigation, Voyager, Decompose, or your own -- because it doesn't depend on one. It also doesn't hold references to your screens, so there are no memory leaks to worry about.
 
 ## Features
 
-- 🔄 Pass data between screens without tight coupling
-- 💾 Preserve navigation results across configuration changes and process death
-- 🧩 Modular design with separate core, compose, and fragment modules
-- 🔌 Easy integration with any Jetpack Compose or AndroidX Fragment navigation library
-- 🔀 Support for mixed projects using both Compose and Fragments
-- 📢 Simple event handling for notifications without data
-- 🧪 Lightweight with minimal dependencies
+- Pass `@Serializable` objects between screens with full type safety
+- Supports primitives, nested objects, lists, maps, and enums
+- Works with any Compose or Fragment navigation library
+- Kotlin Multiplatform -- Android, iOS, and Desktop from a single API
+- Survives configuration changes and process death
+- Modular -- use only the parts you need
+- Lightweight with minimal dependencies
+- Mixed Compose + Fragment projects supported
+- Simple event notifications for cases where you don't need data
+
+## Platform Support
+
+Boomerang targets all Kotlin Multiplatform Compose platforms:
+
+| Platform | Core | Compose | Fragment | Serialization |
+|----------|------|---------|----------|---------------|
+| Android  | Yes  | Yes     | Yes      | Yes           |
+| iOS      | Yes  | Yes     | --       | Yes           |
+| Desktop  | Yes  | Yes     | --       | Yes           |
+
+On Android, storage is backed by `Bundle` for native integration with saved instance state. On iOS and Desktop, a `MutableMap` is used internally.
 
 ## Installation
 
-Add the following dependencies to your `build.gradle.kts` file:
+Add the modules you need to your `build.gradle.kts`:
 
 ```kotlin
-// For core functionality only
+// Core (required by all modules)
 implementation("io.github.buszi.boomerang:core:1.5.1")
 
-// For Jetpack Compose integration
+// Compose integration
 implementation("io.github.buszi.boomerang:compose:1.5.1")
 
-// For AndroidX Fragment integration (Android only)
-implementation("io.github.buszi.boomerang:fragment:1.5.1")
-
-// For Kotlinx Serialization integration (Experimental)
+// Kotlinx Serialization integration
 implementation("io.github.buszi.boomerang:serialization-kotlinx:1.5.1")
 
-// For Compose with Kotlinx Serialization integration
+// Compose + Serialization (lifecycle-aware catching of @Serializable objects)
 implementation("io.github.buszi.boomerang:compose-serialization-kotlinx:1.5.1")
+```
 
-// For Fragment with Kotlinx Serialization integration (Android only)
+**Fragment users (Android only):**
+
+```kotlin
+implementation("io.github.buszi.boomerang:fragment:1.5.1")
 implementation("io.github.buszi.boomerang:fragment-serialization-kotlinx:1.5.1")
 ```
 
-Choose the modules that fit your project's needs. For example, if you're only using Fragments, you only need the core and fragment modules. If you want to use serialization features, you'll need the appropriate serialization module along with Kotlinx Serialization dependency.
+Pick what fits your project. A Compose-only app typically needs `core`, `compose`, `serialization-kotlinx`, and `compose-serialization-kotlinx`. A Fragment-only app needs `core`, `fragment`, `serialization-kotlinx`, and `fragment-serialization-kotlinx`.
 
 ## Usage
 
-### Compose Setup
+### Setup
 
-1. For the default and recommended behavior of Boomerang, wrap your app's content in a `CompositionHostedDefaultBoomerangStoreScope`:
+**Compose** -- wrap your app content in a `CompositionHostedDefaultBoomerangStoreScope`:
 
 ```kotlin
 @Composable
 fun YourApplication() {
     CompositionHostedDefaultBoomerangStoreScope {
-        // Your app content here
         AppNavigation()
     }
 }
 ```
 
-### Fragment Setup
-
-1. Make your Activity implement `BoomerangStoreHost` and initialize the store:
+**Fragment** -- make your Activity implement `BoomerangStoreHost`:
 
 ```kotlin
 class MainActivity : AppCompatActivity(), BoomerangStoreHost {
@@ -94,132 +125,13 @@ class MainActivity : AppCompatActivity(), BoomerangStoreHost {
 }
 ```
 
-### Storing a Result
+**Mixed (Compose + Fragment)** -- set up the Activity as above, then use `ActivityHostedBoomerangStoreScope` in your Compose code to share the same store.
 
-When you want to store a result to be consumed by another screen:
+### Passing Serializable Objects
 
-```kotlin
-@Composable
-fun DetailScreen(navController: NavController) {
-    val store = LocalBoomerangStore.current
+This is the recommended way to pass data between screens. Define your data as a `@Serializable` class and let Boomerang handle the rest.
 
-    Button(onClick = {
-        // Store the result with a key
-        store.storeValue("home_screen_result", boomerangOf("selectedItem" to "Item 1"))
-
-        // Navigate back
-        navController.popBackStack()
-    }) {
-        Text("Select and Return")
-    }
-}
-```
-
-### Catching a Result in Compose
-
-To catch and process a result when a Compose screen becomes visible:
-
-```kotlin
-@Composable
-fun HomeScreen() {
-    var selectedItem by remember { mutableStateOf<String?>(null) }
-
-    // Set up a catcher that runs when the screen starts
-    CatchBoomerangLifecycleEffect("home_screen_result") { boomerang ->
-        // Extract data from the boomerang
-        selectedItem = boomerang.getString("selectedItem")
-        true // Return true to indicate the result was successfully processed
-    }
-
-    // Display the result
-    Text("Selected item: $selectedItem")
-}
-```
-
-### Catching a Result in Fragments
-
-To catch and process a result when a Fragment becomes visible:
-
-```kotlin
-class HomeFragment : Fragment() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // Set up a catcher that runs when the fragment starts
-        catchBoomerangWithLifecycleEvent("home_screen_result") { boomerang ->
-            // Extract data from the boomerang and process it
-            val selectedItem = boomerang.getString("selectedItem")
-            // Do something with the result
-            true // Return true to indicate the result was successfully processed
-        }
-    }
-}
-```
-
-### Event Handling
-
-For simple notifications without data, you can use the event handling feature:
-
-#### Storing an Event
-
-```kotlin
-// In Compose
-val store = LocalBoomerangStore.current
-store.storeEvent("notification_event")
-
-// In Fragment
-findBoomerangStore().storeEvent("notification_event")
-```
-
-#### Catching an Event in Compose
-
-```kotlin
-@Composable
-fun NotificationScreen() {
-    var eventReceived by remember { mutableStateOf(false) }
-
-    // Set up an event catcher that runs when the screen starts
-    CatchEventBoomerangLifecycleEffect("notification_event") {
-        // Update state when the event is received
-        eventReceived = true
-    }
-
-    // Display the event status
-    Text("Event status: ${if (eventReceived) "Event received" else "No event received"}")
-}
-```
-
-#### Catching an Event in Fragments
-
-```kotlin
-class NotificationFragment : Fragment() {
-
-    private var eventReceived = false
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // Set up an event catcher that runs when the fragment starts
-        catchEventBoomerangWithLifecycleEvent("notification_event") {
-            // Update state when the event is received
-            eventReceived = true
-            updateUI()
-        }
-    }
-
-    private fun updateUI() {
-        // Update UI based on event status
-    }
-}
-```
-
-### Serialization (Experimental)
-
-Boomerang provides integration with Kotlinx Serialization, allowing you to store and retrieve serializable objects.
-Supports objects, nested objects, collections, and enums.
-
-#### Defining a Serializable Object
+#### Storing
 
 ```kotlin
 @Serializable
@@ -228,231 +140,168 @@ data class UserPreference(
     val notificationsEnabled: Boolean,
     val fontSize: Int
 )
-```
 
-#### Storing a Serializable Object
-
-```kotlin
 // In Compose
 val store = LocalBoomerangStore.current
-val userPreference = UserPreference("dark", true, 14)
-store.storeValue("user_preferences", userPreference)
-
-// Or store using the type as the key
-store.storeValue(userPreference)
+store.storeValue(UserPreference("dark", true, 14))
 
 // In Fragment
-val store = findBoomerangStore()
-val userPreference = UserPreference("dark", true, 14)
-store.storeValue("user_preferences", userPreference)
+findBoomerangStore().storeValue(UserPreference("dark", true, 14))
 ```
 
-#### Retrieving a Serializable Object
+You can also store with an explicit key if you prefer: `store.storeValue("my_key", userPreference)`.
 
-```kotlin
-// In Compose
-val store = LocalBoomerangStore.current
-val userPreference: UserPreference? = store.getSerializable("user_preferences")
-
-// Or retrieve using the type as the key
-val userPreference: UserPreference? = store.getSerializable()
-
-// In Fragment
-val store = findBoomerangStore()
-val userPreference: UserPreference? = store.getSerializable("user_preferences")
-```
-
-#### Catching a Serializable Object in Compose
+#### Catching in Compose
 
 ```kotlin
 @Composable
 fun PreferencesScreen() {
-    var userPreference by remember { mutableStateOf<UserPreference?>(null) }
+    var pref by remember { mutableStateOf<UserPreference?>(null) }
 
-    // Catch a serializable object with a specific key
-    CatchSerializableLifecycleEffect<UserPreference>("user_preferences") { preference ->
-        userPreference = preference
-        true // Return true to indicate the object was successfully processed
-    }
-
-    // Or catch using the type as the key
     CatchSerializableLifecycleEffect<UserPreference> { preference ->
-        userPreference = preference
+        pref = preference
+        // true = consumed, remove from store
+        // (or use Consume* functions to auto-pass true and always remove entry from store)
         true
     }
 }
 ```
 
-#### Catching a Serializable Object in Fragment
+#### Catching in Fragment
 
 ```kotlin
 class PreferencesFragment : Fragment() {
-    private var userPreference: UserPreference? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Catch a serializable object with a specific key
-        catchSerializableWithLifecycleEvent<UserPreference>("user_preferences") { preference ->
-            userPreference = preference
-            true // Return true to indicate the object was successfully processed
-        }
-
-        // Or catch using the type as the key
         catchSerializableWithLifecycleEvent<UserPreference> { preference ->
-            userPreference = preference
+            // use preference
             true
         }
     }
 }
 ```
 
-### Advanced Usage
+#### Maps, Lists, and Nested Objects
 
-#### In Compose
-
-You can directly access the store to perform operations in Compose:
+All of these work out of the box:
 
 ```kotlin
-// Inside a @Composable function
-val store = LocalBoomerangStore.current
+@Serializable
+data class AppConfig(
+    val settings: Map<String, String>,
+    val featureFlags: Map<String, Boolean>,
+    val recentSearches: List<String>
+)
 
-// Check if a result exists
-val hasResult = store.getValue("some_key") != null
-
-// Manually drop a value
-store.dropValue("some_key")
+store.storeValue(AppConfig(
+    settings = mapOf("theme" to "dark", "lang" to "en"),
+    featureFlags = mapOf("newUI" to true, "beta" to false),
+    recentSearches = listOf("kotlin", "compose")
+))
 ```
 
-#### In Fragments
+Maps with non-string keys (e.g., `Map<Int, String>`, `Map<MyEnum, Boolean>`) are supported too.
 
-You can directly access the store to perform operations in Fragments:
+#### Custom Serialization Configuration
+
+If you need polymorphism or custom serializers, configure `BoomerangFormat` globally:
 
 ```kotlin
-// Inside a Fragment
-val store = findBoomerangStore()
-
-// Check if a result exists
-val hasResult = store.getValue("some_key") != null
-
-// Manually drop a value
-store.dropValue("some_key")
-
-// Store a value
-store.storeValue("some_key", boomerangOf("result" to "Success"))
+BoomerangConfig.format = BoomerangFormat {
+    serializersModule = SerializersModule {
+        // polymorphic {}, contextual {}, etc.
+    }
+}
 ```
 
-#### Logging
-
-Boomerang provides optional logging capabilities to help with debugging:
+Or create a local instance for one-off use:
 
 ```kotlin
-// Enable logging with Android's LogCat (Android only)
+val format = BoomerangFormat { /* ... */ }
+val boomerang: Boomerang = format.serialize(myObject)
+val back: MyType = format.deserialize(boomerang)
+```
+
+### Passing Simple Values
+
+For cases where you just need to pass a couple of primitives and don't want to define a data class:
+
+```kotlin
+// Store
+store.storeValue("home_screen_result", boomerangOf("selectedItem" to "Item 1"))
+
+// Catch in Compose
+CatchBoomerangLifecycleEffect("home_screen_result") { boomerang ->
+    val selectedItem = boomerang.getString("selectedItem")
+    true
+}
+
+// Catch in Fragment
+catchBoomerangWithLifecycleEvent("home_screen_result") { boomerang ->
+    val selectedItem = boomerang.getString("selectedItem")
+    true
+}
+```
+
+### Event Notifications
+
+When you only need to signal that something happened, without passing any data:
+
+```kotlin
+// Store an event
+store.storeEvent("refresh_needed")
+
+// Catch in Compose
+CatchEventBoomerangLifecycleEffect("refresh_needed") {
+    // react to the event
+}
+
+// Catch in Fragment
+catchEventBoomerangWithLifecycleEvent("refresh_needed") {
+    // react to the event
+}
+```
+
+### Logging
+
+Boomerang can log store operations to help with debugging:
+
+```kotlin
+// Android LogCat
 BoomerangConfig.logger = AndroidBoomerangLogger(LogLevel.DEBUG)
 
-// For other platforms or simple console logging
+// Console
 BoomerangConfig.logger = BoomerangLogger.PRINT_LOGGER
 
-// Disable logging
+// Disable (default)
 BoomerangConfig.logger = null
-
-// You can also implement BoomerangLogger interface for your own loggers
-class MyBoomerangLogger : BoomerangLogger
 ```
 
-When logging is enabled, Boomerang will log operations like storing and retrieving values, which can be helpful for debugging navigation flows.
+## Modules
 
-## How It Works
+| Module | Scope | Purpose                                                     |
+|--------|-------|-------------------------------------------------------------|
+| `core` | KMP | Core concepts, interfaces and platform implementations      |
+| `compose` | KMP | `LocalBoomerangStore`, lifecycle-aware composables          |
+| `fragment` | Android | Fragment extensions, `BoomerangStoreHost`                   |
+| `serialization-kotlinx` | KMP | `BoomerangFormat`, `storeValue<T>()`/`getSerializable<T>()` |
+| `compose-serialization-kotlinx` | KMP | `Catch/ConsumeSerializableLifecycleEffect` and friends      |
+| `fragment-serialization-kotlinx` | Android | `catch/consumeSerializableWithLifecycleEvent` and friends   |
 
-Boomerang uses a simple but effective pattern:
-
-1. **Store**: A central repository that holds navigation results as key-value pairs
-2. **Catcher**: A functional interface that processes results when they become available
-3. **Lifecycle Integration**: Results are caught when a screen becomes visible
-4. **State Restoration**: Results are saved and restored during configuration changes and process death
-
-The library decouples the component that produces a result from the component that consumes it, allowing for a more flexible and maintainable navigation flow.
-The solution does not depend on any specific navigation library, and it can be used with any Jetpack Compose or AndroidX Fragment navigation library.
-The library does not store reference to the producer/consumer components, so it is completely memory-leak-free.
-The only requirement is that the producer and consumer components are not part of the same lifecycle (you cannot pass a result from one part of the screen to another on the same screen, for such cases use f.e. ViewModel).
-
-### Core Components
-
-- **BoomerangStore**: Interface for storing and retrieving navigation results
-- **BoomerangCatcher**: Functional interface for processing navigation results
-- **DefaultBoomerangStore**: Default implementation of BoomerangStore using a MutableMap
-- **BoomerangStoreHost**: Interface for components that host a BoomerangStore (only for Fragment and mixed setup)
-- **eventBoomerangCatcher**: Function that creates a BoomerangCatcher specifically for handling event notifications
-
-### Compose Components
-
-- **LocalBoomerangStore**: CompositionLocal for accessing the BoomerangStore
-- **CompositionHostedBoomerangStoreScope**: Composable function that provides your custom implementation of BoomerangStore
-- **CompositionHostedDefaultBoomerangStoreScope**: Composable function that provides a default BoomerangStore
-- **CatchBoomerangLifecycleEffect**: Composable function that catches results at specific lifecycle events
-- **CatchEventBoomerangLifecycleEffect**: Specialized Composable function for catching event notifications
-
-### Fragment Components
-
-- **catchBoomerangWithLifecycleEvent**: Extension function for Fragment to catch results at specific lifecycle events
-- **catchEventBoomerangWithLifecycleEvent**: Extension function for Fragment to catch event notifications
-- **findBoomerangStore**: Extension function for Fragment to find the BoomerangStore from the hosting Activity
-- **createOrRestoreDefaultBoomerangStore**: Extension function for BoomerangStoreHost to create or restore a DefaultBoomerangStore
-- **saveDefaultBoomerangStoreState**: Extension function for BoomerangStoreHost to save the state of a DefaultBoomerangStore
-
-### Mixed Components
-
-- **ActivityHostedBoomerangStoreScope**: Composable function that provides BoomerangStore hosted by activity with BoomerangStoreHost
-
-### Serialization Components (since 1.4.0)
-
-- **BoomerangFormat**: Class that provides methods for serializing and deserializing objects
-- **kotlinxSerializationBoomerangCatcher**: Function that creates a BoomerangCatcher for serializable objects
-- **storeValue/getSerializable**: Extension functions for BoomerangStore to store and retrieve serializable objects
-- **putSerializable/getSerializable**: Extension functions for Boomerang to add and retrieve serializable objects
-
-### Compose Serialization Components (since 1.4.0)
-
-- **CatchSerializableLifecycleEffect**: Composable function that catches serializable objects at specific lifecycle events
-- **ConsumeSerializableLifecycleEffect**: Specialized Composable function for consuming serializable objects
-
-### Fragment Serialization Components (since 1.4.0)
-
-- **catchSerializableWithLifecycleEvent**: Extension function for Fragment to catch serializable objects at specific lifecycle events
-- **consumeSerializableWithLifecycleEvent**: Extension function for Fragment to consume serializable objects
-
-## Requirements
-
-- Android API level 21+
-- Kotlin 1.5.0+
-- For Compose module: Jetpack Compose 1.0.0+
-- For Fragment module: AndroidX Fragment 1.3.0+
-- For Serialization modules: Kotlinx Serialization 1.5.0+
-
-## Kotlin/Compose Multiplatform
-
-The library now supports Kotlin/Compose Multiplatform! You can use Boomerang on Android, iOS, and Desktop platforms.
-
-- **Android**: Full support with all features (Compose and Fragment)
-- **iOS**: Support for core functionality and Compose Multiplatform integration
-- **Desktop**: Support for core functionality and Compose integration
-
-The multiplatform implementation uses platform-specific storage mechanisms:
-- On Android, it uses Android's Bundle for storage
-- On iOS and Desktop, it uses a MutableMap for storage
-
-This ensures optimal performance and integration with each platform while maintaining a consistent API across all platforms.
-
-#### Wasm/JS support coming soon!
+For detailed API docs, see the module-specific documentation: [Core](CORE.md), [Compose](COMPOSE.md), [Fragment](FRAGMENT.md), [Serialization](SERIALIZATION-KOTLINX.md), [Compose Serialization](COMPOSE-SERIALIZATION-KOTLINX.md), [Fragment Serialization](FRAGMENT-SERIALIZATION-KOTLINX.md).
 
 ## Sample App
 
-The repository includes a sample app that demonstrates how to use Boomerang in a real-world scenario. The app includes examples of:
+The `app` module contains a working sample covering Compose navigation (Android, Desktop, iOS) and Fragment navigation (Android).
 
-- Compose navigation with Boomerang (Android, Desktop, and iOS)
-- Fragment navigation with Boomerang (Android only)
+## Requirements
 
-Check the `app` module for complete examples of all these scenarios.
+- Android API 21+
+- Kotlin 1.5.0+
+- Compose Multiplatform 1.0.0+ (for Compose modules)
+- AndroidX Fragment 1.3.0+ (for Fragment modules)
+- Kotlinx Serialization 1.5.0+ (for Serialization modules)
 
 ## License
 

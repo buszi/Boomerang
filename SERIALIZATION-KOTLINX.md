@@ -1,66 +1,46 @@
 # Module serialization-kotlinx
 
-A lightweight multiplatform library for serializing and deserializing objects with Kotlinx Serialization in Boomerang applications.
+Kotlinx Serialization integration for Boomerang. Store and retrieve `@Serializable` objects directly -- no manual key-value packing needed.
 
-## Overview
-
-The Serialization Kotlinx module of Boomerang provides integration with Kotlinx Serialization, allowing you to store and retrieve serializable objects in the Boomerang store. This simplifies the process of passing complex data between screens in your application.
-
-This module supports Android, iOS, and Desktop platforms, providing a consistent API across all platforms while using platform-specific implementations under the hood.
-
-Supports primitives, enums, nested objects, and lists. Configure polymorphism/custom serializers via `SerializersModule`.
+Supports primitives, enums, nested objects, lists, and maps. Targets Android, iOS, and Desktop.
 
 ## Installation
 
-Add the following dependencies to your app's `build.gradle.kts` file:
-
 ```kotlin
-// For core functionality (required)
 implementation("io.github.buszi.boomerang:core:1.5.1")
-
-// For Kotlinx Serialization integration
 implementation("io.github.buszi.boomerang:serialization-kotlinx:1.5.1")
 
 // Kotlinx Serialization dependency
-implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:<*>")
+implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:<version>")
 ```
 
 ## Configuration
 
-Boomerang uses `BoomerangFormat` to bridge Kotlinx Serialization and the Boomerang container.
+`BoomerangFormat` bridges Kotlinx Serialization and the Boomerang container. By default, the built-in format handles standard `@Serializable` classes out of the box.
 
-- Local configuration:
-  ```kotlin
-  val format = BoomerangFormat {
-      serializersModule = SerializersModule {
-          // polymorphic {}, contextual {}, etc.
-      }
-  }
+If you need polymorphism or custom serializers, configure a global format:
 
-  val b: Boomerang = format.serialize(
-      UserPreference(theme = "dark", notificationsEnabled = true, fontSize = 14)
-  )
-  val pref: UserPreference = format.deserialize(b)
-  ```
-- Global configuration for module helpers:
-  ```kotlin
-  BoomerangConfig.format = BoomerangFormat {
-      serializersModule = SerializersModule {
-          // custom serializers
-      }
-  }
-  ```
-  Setting this affects helpers like `BoomerangStore.storeValue(value)`, `BoomerangStore.getSerializable()`, `Boomerang.putSerializable(key, value)`, and `Boomerang.getSerializable(key)`.
+```kotlin
+BoomerangConfig.format = BoomerangFormat {
+    serializersModule = SerializersModule {
+        // polymorphic {}, contextual {}, etc.
+    }
+}
+```
 
-Behavior notes:
-- Missing primitive fields deserialize to their default values.
-- Nested objects and lists are preserved as nested Boomerang containers and lists.
+This affects all module helpers: `storeValue(value)`, `getSerializable()`, `putSerializable()`, and the catchers in the Compose and Fragment serialization modules.
+
+You can also create a local instance for one-off use:
+
+```kotlin
+val format = BoomerangFormat { /* ... */ }
+val boomerang: Boomerang = format.serialize(myObject)
+val back: MyType = format.deserialize(boomerang)
+```
 
 ## Usage
 
-### Defining a Serializable Object
-
-First, define a serializable object using Kotlinx Serialization:
+### Store and retrieve
 
 ```kotlin
 @Serializable
@@ -69,170 +49,91 @@ data class UserPreference(
     val notificationsEnabled: Boolean,
     val fontSize: Int
 )
+
+val store: BoomerangStore = // from LocalBoomerangStore.current or findBoomerangStore()
+
+// Store with an explicit key
+store.storeValue("user_preferences", UserPreference("dark", true, 14))
+
+// Or use the type's qualified name as the key
+store.storeValue(UserPreference("dark", true, 14))
+
+// Retrieve
+val pref: UserPreference? = store.getSerializable("user_preferences")
+val pref: UserPreference? = store.getSerializable() // type-based key
 ```
 
-### Storing a Serializable Object
+### Maps
 
-When you want to store a serializable object:
+Objects with `Map` properties work out of the box:
 
 ```kotlin
-// Get the store
-val store = findBoomerangStore() // or LocalBoomerangStore.current in Compose
-
-// Create a serializable object
-val userPreference = UserPreference(
-    theme = "dark",
-    notificationsEnabled = true,
-    fontSize = 14
+@Serializable
+data class AppConfig(
+    val settings: Map<String, String>,
+    val featureFlags: Map<String, Boolean>
 )
 
-// Store the object with a specific key
-store.storeValue("user_preferences", userPreference)
+store.storeValue(AppConfig(
+    settings = mapOf("theme" to "dark", "lang" to "en"),
+    featureFlags = mapOf("newUI" to true, "beta" to false)
+))
 
-// Or store the object using its type as the key
-store.storeValue(userPreference)
+val config: AppConfig? = store.getSerializable()
 ```
 
-### Retrieving a Serializable Object
+Maps with non-string keys (e.g., `Map<Int, String>`, `Map<MyEnum, Boolean>`) are supported too.
 
-To retrieve and deserialize an object:
+### Low-level Boomerang access
 
-```kotlin
-// Get the store
-val store = findBoomerangStore() // or LocalBoomerangStore.current in Compose
-
-// Retrieve the object with a specific key
-val userPreference: UserPreference? = store.getSerializable("user_preferences")
-
-// Or retrieve the object using its type as the key
-val userPreference: UserPreference? = store.getSerializable()
-```
-
-### Adding a Serializable Object to a Boomerang
-
-You can also add a serializable object to an existing Boomerang:
+You can also add serializable objects to an existing `Boomerang` instance directly:
 
 ```kotlin
-// Create a boomerang
 val boomerang = emptyBoomerang()
+boomerang.putSerializable("prefs", UserPreference("dark", true, 14))
 
-// Add a serializable object to the boomerang
-boomerang.putSerializable("user_preferences", userPreference)
+val pref: UserPreference? = boomerang.getSerializable("prefs")
 ```
 
-### Retrieving a Serializable Object from a Boomerang
+### Custom catchers
 
-To retrieve a serializable object from a Boomerang:
-
-```kotlin
-// Get the serializable object from the boomerang
-val userPreference: UserPreference? = boomerang.getSerializable("user_preferences")
-```
-
-### Creating a Serialization Boomerang Catcher
-
-To create a catcher that automatically deserializes objects:
+If you're working with the core `tryConsumeValue` API directly, you can create a catcher that deserializes automatically:
 
 ```kotlin
-// Create a catcher for a specific type
-val catcher = kotlinxSerializationBoomerangCatcher<UserPreference> { userPreference ->
-    // Process the deserialized object
-    println("Theme: ${userPreference.theme}")
-    println("Notifications: ${userPreference.notificationsEnabled}")
-    println("Font Size: ${userPreference.fontSize}")
-    
-    true // Return true to indicate the object was successfully processed
+val catcher = kotlinxSerializationBoomerangCatcher<UserPreference> { pref ->
+    // use pref
+    true
 }
-
-// Use the catcher
 store.tryConsumeValue("user_preferences", catcher)
 ```
 
-## Key Components
+## API Reference
 
-### Extension Functions for BoomerangStore
+### BoomerangStore extensions
 
-#### storeValue
+| Function | Description |
+|----------|-------------|
+| `storeValue(key, value)` | Serialize and store an object with an explicit key |
+| `storeValue(value)` | Serialize and store, using the type's qualified name as key |
+| `getSerializable(key)` | Retrieve and deserialize an object by key |
+| `getSerializable()` | Retrieve and deserialize, using the type's qualified name as key |
 
-```kotlin
-inline fun <reified T : @Serializable Any> BoomerangStore.storeValue(key: String, value: T)
-inline fun <reified T : @Serializable Any> BoomerangStore.storeValue(value: T)
-```
+### Boomerang extensions
 
-These extension functions store a serializable object in the BoomerangStore. The first version uses a specified key, while the second version automatically uses the qualified name of the type as the key.
+| Function | Description |
+|----------|-------------|
+| `putSerializable(key, value)` | Add a serializable object to a Boomerang |
+| `getSerializable(key)` | Retrieve a serializable object from a Boomerang |
 
-#### getSerializable
+### Other
 
-```kotlin
-inline fun <reified T : @Serializable Any> BoomerangStore.getSerializable(key: String): T?
-inline fun <reified T : @Serializable Any> BoomerangStore.getSerializable(): T?
-```
-
-These extension functions retrieve and deserialize an object from the BoomerangStore. The first version uses a specified key, while the second version automatically uses the qualified name of the type as the key.
-
-### Extension Functions for Boomerang
-
-#### putSerializable
-
-```kotlin
-inline fun <reified T : @Serializable Any> Boomerang.putSerializable(key: String, value: T)
-```
-
-This extension function adds a serializable object to a Boomerang with the specified key.
-
-#### getSerializable
-
-```kotlin
-inline fun <reified T : @Serializable Any> Boomerang.getSerializable(key: String): T?
-```
-
-This extension function retrieves and deserializes an object from a Boomerang with the specified key.
-
-### BoomerangFormat
-
-```kotlin
-open class BoomerangFormat {
-    inline fun <reified T : Any> serialize(value: T): Boomerang
-    inline fun <reified T : Any> deserialize(boomerang: Boomerang): T
-}
-```
-
-The `BoomerangFormat` class provides methods for serializing objects to Boomerang instances and deserializing Boomerang instances back to objects.
-
-### kotlinxSerializationBoomerangCatcher
-
-```kotlin
-inline fun <reified T : @Serializable Any> kotlinxSerializationBoomerangCatcher(
-    crossinline catcher: (T) -> Boolean
-): BoomerangCatcher
-```
-
-This function creates a `BoomerangCatcher` that deserializes the caught boomerang into an object of type `T` using Kotlinx Serialization.
+| Component | Description |
+|-----------|-------------|
+| `BoomerangFormat` | Serializes objects to `Boomerang` and back. Configurable via `SerializersModule`. |
+| `kotlinxSerializationBoomerangCatcher` | Creates a `BoomerangCatcher` that deserializes before passing to your lambda |
 
 ## Requirements
 
 - Kotlin 1.5.0+
 - Kotlinx Serialization 1.5.0+
-
-### Platform-specific requirements:
-- **Android**: API level 21+
-- **iOS**: iOS 14+
-- **Desktop**: JVM 11+
-
-## License
-
-```
-Copyright 2025 Buszi
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-```
+- Android API 21+ / iOS 14+ / Desktop JVM 11+
