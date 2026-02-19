@@ -13,5 +13,9 @@ kotlin {
         commonMain.dependencies {
             implementation(libs.androidx.lifecycle.runtime)
         }
+
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+        }
     }
 }
