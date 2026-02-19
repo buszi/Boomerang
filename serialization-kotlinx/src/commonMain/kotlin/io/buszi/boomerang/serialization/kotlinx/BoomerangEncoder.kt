@@ -185,7 +185,7 @@ class RootBoomerangEncoder(
 
         override fun endStructure(descriptor: SerialDescriptor) {
             // When finishing the collection, store all accumulated elements under the list key
-            if (descriptor.kind is StructureKind.LIST) {
+            if (descriptor.kind is StructureKind.LIST || descriptor.kind is StructureKind.MAP) {
                 boomerang.putBoomerangsList(propertyName, elements)
             }
         }
@@ -278,7 +278,7 @@ class RootBoomerangEncoder(
         }
 
         override fun endStructure(descriptor: SerialDescriptor) {
-            if (descriptor.kind is StructureKind.LIST) {
+            if (descriptor.kind is StructureKind.LIST || descriptor.kind is StructureKind.MAP) {
                 target.putBoomerangsList(propertyName, elements)
             }
         }

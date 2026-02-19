@@ -47,7 +47,7 @@ class RootBoomerangDecoder(
     override fun beginStructure(descriptor: SerialDescriptor): CompositeDecoder {
         // If this is a list/collection, return a dedicated decoder for it
         return when (descriptor.kind) {
-            is StructureKind.LIST -> {
+            is StructureKind.LIST, is StructureKind.MAP -> {
                 val listKey = currentPropertyName ?: ROOT_LIST_KEY
                 return ListDecoder(listKey)
             }
